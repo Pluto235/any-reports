@@ -25,7 +25,7 @@
   <aside class="sidebar" id="sidebar">
     <p class="sidebar-title">📑 目录</p>
     <nav class="sidebar-nav">
-      <ol><li><a href="#-写在最前">📢 写在最前：</a></li><li><a href="#-目录">📑 目录</a></li><li><a href="#第一章上下文管理">第一章：上下文管理</a><ol><li><a href="#11-一切的起点context-rot上下文腐烂的科学">1.1 一切的起点：Context Rot（上下文腐烂）的科学</a><ol><li><a href="#实战法则">实战法则</a></li></ol></li><li><a href="#12-每个回合都是分支点thariq-五选一">1.2 每个回合都是分支点（Thariq 五选一）</a><ol><li><a href="#五选一决策表thariq-官方">五选一决策表（Thariq 官方）</a></li></ol></li><li><a href="#13-反直觉核心rewind--correct">1.3 反直觉核心：Rewind &gt; Correct</a><ol><li><a href="#-新手做法correcting">❌ 新手做法（Correcting）</a></li><li><a href="#-高手做法rewinding">✅ 高手做法（Rewinding）</a></li><li><a href="#进阶技巧summarize-from-here">进阶技巧：Summarize from here</a></li></ol></li><li><a href="#14-compact-vs-clear-决策表">1.4 /compact vs /clear 决策表</a></li><li><a href="#15-bad-compact-是怎么发生的避坑">1.5 Bad Compact 是怎么发生的（避坑）</a></li><li><a href="#16-subagent--上下文垃圾回收">1.6 Subagent = 上下文垃圾回收</a></li></ol></li><li><a href="#第二章三大原语--commands--agents--skills">第二章：三大原语 — Commands / Agents / Skills</a><ol><li><a href="#21-决策树什么时候用什么">2.1 决策树：什么时候用什么</a></li><li><a href="#22-commands-实战--你日常的-workflow-入口">2.2 Commands 实战 — 你日常的 workflow 入口</a><ol><li><a href="#极简模板claudecommandsshipmd">极简模板：.claude/commands/ship.md</a></li><li><a href="#经典-boris-模板构建-go-skill">经典 Boris 模板：构建 /go skill</a></li><li><a href="#推荐这些-command套路化生产力">推荐这些 Command（套路化生产力）</a></li><li><a href="#哪些是官方内置哪些要自己写重要澄清">哪些是官方内置，哪些要自己写？（重要澄清）</a></li><li><a href="#模板-1claudecommandsshipmd已在前文给过复用">模板 1：.claude/commands/ship.md（已在前文给过，复用）</a></li><li><a href="#模板-2claudecommandstechdebtmd">模板 2：.claude/commands/techdebt.md</a></li></ol></li><li><a href="#23-agents-深度--subagents-的-16-个-frontmatter-字段">2.3 Agents 深度 — Subagents 的 16 个 Frontmatter 字段</a><ol><li><a href="#必填字段">必填字段</a></li><li><a href="#工具与权限">工具与权限</a></li><li><a href="#模型与算力">模型与算力</a></li><li><a href="#能力扩展">能力扩展</a></li><li><a href="#运行模式">运行模式</a></li><li><a href="#真实例子feature-specific-agent">真实例子：feature-specific agent</a></li><li><a href="#怎么调用上面这个-db-migration-reviewer三种触发方式">怎么调用上面这个 db-migration-reviewer？三种触发方式</a></li></ol></li><li><a href="#24-skills-深度--15-个-frontmatter-字段">2.4 Skills 深度 — 15 个 Frontmatter 字段</a><ol><li><a href="#必学字段决定-skill-是否被触发">必学字段（决定 Skill 是否被触发）</a></li><li><a href="#调用方式控制">调用方式控制</a></li><li><a href="#算力与隔离">算力与隔离</a></li><li><a href="#description-写法的关键差异">Description 写法的关键差异</a></li><li><a href="#完整可抄的例子weather-fetcher-skill">完整可抄的例子：weather-fetcher skill</a></li><li><a href="#触发示例自动调用">触发示例：自动调用</a></li><li><a href="#触发示例显式调用">触发示例：显式调用</a></li></ol></li><li><a href="#25-编排模式command--agent--skill完整拆解">2.5 编排模式：Command → Agent → Skill（完整拆解）</a><ol><li><a href="#两种-skill-模式对照这是核心知识点">两种 Skill 模式对照（这是核心知识点）</a></li><li><a href="#你能学到的设计套路">你能学到的设计套路</a></li></ol></li></ol></li><li><a href="#第三章skill-工程学--anthropic-内部-9-类--9-法则">第三章：Skill 工程学 — Anthropic 内部 9 类 + 9 法则</a><ol><li><a href="#31-anthropic-内部-skill-9-大分类thariq-总结">3.1 Anthropic 内部 Skill 9 大分类（Thariq 总结）</a></li><li><a href="#32-thariq-9-大-skill-设计法则">3.2 Thariq 9 大 Skill 设计法则</a><ol><li><a href="#法则-1不要陈述显然">法则 1：不要陈述显然</a></li><li><a href="#法则-2构建-gotchas-章节">法则 2：构建 Gotchas 章节</a></li><li><a href="#法则-3用文件系统--progressive-disclosure">法则 3：用文件系统 + Progressive Disclosure</a></li><li><a href="#法则-4不要框死-claudeavoid-railroading">法则 4：不要框死 Claude（Avoid Railroading）</a></li><li><a href="#法则-5考虑-setup-流程">法则 5：考虑 Setup 流程</a></li><li><a href="#法则-6description-是写给模型的触发器">法则 6：Description 是写给模型的触发器</a></li><li><a href="#法则-7memory--持久存储">法则 7：Memory &amp; 持久存储</a></li><li><a href="#法则-8存脚本让-claude-组合而非重写">法则 8：存脚本，让 Claude 组合而非重写</a></li><li><a href="#法则-9on-demand-hooks">法则 9：On-demand Hooks</a></li></ol></li><li><a href="#33-实战5-步把你的工作流变成-skill-">3.3 实战：5 步把你的工作流变成 Skill ⭐️⭐️⭐️⭐️</a></li></ol></li><li><a href="#第四章hooks--真正确定性的自动化">第四章：Hooks — 真正确定性的自动化</a><ol><li><a href="#41-核心区别hook-vs-claudemd">4.1 核心区别：Hook vs CLAUDE.md</a><ol><li><a href="#反例对照">反例对照</a></li></ol></li><li><a href="#42-boris-实战5-大典型-hooks">4.2 Boris 实战：5 大典型 Hooks</a><ol><li><a href="#1-sessionstart--动态加载上下文">1. SessionStart — 动态加载上下文</a></li><li><a href="#2-pretooluse--拦截危险操作">2. PreToolUse — 拦截危险操作</a></li><li><a href="#3-posttooluse--自动格式化">3. PostToolUse — 自动格式化</a></li><li><a href="#4-stop--强制验收">4. Stop — 强制验收</a></li><li><a href="#5-permissionrequest--路由到外部审批">5. PermissionRequest — 路由到外部审批</a></li></ol></li><li><a href="#43-进阶on-demand-hooks-in-skills">4.3 进阶：On-demand Hooks in Skills</a></li></ol></li><li><a href="#第五章并行计算--让多个-claude-同时工作">第五章：并行计算 — 让多个 Claude 同时工作</a><ol><li><a href="#51-worktrees--并行开发的基石">5.1 Worktrees — 并行开发的基石</a><ol><li><a href="#三种启动方式">三种启动方式</a></li><li><a href="#真实工作流">真实工作流</a></li></ol></li><li><a href="#511-tmux--持久化与日常服务器工作的更优解">5.1.1 tmux — 持久化与日常服务器工作的更优解</a><ol><li><a href="#最小命令速查">最小命令速查</a></li><li><a href="#worktree-vs-tmux-对比表">worktree vs tmux 对比表</a></li></ol></li><li><a href="#52-batch--fan-out-到几十几百-worktrees">5.2 /batch — Fan Out 到几十/几百 Worktrees</a><ol><li><a href="#适用判断什么时候该用-batch">适用判断（什么时候该用 /batch）</a></li></ol></li><li><a href="#53-test-time-compute--双-agent-同模型">5.3 Test-Time Compute — 双 Agent 同模型</a><ol><li><a href="#怎么实现">怎么实现？</a></li></ol></li><li><a href="#54-loop--schedule--让-claude-在你睡觉时工作">5.4 /loop &amp; /schedule — 让 Claude 在你睡觉时工作</a><ol><li><a href="#loop本地最长-7-天">/loop（本地，最长 7 天）</a></li><li><a href="#schedule云端机器关机也跑">/schedule（云端，机器关机也跑）</a></li></ol></li><li><a href="#55-ralph-wiggum-loop--长跑自主开发">5.5 Ralph Wiggum Loop — 长跑自主开发</a><ol><li><a href="#step-1在终端启动-loop">Step 1：在终端启动 loop</a></li><li><a href="#step-2写-claudecommandsprocess-next-issuemd">Step 2：写 .claude/commands/process-next-issue.md</a></li><li><a href="#step-3必须配的两个-hook否则会写出垃圾代码">Step 3：必须配的两个 hook（否则会写出垃圾代码）</a></li><li><a href="#实际效果">实际效果</a></li></ol></li></ol></li><li><a href="#第六章boris-隐藏王牌-15-招">第六章：Boris 隐藏王牌 15 招</a><ol><li><a href="#1-mobile-app--手机也能写代码">1. Mobile App — 手机也能写代码</a></li><li><a href="#2-teleport--remote-control--跨设备移动-session">2. Teleport / Remote Control — 跨设备移动 session</a></li><li><a href="#3-loop--schedule--自动化定时任务">3. /loop &amp; /schedule — 自动化定时任务</a></li><li><a href="#4-hooks--已在第四章详述">4. Hooks — 已在第四章详述</a></li><li><a href="#5-cowork-dispatch--桌面-app-远程控制">5. Cowork Dispatch — 桌面 App 远程控制</a></li><li><a href="#6-chrome-扩展--前端必备">6. Chrome 扩展 — 前端必备</a></li><li><a href="#7-desktop-app-自动跑-web-server--内置浏览器测试">7. Desktop App 自动跑 web server + 内置浏览器测试</a></li><li><a href="#8-branch--fork-你的-session">8. /branch — Fork 你的 Session</a></li><li><a href="#9-btw--不打断-agent-的侧问">9. /btw — 不打断 Agent 的侧问</a></li><li><a href="#10-git-worktrees--已在第五章详述">10. Git Worktrees — 已在第五章详述</a></li><li><a href="#11-batch--已在第五章详述">11. /batch — 已在第五章详述</a></li><li><a href="#12---bare--sdk-启动加速-10x">12. --bare — SDK 启动加速 10x</a></li><li><a href="#13---add-dir--add-dir--跨多-repo-工作">13. --add-dir / /add-dir — 跨多 repo 工作</a></li><li><a href="#14---agent--启动时直接进自定义-agent">14. --agent — 启动时直接进自定义 agent</a></li><li><a href="#15-额外auto-mode--替代-dangerously-skip-permissions">15. （额外）Auto Mode — 替代 dangerously-skip-permissions</a></li></ol></li><li><a href="#第七章opus-47-时代的全新工作流">第七章：Opus 4.7 时代的全新工作流</a><ol><li><a href="#71-auto-mode--告别权限提示">7.1 Auto Mode — 告别权限提示</a></li><li><a href="#72-fewer-permission-prompts--自动调权限">7.2 /fewer-permission-prompts — 自动调权限</a></li><li><a href="#73-recaps--长任务回顾">7.3 Recaps — 长任务回顾</a></li><li><a href="#74-focus-mode--极简界面">7.4 Focus Mode — 极简界面</a></li><li><a href="#75-effort-slider--调智能速度">7.5 Effort Slider — 调智能/速度</a></li><li><a href="#76-verification--opus-47-时代最重要的事">7.6 Verification — Opus 4.7 时代最重要的事</a></li></ol></li><li><a href="#第八章演讲脚本推荐-30-分钟版本">第八章：演讲脚本（推荐 30 分钟版本）</a><ol><li><a href="#时间分配">时间分配</a></li><li><a href="#演讲核心-hook开场金句">演讲核心 Hook（开场金句）</a></li><li><a href="#demo-建议强烈推荐">Demo 建议（强烈推荐）</a></li><li><a href="#互动问题让组会不冷场">互动问题（让组会不冷场）</a></li></ol></li><li><a href="#附录-a高频命令速查">附录 A：高频命令速查</a><ol><li><a href="#-必学-12-条">🔑 必学 12 条</a></li><li><a href="#-输入前缀">⚙️ 输入前缀</a></li><li><a href="#-cli-启动-flag">🏁 CLI 启动 flag</a></li></ol></li><li><a href="#附录-bsubagents-16-个-frontmatter-字段全表">附录 B：Subagents 16 个 Frontmatter 字段全表</a></li><li><a href="#附录-cskills-15-个-frontmatter-字段全表">附录 C：Skills 15 个 Frontmatter 字段全表</a></li><li><a href="#附录-d官方内置原语清单">附录 D：官方内置原语清单</a><ol><li><a href="#5-个官方-subagents">5 个官方 Subagents</a></li><li><a href="#5-个官方-skills">5 个官方 Skills</a></li></ol></li><li><a href="#-一页总结把这页贴到工位">🎓 一页总结：把这页贴到工位</a></li><li><a href="#-进阶资源">📖 进阶资源</a><ol><li><a href="#必看视频按价值排序">必看视频（按价值排序）</a></li><li><a href="#必读一手帖按时间倒序">必读一手帖（按时间倒序）</a></li><li><a href="#核心仓库">核心仓库</a></li><li><a href="#关注的人x--twitter">关注的人（X / Twitter）</a></li></ol></li></ol>
+      <ol><li><a href="#-写在最前">📢 写在最前：</a></li><li><a href="#-目录">📑 目录</a></li><li><a href="#第一章上下文管理">第一章：上下文管理</a><ol><li><a href="#11-一切的起点context-rot上下文腐烂的科学">1.1 一切的起点：Context Rot（上下文腐烂）的科学</a><ol><li><a href="#实战法则">实战法则</a></li></ol></li><li><a href="#12-每个回合都是分支点thariq-五选一">1.2 每个回合都是分支点（Thariq 五选一）</a><ol><li><a href="#五选一决策表thariq-官方">五选一决策表（Thariq 官方）</a></li></ol></li><li><a href="#13-反直觉核心rewind--correct">1.3 反直觉核心：Rewind &gt; Correct</a><ol><li><a href="#-新手做法correcting">❌ 新手做法（Correcting）</a></li><li><a href="#-高手做法rewinding">✅ 高手做法（Rewinding）</a></li><li><a href="#进阶技巧summarize-from-here">进阶技巧：Summarize from here</a></li></ol></li><li><a href="#14-compact-vs-clear-决策表">1.4 /compact vs /clear 决策表</a></li><li><a href="#15-bad-compact-是怎么发生的避坑">1.5 Bad Compact 是怎么发生的（避坑）</a></li><li><a href="#16-subagent--上下文垃圾回收">1.6 Subagent = 上下文垃圾回收</a></li></ol></li><li><a href="#第二章三大原语--commands--agents--skills">第二章：三大原语 — Commands / Agents / Skills</a><ol><li><a href="#21-决策树什么时候用什么">2.1 决策树：什么时候用什么</a></li><li><a href="#22-commands-实战--你日常的-workflow-入口">2.2 Commands 实战 — 你日常的 workflow 入口</a><ol><li><a href="#极简模板claudecommandsshipmd">极简模板：.claude/commands/ship.md</a></li><li><a href="#经典-boris-模板构建-go-skill">经典 Boris 模板：构建 /go skill</a></li><li><a href="#推荐这些-command套路化生产力">推荐这些 Command（套路化生产力）</a></li><li><a href="#哪些是官方内置哪些要自己写重要澄清">哪些是官方内置，哪些要自己写？（重要澄清）</a></li><li><a href="#模板-1claudecommandsshipmd已在前文给过复用">模板 1：.claude/commands/ship.md（已在前文给过，复用）</a></li><li><a href="#模板-2claudecommandstechdebtmd">模板 2：.claude/commands/techdebt.md</a></li></ol></li><li><a href="#23-agents-深度--subagents-的-16-个-frontmatter-字段">2.3 Agents 深度 — Subagents 的 16 个 Frontmatter 字段</a><ol><li><a href="#必填字段">必填字段</a></li><li><a href="#工具与权限">工具与权限</a></li><li><a href="#模型与算力">模型与算力</a></li><li><a href="#能力扩展">能力扩展</a></li><li><a href="#运行模式">运行模式</a></li><li><a href="#真实例子feature-specific-agent">真实例子：feature-specific agent</a></li><li><a href="#怎么调用上面这个-db-migration-reviewer三种触发方式">怎么调用上面这个 db-migration-reviewer？三种触发方式</a></li></ol></li><li><a href="#24-skills-深度--15-个-frontmatter-字段">2.4 Skills 深度 — 15 个 Frontmatter 字段</a><ol><li><a href="#必学字段决定-skill-是否被触发">必学字段（决定 Skill 是否被触发）</a></li><li><a href="#调用方式控制">调用方式控制</a></li><li><a href="#算力与隔离">算力与隔离</a></li><li><a href="#description-写法的关键差异">Description 写法的关键差异</a></li><li><a href="#完整可抄的例子weather-fetcher-skill">完整可抄的例子：weather-fetcher skill</a></li><li><a href="#触发示例自动调用">触发示例：自动调用</a></li><li><a href="#触发示例显式调用">触发示例：显式调用</a></li></ol></li><li><a href="#25-编排模式command--agent--skill完整拆解">2.5 编排模式：Command → Agent → Skill（完整拆解）</a><ol><li><a href="#两种-skill-模式对照这是核心知识点">两种 Skill 模式对照（这是核心知识点）</a></li><li><a href="#你能学到的设计套路">你能学到的设计套路</a></li></ol></li></ol></li><li><a href="#第三章skill-工程学--anthropic-内部-9-类--9-法则">第三章：Skill 工程学 — Anthropic 内部 9 类 + 9 法则</a><ol><li><a href="#31-anthropic-内部-skill-9-大分类thariq-总结">3.1 Anthropic 内部 Skill 9 大分类（Thariq 总结）</a></li><li><a href="#32-thariq-9-大-skill-设计法则">3.2 Thariq 9 大 Skill 设计法则</a><ol><li><a href="#法则-1不要陈述显然">法则 1：不要陈述显然</a></li><li><a href="#法则-2构建-gotchas-章节">法则 2：构建 Gotchas 章节</a></li><li><a href="#法则-3用文件系统--progressive-disclosure">法则 3：用文件系统 + Progressive Disclosure</a></li><li><a href="#法则-4不要框死-claudeavoid-railroading">法则 4：不要框死 Claude（Avoid Railroading）</a></li><li><a href="#法则-5考虑-setup-流程">法则 5：考虑 Setup 流程</a></li><li><a href="#法则-6description-是写给模型的触发器">法则 6：Description 是写给模型的触发器</a></li><li><a href="#法则-7memory--持久存储">法则 7：Memory &amp; 持久存储</a></li><li><a href="#法则-8存脚本让-claude-组合而非重写">法则 8：存脚本，让 Claude 组合而非重写</a></li><li><a href="#法则-9on-demand-hooks">法则 9：On-demand Hooks</a></li></ol></li><li><a href="#33-实战5-步把你的工作流变成-skill-">3.3 实战：5 步把你的工作流变成 Skill ⭐️⭐️⭐️⭐️</a></li></ol></li><li><a href="#第四章hooks--真正确定性的自动化">第四章：Hooks — 真正确定性的自动化</a><ol><li><a href="#41-核心区别hook-vs-claudemd">4.1 核心区别：Hook vs CLAUDE.md</a><ol><li><a href="#反例对照">反例对照</a></li></ol></li><li><a href="#42-boris-实战5-大典型-hooks">4.2 Boris 实战：5 大典型 Hooks</a><ol><li><a href="#1-sessionstart--动态加载上下文">1. SessionStart — 动态加载上下文</a></li><li><a href="#2-pretooluse--拦截危险操作">2. PreToolUse — 拦截危险操作</a></li><li><a href="#3-posttooluse--自动格式化">3. PostToolUse — 自动格式化</a></li><li><a href="#4-stop--强制验收">4. Stop — 强制验收</a></li><li><a href="#5-permissionrequest--路由到外部审批">5. PermissionRequest — 路由到外部审批</a></li></ol></li><li><a href="#43-进阶on-demand-hooks-in-skills">4.3 进阶：On-demand Hooks in Skills</a></li></ol></li><li><a href="#第五章并行计算--让多个-claude-同时工作">第五章：并行计算 — 让多个 Claude 同时工作</a><ol><li><a href="#51-worktrees--并行开发的基石">5.1 Worktrees — 并行开发的基石</a><ol><li><a href="#三种启动方式">三种启动方式</a></li><li><a href="#真实工作流">真实工作流</a></li></ol></li><li><a href="#511-tmux--持久化与日常服务器工作的更优解">5.1.1 tmux — 持久化与日常服务器工作的更优解</a><ol><li><a href="#最小命令速查">最小命令速查</a></li><li><a href="#worktree-vs-tmux-对比表">worktree vs tmux 对比表</a></li></ol></li><li><a href="#52-batch--fan-out-到几十几百-worktrees">5.2 /batch — Fan Out 到几十/几百 Worktrees</a><ol><li><a href="#适用判断什么时候该用-batch">适用判断（什么时候该用 /batch）</a></li></ol></li><li><a href="#53-test-time-compute--双-agent-同模型">5.3 Test-Time Compute — 双 Agent 同模型</a><ol><li><a href="#怎么实现">怎么实现？</a></li></ol></li><li><a href="#54-loop--schedule--让-claude-在你睡觉时工作">5.4 /loop &amp; /schedule — 让 Claude 在你睡觉时工作</a><ol><li><a href="#loop本地最长-7-天">/loop（本地，最长 7 天）</a></li><li><a href="#schedule云端机器关机也跑">/schedule（云端，机器关机也跑）</a></li></ol></li><li><a href="#55-ralph-wiggum-loop--长跑自主开发">5.5 Ralph Wiggum Loop — 长跑自主开发</a><ol><li><a href="#step-1在终端启动-loop">Step 1：在终端启动 loop</a></li><li><a href="#step-2写-claudecommandsprocess-next-issuemd">Step 2：写 .claude/commands/process-next-issue.md</a></li><li><a href="#step-3必须配的两个-hook否则会写出垃圾代码">Step 3：必须配的两个 hook（否则会写出垃圾代码）</a></li><li><a href="#实际效果">实际效果</a></li></ol></li></ol></li><li><a href="#第六章boris-隐藏王牌-15-招">第六章：Boris 隐藏王牌 15 招</a><ol><li><a href="#1-mobile-app--手机也能写代码">1. Mobile App — 手机也能写代码</a></li><li><a href="#2-teleport--remote-control--跨设备移动-session">2. Teleport / Remote Control — 跨设备移动 session</a></li><li><a href="#3-loop--schedule--自动化定时任务">3. /loop &amp; /schedule — 自动化定时任务</a></li><li><a href="#4-hooks--已在第四章详述">4. Hooks — 已在第四章详述</a></li><li><a href="#5-cowork-dispatch--桌面-app-远程控制">5. Cowork Dispatch — 桌面 App 远程控制</a></li><li><a href="#6-chrome-扩展--前端必备">6. Chrome 扩展 — 前端必备</a></li><li><a href="#7-desktop-app-自动跑-web-server--内置浏览器测试">7. Desktop App 自动跑 web server + 内置浏览器测试</a></li><li><a href="#8-branch--fork-你的-session">8. /branch — Fork 你的 Session</a></li><li><a href="#9-btw--不打断-agent-的侧问">9. /btw — 不打断 Agent 的侧问</a></li><li><a href="#10-git-worktrees--已在第五章详述">10. Git Worktrees — 已在第五章详述</a></li><li><a href="#11-batch--已在第五章详述">11. /batch — 已在第五章详述</a></li><li><a href="#12---bare--sdk-启动加速-10x">12. --bare — SDK 启动加速 10x</a></li><li><a href="#13---add-dir--add-dir--跨多-repo-工作">13. --add-dir / /add-dir — 跨多 repo 工作</a></li><li><a href="#14---agent--启动时直接进自定义-agent">14. --agent — 启动时直接进自定义 agent</a></li><li><a href="#15-额外auto-mode--替代-dangerously-skip-permissions">15. （额外）Auto Mode — 替代 dangerously-skip-permissions</a></li></ol></li><li><a href="#第七章opus-47-时代的全新工作流">第七章：Opus 4.7 时代的全新工作流</a><ol><li><a href="#71-auto-mode--告别权限提示">7.1 Auto Mode — 告别权限提示</a></li><li><a href="#72-fewer-permission-prompts--自动调权限">7.2 /fewer-permission-prompts — 自动调权限</a></li><li><a href="#73-recaps--长任务回顾">7.3 Recaps — 长任务回顾</a></li><li><a href="#74-focus-mode--极简界面">7.4 Focus Mode — 极简界面</a></li><li><a href="#75-effort-slider--调智能速度">7.5 Effort Slider — 调智能/速度</a></li><li><a href="#76-verification--opus-47-时代最重要的事">7.6 Verification — Opus 4.7 时代最重要的事</a></li></ol></li><li><a href="#第八章agent-view--从结对编程到-ai-团队管理">第八章：Agent View — 从结对编程到 AI 团队管理</a><ol><li><a href="#81-是什么--何时用">8.1 是什么 &amp; 何时用</a></li><li><a href="#82-quick-start--4-步上手">8.2 Quick Start — 4 步上手</a></li><li><a href="#83-监视界面状态与图标的双重信号">8.3 监视界面：状态与图标的双重信号</a><ol><li><a href="#6-种状态">6 种状态</a></li><li><a href="#3-种图标形状告诉你底层进程是不是还活着">3 种图标形状（告诉你底层进程是不是还活着）</a></li><li><a href="#分组与排序">分组与排序</a></li></ol></li><li><a href="#84-peek-与就地回复">8.4 Peek 与就地回复</a></li><li><a href="#85-attach--detach--随时进出">8.5 Attach / Detach — 随时进出</a><ol><li><a href="#attach">Attach</a></li><li><a href="#detach">Detach</a></li><li><a href="#隐藏技巧从任意-session-一键回总控">隐藏技巧：从任意 session 一键回总控</a></li></ol></li><li><a href="#86-完整快捷键速查">8.6 完整快捷键速查</a></li><li><a href="#87-派发的-3-个入口">8.7 派发的 3 个入口</a><ol><li><a href="#871-在-agent-view-输入框里">8.7.1 在 Agent View 输入框里</a></li><li><a href="#872-从正在跑的-session-内">8.7.2 从正在跑的 session 内</a></li><li><a href="#873-从-shell-直接派">8.7.3 从 shell 直接派</a></li></ol></li><li><a href="#88-文件隔离的真相">8.8 文件隔离的真相</a></li><li><a href="#89-supervisor--后台守夜人">8.9 Supervisor — 后台守夜人</a><ol><li><a href="#进程生命周期">进程生命周期</a></li><li><a href="#休眠--关机后恢复">休眠 / 关机后恢复</a></li><li><a href="#状态盘">状态盘</a></li></ol></li><li><a href="#810-shell-管理命令全表">8.10 Shell 管理命令全表</a></li><li><a href="#811-限制与坑research-preview">8.11 限制与坑（research preview）</a></li><li><a href="#812-实战工作流把-agent-view-当主入口">8.12 实战工作流：把 Agent View 当主入口</a><ol><li><a href="#与第五章-511-tmux-的分工">与第五章 5.1.1 tmux 的分工</a></li><li><a href="#与第七章-76-verification-的协同">与第七章 7.6 Verification 的协同</a></li><li><a href="#延伸阅读">延伸阅读</a></li></ol></li></ol></li><li><a href="#附录-a高频命令速查">附录 A：高频命令速查</a><ol><li><a href="#-必学-12-条">🔑 必学 12 条</a></li><li><a href="#-输入前缀">⚙️ 输入前缀</a></li><li><a href="#-cli-启动-flag">🏁 CLI 启动 flag</a></li></ol></li><li><a href="#附录-bsubagents-16-个-frontmatter-字段全表">附录 B：Subagents 16 个 Frontmatter 字段全表</a></li><li><a href="#附录-cskills-15-个-frontmatter-字段全表">附录 C：Skills 15 个 Frontmatter 字段全表</a></li><li><a href="#附录-d官方内置原语清单">附录 D：官方内置原语清单</a><ol><li><a href="#5-个官方-subagents">5 个官方 Subagents</a></li><li><a href="#5-个官方-skills">5 个官方 Skills</a></li></ol></li><li><a href="#-一页总结把这页贴到工位">🎓 一页总结：把这页贴到工位</a></li><li><a href="#-进阶资源">📖 进阶资源</a><ol><li><a href="#必看视频按价值排序">必看视频（按价值排序）</a></li><li><a href="#必读一手帖按时间倒序">必读一手帖（按时间倒序）</a></li><li><a href="#核心仓库">核心仓库</a></li><li><a href="#关注的人x--twitter">关注的人（X / Twitter）</a></li></ol></li></ol>
     </nav>
   </aside>
 
@@ -41,7 +41,7 @@
 <li><strong>YouTube</strong>：<a href="https://youtu.be/julbw1JuAz0" target="_blank" rel="noopener">Building Claude Code with Boris Cherny — The Pragmatic Engineer</a>（Boris 一手解读，最值得反复看）</li>
 </ul>
 <p><strong>适用读者</strong>：已掌握 Claude Code 基础对话、想从"聊天助手用法"升级到"工程化智能体系统"的开发者。</p>
-<p><strong>更新日期</strong>：2026-04-26 · Claude Code v2.1.118 / Opus 4.7 时代</p>
+<p><strong>更新日期</strong>：2026-05-12 · Claude Code v2.1.139+ / Opus 4.7 时代</p>
 </blockquote>
 <hr />
 <h2 id="-写在最前">📢 写在最前：<a class="headerlink" href="#-写在最前" title="Permanent link">&para;</a></h2>
@@ -92,7 +92,7 @@
 <li><a href="#第五章并行计算--让多个-claude-同时工作">第五章：并行计算 — 让多个 Claude 同时工作</a></li>
 <li><a href="#第六章boris-隐藏王牌-15-招">第六章：Boris 隐藏王牌 15 招</a></li>
 <li><a href="#第七章opus-47-时代的全新工作流">第七章：Opus 4.7 时代的全新工作流</a></li>
-<li><a href="#第八章组会演讲脚本推荐-30-分钟版本">第八章：组会演讲脚本（推荐 30 分钟版本）</a></li>
+<li><a href="#第八章agent-view--从结对编程到-ai-团队管理">第八章：Agent View — 从结对编程到 AI 团队管理</a></li>
 <li><a href="#附录-a高频命令速查">附录 A：高频命令速查</a></li>
 <li><a href="#附录-bsubagents-16-个-frontmatter-字段全表">附录 B：Subagents 16 个 Frontmatter 字段全表</a></li>
 <li><a href="#附录-cskills-15-个-frontmatter-字段全表">附录 C：Skills 15 个 Frontmatter 字段全表</a></li>
@@ -1271,6 +1271,7 @@ git<span class="w"> </span>worktree<span class="w"> </span>add<span class="w"> <
 
 <blockquote>
 <p>三个 Claude 同时跑，互不污染，最后各自开 PR 进 main。</p>
+<p>🆕 现在 Agent View（<code>claude agents</code>）会自动为每个后台 session 创建并管理 worktree —— 不再需要手动 <code>git worktree add</code>。机制细节见第八章 8.8。</p>
 </blockquote>
 <h3 id="511-tmux--持久化与日常服务器工作的更优解">5.1.1 tmux — 持久化与日常服务器工作的更优解<a class="headerlink" href="#511-tmux--持久化与日常服务器工作的更优解" title="Permanent link">&para;</a></h3>
 <p>worktree 解决的是"代码隔离"，但解决不了"终端断了任务就死"的问题。这就是 <code>tmux</code> 出场的地方。</p>
@@ -1333,6 +1334,7 @@ tmux<span class="w"> </span>kill-session<span class="w"> </span>-t<span class="w
 <p><strong>结论</strong>：worktree 解决"空间隔离"，tmux 解决"时间持久化"。两者正交，不替代。日常服务器工作（尤其是 SSH 远程）几乎一定要用 tmux；多 agent 并行改代码时叠加 worktree。</p>
 <blockquote>
 <p>一份偏向 CC 使用的 tmux 配置：<a href="https://github.com/Pluto235/tmux" target="_blank" rel="noopener">Pluto235/tmux</a>。最省事的安装方法是把仓库链接发给 Claude Code，让它帮你装。</p>
+<p>🆕 tmux 与 Agent View 不冲突：<strong>tmux 跑长驻服务</strong>（dev server / log tail / training），<strong>Agent View 管多任务派发与监视</strong>。SSH 远程时两者并用 —— tmux 跑 <code>claude agents</code> 主入口，agent view 管所有 Claude，详见第八章 8.12。</p>
 </blockquote>
 <h3 id="52-batch--fan-out-到几十几百-worktrees">5.2 /batch — Fan Out 到几十/几百 Worktrees<a class="headerlink" href="#52-batch--fan-out-到几十几百-worktrees" title="Permanent link">&para;</a></h3>
 <p><code>/batch</code> 会先<strong>面试你</strong>（用 AskUserQuestion 收集需求），然后 fan out 到尽可能多的 worktree agents 并行干。</p>
@@ -1456,6 +1458,9 @@ $<span class="w"> </span>claude
 </tr>
 </tbody>
 </table>
+<blockquote>
+<p>🆕 在 Agent View 里，<code>/loop</code> session 显示 <code>✢</code> 图标 + 运行次数 + 下一轮倒计时，状态一目了然，见第八章 8.3。</p>
+</blockquote>
 <p><strong>核心思路</strong>：把<strong>周期性 workflow 变成 skill + loop 自动化</strong>。</p>
 <h4 id="schedule云端机器关机也跑">/schedule（云端，机器关机也跑）<a class="headerlink" href="#schedule云端机器关机也跑" title="Permanent link">&para;</a></h4>
 <div class="codehilite"><pre><span></span><code>/schedule &quot;Every weekday at 9am, summarize yesterday&#39;s PR comments and post to my email&quot;
@@ -1600,6 +1605,9 @@ $<span class="w"> </span>claude<span class="w"> </span>--resume<span class="w"> 
 <p>写 prompt 写一半想查个东西？用 <code>/btw</code>。</p>
 <h3 id="10-git-worktrees--已在第五章详述">10. Git Worktrees — 已在第五章详述<a class="headerlink" href="#10-git-worktrees--已在第五章详述" title="Permanent link">&para;</a></h3>
 <p><code>claude -w</code> 启动 worktree session。Boris：<em>"dozens of Claudes at all times."</em></p>
+<blockquote>
+<p>🆕 现在「dozens of Claudes」由 Agent View 统一调度，见第八章。</p>
+</blockquote>
 <h3 id="11-batch--已在第五章详述">11. /batch — 已在第五章详述<a class="headerlink" href="#11-batch--已在第五章详述" title="Permanent link">&para;</a></h3>
 <p>fan out 到几十/几百 worktree agents。</p>
 <h3 id="12---bare--sdk-启动加速-10x">12. <code>--bare</code> — SDK 启动加速 10x<a class="headerlink" href="#12---bare--sdk-启动加速-10x" title="Permanent link">&para;</a></h3>
@@ -1629,6 +1637,9 @@ $<span class="w"> </span>claude<span class="w"> </span>--resume<span class="w"> 
 </code></pre></div>
 
 <p>整个 session 用这个 agent 的工具集、模型、initialPrompt。</p>
+<blockquote>
+<p>🆕 可与 <code>--bg</code> 组合：<code>claude --agent code-reviewer --bg "address review comments on PR 1234"</code> 后台直接派一个用指定 subagent 当主 agent 的 session，见第八章 8.7.3。</p>
+</blockquote>
 <h3 id="15-额外auto-mode--替代-dangerously-skip-permissions">15. （额外）Auto Mode — 替代 dangerously-skip-permissions<a class="headerlink" href="#15-额外auto-mode--替代-dangerously-skip-permissions" title="Permanent link">&para;</a></h3>
 <p>详见第七章。</p>
 <hr />
@@ -1752,72 +1763,668 @@ $<span class="w"> </span>claude<span class="w"> </span>--resume<span class="w"> 
 <p><strong>回来时，你不用怀疑代码是否真 work — 它已经被验证过了。</strong></p>
 </blockquote>
 <hr />
-<h2 id="第八章演讲脚本推荐-30-分钟版本">第八章：演讲脚本（推荐 30 分钟版本）<a class="headerlink" href="#第八章演讲脚本推荐-30-分钟版本" title="Permanent link">&para;</a></h2>
-<h3 id="时间分配">时间分配<a class="headerlink" href="#时间分配" title="Permanent link">&para;</a></h3>
+<h2 id="第八章agent-view--从结对编程到-ai-团队管理">第八章：Agent View — 从结对编程到 AI 团队管理<a class="headerlink" href="#第八章agent-view--从结对编程到-ai-团队管理" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>第五章解决了<strong>怎么让多个 Claude 同时跑</strong>（worktree + tmux + /batch + /loop），但缺一个<strong>统一的指挥台</strong>：你不知道哪个 agent 卡住要你回复、哪个跑完了、哪个 PR 已经过 CI。<code>claude agents</code> 就是这个指挥台 —— 一屏看全所有后台 session，按状态分组，需要你拍板的浮在最上面。</p>
+<p>工作模式的跃迁：从「一对一结对编程」到「一对多 AI 团队管理」。你不再盯着一个 agent 干完一件事再派下一件，而是同时派一群，黄色（Needs input）优先处理，其它继续跑。</p>
+</blockquote>
+<h3 id="81-是什么--何时用">8.1 是什么 &amp; 何时用<a class="headerlink" href="#81-是什么--何时用" title="Permanent link">&para;</a></h3>
+<p><strong>定义</strong>：<code>claude agents</code> 打开 Agent View —— 一个全屏 TUI，列出 supervisor 进程托管的<strong>所有</strong>后台 session，支持 dispatch（派发）、peek（瞄一眼）、attach（接管）、stop/respawn/rm 等操作。</p>
+<p><strong>适用判断</strong>：</p>
 <table>
 <thead>
 <tr>
-<th>时间</th>
-<th>内容</th>
-<th>重点</th>
+<th>场景</th>
+<th>用 Agent View？</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>0-3 min</strong></td>
-<td>开场：三层境界 + L1/L2/L3 自我诊断</td>
-<td>让大家代入"我目前在哪一层"</td>
+<td>同时修 bug + 审 PR + 调查 log + 写文档</td>
+<td>✅</td>
 </tr>
 <tr>
-<td><strong>3-10 min</strong></td>
-<td>第一章：上下文管理</td>
-<td>40% 法则 + 五选一决策 + Rewind &gt; Correct（<strong>最高密度干货</strong>）</td>
+<td>想结对调试一个棘手问题</td>
+<td>❌ 直接 <code>claude</code></td>
 </tr>
 <tr>
-<td><strong>10-15 min</strong></td>
-<td>第二章：三大原语</td>
-<td>决策树 + Skill description 写法对比（<strong>给 demo</strong>）</td>
+<td>多个互相依赖的串行任务</td>
+<td>❌ 串行</td>
 </tr>
 <tr>
-<td><strong>15-20 min</strong></td>
-<td>第三章：Skill 工程学</td>
-<td>9 大分类 + 9 法则中挑 3-4 条讲（Gotchas、Description、Progressive Disclosure）</td>
+<td>想让一群 subagent 互相通信</td>
+<td>❌ 用 <a href="https://docs.anthropic.com/en/agent-teams" target="_blank" rel="noopener">Agent Teams</a></td>
 </tr>
 <tr>
-<td><strong>20-23 min</strong></td>
-<td>第四章：Hooks</td>
-<td>hook vs CLAUDE.md 对比表（<strong>最易记的反差</strong>）</td>
-</tr>
-<tr>
-<td><strong>23-26 min</strong></td>
-<td>第六章：Boris 王牌</td>
-<td>挑 5 个最炫的：worktrees、/batch、/loop、Chrome、auto mode</td>
-</tr>
-<tr>
-<td><strong>26-30 min</strong></td>
-<td>第七章 + Q&amp;A</td>
-<td>Opus 4.7 时代的新东西 + 问答</td>
+<td>想云端持久化运行</td>
+<td>❌ 用 <a href="https://docs.anthropic.com/en/claude-code-on-the-web" target="_blank" rel="noopener">Claude Code on the web</a></td>
 </tr>
 </tbody>
 </table>
-<h3 id="演讲核心-hook开场金句">演讲核心 Hook（开场金句）<a class="headerlink" href="#演讲核心-hook开场金句" title="Permanent link">&para;</a></h3>
-<blockquote>
-<p>"我用 Claude Code 半年，前 4 个月把它当 ChatGPT 用。<br />
-直到我读了 Boris 和 Thariq 写的官方实践，才发现：<br />
-<strong>真正的 AI 编程不是写更好的 prompt，是设计更好的系统。</strong><br />
-今天用 30 分钟，把这套系统拆给你们看。"</p>
-</blockquote>
-<h3 id="demo-建议强烈推荐">Demo 建议（强烈推荐）<a class="headerlink" href="#demo-建议强烈推荐" title="Permanent link">&para;</a></h3>
-<p>如果时间允许，<strong>现场跑一个 mini orchestration</strong>：<br />
-1. 写一个 <code>/research-paper</code> command<br />
-2. 它调用一个 paper-fetcher agent（预加载 arxiv-search skill）<br />
-3. 它再调用一个 paper-summarizer skill 输出 markdown</p>
-<p>这比任何 PPT 都直观。<strong>记得演示 <code>/context</code> 看上下文占用，演示 <code>/rewind</code> 回退。</strong></p>
-<h3 id="互动问题让组会不冷场">互动问题（让组会不冷场）<a class="headerlink" href="#互动问题让组会不冷场" title="Permanent link">&para;</a></h3>
+<p><strong>前置</strong>：</p>
 <ul>
-<li>"谁的 CLAUDE.md 写超过 200 行了？"（举手 → 引出第四章 hook 替代方案）</li>
-<li>"谁试过同时跑 2 个 Claude？"（引出 worktrees）</li>
-<li>"谁还在用 <code>--dangerously-skip-permissions</code>？"（引出 auto mode）</li>
+<li>Claude Code <strong>v2.1.139+</strong>（<code>claude --version</code> 检查）</li>
+<li>Research preview 状态，UI / 快捷键随时可能变</li>
+<li>管理员可禁用：<code>disableAgentView: true</code> 写进 <a href="https://docs.anthropic.com/en/permissions#managed-settings" target="_blank" rel="noopener">managed settings</a>，或环境变量 <code>CLAUDE_CODE_DISABLE_AGENT_VIEW=1</code></li>
+</ul>
+<h3 id="82-quick-start--4-步上手">8.2 Quick Start — 4 步上手<a class="headerlink" href="#82-quick-start--4-步上手" title="Permanent link">&para;</a></h3>
+<p><strong>1. 打开</strong></p>
+<div class="codehilite"><pre><span></span><code>$<span class="w"> </span>claude<span class="w"> </span>agents
+</code></pre></div>
+
+<p>界面底部一个输入框，上方一张随派发动态填充的 session 列表。<code>Esc</code> 退出，session 继续在后台跑。</p>
+<p><strong>2. 派发</strong></p>
+<div class="codehilite"><pre><span></span><code>&gt; investigate the flaky SettingsChangeDetector test    # 回车
+&gt; add structured logging to services/billing.py        # 再来一个
+&gt; @code-reviewer address PR #2048 review comments      # 用指定 subagent
+</code></pre></div>
+
+<p>每个回车启动一个独立后台 session，互不干扰。</p>
+<p><strong>3. 瞄一眼 + 直接回复</strong></p>
+<p><code>↑/↓</code> 选行 → <code>Space</code> 打开 peek 面板 → 直接打字回车把回复发过去。</p>
+<p><strong>4. 完整接管 + 离开</strong></p>
+<p><code>Enter</code> 或 <code>→</code> 进入完整 session（就像 <code>claude</code> 一样），空 prompt 按 <code>←</code> detach 回总控（session 继续后台跑）。</p>
+<blockquote>
+<p><strong>工作模式建议</strong>：把 <code>claude agents</code> 当成主入口替代 <code>claude</code>。所有任务从总控派发，需要深度对话时 attach，对话完 <code>←</code> 回总控。</p>
+</blockquote>
+<h3 id="83-监视界面状态与图标的双重信号">8.3 监视界面：状态与图标的双重信号<a class="headerlink" href="#83-监视界面状态与图标的双重信号" title="Permanent link">&para;</a></h3>
+<h4 id="6-种状态">6 种状态<a class="headerlink" href="#6-种状态" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>指示色</th>
+<th>状态</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>动画</td>
+<td><strong>Working</strong></td>
+<td>正在跑工具或生成回复</td>
+</tr>
+<tr>
+<td>黄色</td>
+<td><strong>Needs input</strong></td>
+<td>等你回复（权限决策或一个问题）</td>
+</tr>
+<tr>
+<td>暗色</td>
+<td><strong>Idle</strong></td>
+<td>等输入但没卡在特定问题上</td>
+</tr>
+<tr>
+<td>绿色</td>
+<td><strong>Completed</strong></td>
+<td>任务成功</td>
+</tr>
+<tr>
+<td>红色</td>
+<td><strong>Failed</strong></td>
+<td>报错结束</td>
+</tr>
+<tr>
+<td>灰色</td>
+<td><strong>Stopped</strong></td>
+<td>被 <code>Ctrl+X</code> 或 <code>claude stop</code> 停了</td>
+</tr>
+</tbody>
+</table>
+<h4 id="3-种图标形状告诉你底层进程是不是还活着">3 种图标形状（告诉你底层进程是不是还活着）<a class="headerlink" href="#3-种图标形状告诉你底层进程是不是还活着" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>图标</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>✻</code>（工作时变 <code>✽</code> 动画）</td>
+<td>进程活着，立刻可对话</td>
+</tr>
+<tr>
+<td><code>∙</code></td>
+<td>进程已被 supervisor 释放（见 8.9），状态留盘；下次 peek/reply/attach 会从断点重启</td>
+</tr>
+<tr>
+<td><code>✢</code></td>
+<td><code>/loop</code> session 在两轮之间睡眠，行尾显示运行次数 + 下一轮倒计时</td>
+</tr>
+</tbody>
+</table>
+<h4 id="分组与排序">分组与排序<a class="headerlink" href="#分组与排序" title="Permanent link">&para;</a></h4>
+<p>默认按状态分组（顶部优先）：</p>
+<div class="codehilite"><pre><span></span><code>Pinned             ← 你手动 Ctrl+T 钉的
+Needs input        ← 黄色，需要你拍板的
+Ready for review   ← 开了 PR、CI 跑完的
+Working            ← 进行中
+Completed          ← 已结束的（旧的会折叠成 &quot;… N more&quot;）
+</code></pre></div>
+
+<p><code>Ctrl+S</code> 切到<strong>按目录分组</strong>，选择会保存。</p>
+<ul>
+<li>每行右侧显示上次活动时间</li>
+<li>Older completed 自动折叠，<strong>Failed 与开了 PR 的永不折叠</strong></li>
+<li>派发开了 PR 的 session 显示 PR 链接 + CI 状态指示</li>
+<li>行内「一句话摘要」由 <a href="https://docs.anthropic.com/en/model-config" target="_blank" rel="noopener">Haiku 类小模型</a> 生成，工作中 ≤15s 刷新一次 + 每轮结束刷一次，<strong>按你的 API / 订阅配额计费</strong></li>
+</ul>
+<blockquote>
+<p><strong>注</strong>：列表覆盖 <code>~/.claude/</code> 下所有后台 session，<strong>跨项目跨 worktree 全在一起</strong>；其他终端开着的交互 session 不会出现（除非 <code>/bg</code> 后台化）；session 内部跑的 subagent 不单独成行。</p>
+</blockquote>
+<h3 id="84-peek-与就地回复">8.4 Peek 与就地回复<a class="headerlink" href="#84-peek-与就地回复" title="Permanent link">&para;</a></h3>
+<p>按 <code>Space</code> 打开 peek 面板，看到：</p>
+<ul>
+<li>session 当前在做什么 / 卡在什么问题上</li>
+<li>最近输出</li>
+<li>开了的 PR</li>
+</ul>
+<p>操作：</p>
+<table>
+<thead>
+<tr>
+<th>输入</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>直接打字 + 回车</td>
+<td>把回复送给该 session</td>
+</tr>
+<tr>
+<td>数字键（multi-choice 题时）</td>
+<td>直接选项</td>
+</tr>
+<tr>
+<td><code>Tab</code>（其他阻塞 session）</td>
+<td>把一条建议回复填进输入框，可改完再发</td>
+</tr>
+<tr>
+<td><code>!&lt;bash 命令&gt;</code></td>
+<td>让 session 跑 bash 而不是自然语言</td>
+</tr>
+<tr>
+<td><code>↑/↓</code></td>
+<td>peek 邻近 session，不关面板</td>
+</tr>
+<tr>
+<td><code>→</code></td>
+<td>直接 attach</td>
+</tr>
+<tr>
+<td><code>Esc</code></td>
+<td>关 peek</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>大多数时候，peek + 就地回复就够了，不必 attach 完整对话。</p>
+</blockquote>
+<h3 id="85-attach--detach--随时进出">8.5 Attach / Detach — 随时进出<a class="headerlink" href="#85-attach--detach--随时进出" title="Permanent link">&para;</a></h3>
+<h4 id="attach">Attach<a class="headerlink" href="#attach" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Enter</code> 或 <code>→</code>（选中行）</td>
+<td>attach 完整 session</td>
+</tr>
+<tr>
+<td><code>Alt+1</code>..<code>Alt+9</code></td>
+<td>attach 当前聚焦分组的第 N 行</td>
+</tr>
+</tbody>
+</table>
+<p>attach 后 Claude 会打印一段 <strong>recap</strong>（你不在时发生了什么）。session 行为和 <code>claude</code> 完全一样：所有 command、快捷键、feature 都好使。</p>
+<h4 id="detach">Detach<a class="headerlink" href="#detach" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>空 prompt 按 <code>←</code></td>
+<td>detach 回总控，session 继续后台跑</td>
+</tr>
+<tr>
+<td><code>Ctrl+Z</code></td>
+<td>强制 detach（对话框抢焦点时）</td>
+</tr>
+<tr>
+<td><code>Ctrl+C</code> / <code>Ctrl+D</code> / <code>/exit</code></td>
+<td>同样不会停后台</td>
+</tr>
+<tr>
+<td><code>/stop</code></td>
+<td><strong>这才是真的停掉 session</strong></td>
+</tr>
+</tbody>
+</table>
+<h4 id="隐藏技巧从任意-session-一键回总控">隐藏技巧：从任意 session 一键回总控<a class="headerlink" href="#隐藏技巧从任意-session-一键回总控" title="Permanent link">&para;</a></h4>
+<p>派发或后台化过 session 之后，<strong>在任意 Claude Code 输入框空 prompt 按 <code>←</code></strong> = 把当前 session 后台化 + 打开 agent view + 预选中当前 session。等于「一键切换 session」。<code>/config</code> 里可关。</p>
+<h3 id="86-完整快捷键速查">8.6 完整快捷键速查<a class="headerlink" href="#86-完整快捷键速查" title="Permanent link">&para;</a></h3>
+<p>在 agent view 内按 <code>?</code> 列出所有快捷键。常用的：</p>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>动作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>↑</code> / <code>↓</code></td>
+<td>选行</td>
+</tr>
+<tr>
+<td><code>Enter</code></td>
+<td>输入框空时 attach 选中行，否则 dispatch</td>
+</tr>
+<tr>
+<td><code>Shift+Enter</code></td>
+<td>dispatch 并立刻 attach</td>
+</tr>
+<tr>
+<td><code>Space</code></td>
+<td>开/关 peek</td>
+</tr>
+<tr>
+<td><code>→</code></td>
+<td>attach</td>
+</tr>
+<tr>
+<td><code>Alt+1</code>..<code>Alt+9</code></td>
+<td>attach 当前分组的第 N 行</td>
+</tr>
+<tr>
+<td><code>Tab</code></td>
+<td>浏览所有 subagent / 应用建议</td>
+</tr>
+<tr>
+<td><code>Ctrl+S</code></td>
+<td>按状态分组 ↔ 按目录分组（自动保存）</td>
+</tr>
+<tr>
+<td><code>Ctrl+T</code></td>
+<td>Pin / Unpin</td>
+</tr>
+<tr>
+<td><code>Ctrl+R</code></td>
+<td>重命名 session</td>
+</tr>
+<tr>
+<td><code>Ctrl+G</code></td>
+<td>用 <code>$EDITOR</code> 写 dispatch prompt</td>
+</tr>
+<tr>
+<td><code>Ctrl+X</code></td>
+<td>停 session；<strong>2 秒内再按一次 = 删除</strong></td>
+</tr>
+<tr>
+<td><code>Shift+↑</code> / <code>Shift+↓</code></td>
+<td>重排顺序</td>
+</tr>
+<tr>
+<td><code>Esc</code></td>
+<td>关 peek / 清输入 / 退出</td>
+</tr>
+<tr>
+<td><code>Ctrl+C</code></td>
+<td>清输入；按两次退出</td>
+</tr>
+<tr>
+<td><code>?</code></td>
+<td>列出所有快捷键</td>
+</tr>
+</tbody>
+</table>
+<h3 id="87-派发的-3-个入口">8.7 派发的 3 个入口<a class="headerlink" href="#87-派发的-3-个入口" title="Permanent link">&para;</a></h3>
+<h4 id="871-在-agent-view-输入框里">8.7.1 在 Agent View 输入框里<a class="headerlink" href="#871-在-agent-view-输入框里" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>输入</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;subagent-name&gt; &lt;prompt&gt;</code></td>
+<td>首词命中 subagent 名 → 用它当主 agent 跑</td>
+</tr>
+<tr>
+<td><code>@&lt;subagent&gt; ...</code></td>
+<td>任意位置 mention → 用它当主 agent 跑</td>
+</tr>
+<tr>
+<td><code>@&lt;repo&gt; ...</code></td>
+<td>在父目录开 agent view 时，target 子仓库</td>
+</tr>
+<tr>
+<td><code>/&lt;skill&gt;</code></td>
+<td>用 skill 当 prompt 派发</td>
+</tr>
+<tr>
+<td><code>#1234</code> 或 PR URL</td>
+<td>若已有 session 在做这个 PR，直接选中（而非派发新的）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><code>@subagent</code> 和 <code>@repo</code> 同名时 <strong>subagent 优先</strong>。需要明确时用 <code>@</code> 形式。</p>
+</blockquote>
+<p><strong>其他细节</strong>：</p>
+<ul>
+<li><strong>粘贴图片</strong>到输入框 → 附截图 / 示意图给任务</li>
+<li>空输入按 <code>Tab</code> → browse 所有可 dispatch 的 subagent</li>
+<li>输入文本时也可以<strong>过滤而非派发</strong>：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>过滤</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>a:&lt;name&gt;</code></td>
+<td>跑指定 agent 的 session</td>
+</tr>
+<tr>
+<td><code>s:&lt;state&gt;</code></td>
+<td>给定状态（如 <code>s:blocked</code>）</td>
+</tr>
+<tr>
+<td><code>#&lt;num&gt;</code> 或 PR URL</td>
+<td>在做该 PR 的 session</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>目标目录</strong>：默认在你打开 agent view 的目录跑。要派去别处：(a) 去那个目录另开 <code>claude agents</code>；(b) 在父目录开 agent view + 用 <code>@&lt;repo&gt;</code> mention；(c) <code>cd</code> 过去再 <code>claude --bg</code></li>
+</ul>
+<h4 id="872-从正在跑的-session-内">8.7.2 从正在跑的 session 内<a class="headerlink" href="#872-从正在跑的-session-内" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code>&gt;<span class="w"> </span>/background<span class="w">          </span><span class="c1"># 或别名 /bg：把当前对话扔后台</span>
+&gt;<span class="w"> </span>/bg<span class="w"> </span>跑一遍测试，修掉所有失败的<span class="w">    </span><span class="c1"># 附一条额外指令再后台化</span>
+</code></pre></div>
+
+<p>或者更快：<strong>空 prompt 按 <code>←</code></strong> = 后台化当前 + 打开 agent view + 预选中。</p>
+<h4 id="873-从-shell-直接派">8.7.3 从 shell 直接派<a class="headerlink" href="#873-从-shell-直接派" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="c1"># 普通后台</span>
+claude<span class="w"> </span>--bg<span class="w"> </span><span class="s2">&quot;investigate the flaky SettingsChangeDetector test&quot;</span>
+
+<span class="c1"># 用指定 subagent 当主 agent</span>
+claude<span class="w"> </span>--agent<span class="w"> </span>code-reviewer<span class="w"> </span>--bg<span class="w"> </span><span class="s2">&quot;address review comments on PR 1234&quot;</span>
+
+<span class="c1"># 指定权限模式</span>
+claude<span class="w"> </span>--bg<span class="w"> </span>--permission-mode<span class="w"> </span>acceptEdits<span class="w"> </span><span class="s2">&quot;...&quot;</span>
+</code></pre></div>
+
+<blockquote>
+<p><strong>坑</strong>：<code>--permission-mode bypassPermissions</code> 或 <code>auto</code> 配 <code>--bg</code> 时，<strong>必须先用 <code>claude</code> 交互式接受过那个模式一次</strong>，否则 CLI 拒绝 —— 防止你没看着的 session 用最宽权限乱跑。</p>
+</blockquote>
+<p>后台化后 CLI 打印 session 短 ID 和管理命令：</p>
+<div class="codehilite"><pre><span></span><code>backgrounded · 7c5dcf5d
+  claude agents             list sessions
+  claude attach 7c5dcf5d    open in this terminal
+  claude logs 7c5dcf5d      show recent output
+  claude stop 7c5dcf5d      stop this session
+</code></pre></div>
+
+<h3 id="88-文件隔离的真相">8.8 文件隔离的真相<a class="headerlink" href="#88-文件隔离的真相" title="Permanent link">&para;</a></h3>
+<p><strong>容易被误读的机制</strong>：很多介绍把它说成"需要时才创建 worktree"，官方实际描述是 ——</p>
+<ol>
+<li>后台 session <strong>从一开始</strong>就被禁止写入工作目录</li>
+<li>直到 Claude 真要编辑文件时，才<strong>自动</strong>把 session 迁进 <code>.claude/worktrees/&lt;id&gt;/</code>（一个 git worktree）</li>
+<li>大家读同一份 checkout，<strong>各写各的副本</strong></li>
+</ol>
+<p><strong>不阻拦写入的 3 种例外</strong>：</p>
+<table>
+<thead>
+<tr>
+<th>例外</th>
+<th>行为</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>session 启动时已在 worktree 里</td>
+<td>直接写，不再嵌套</td>
+</tr>
+<tr>
+<td>工作目录不是 git 仓库</td>
+<td>没法开 worktree，正常写</td>
+</tr>
+<tr>
+<td>写工作目录之外的路径</td>
+<td>不拦</td>
+</tr>
+</tbody>
+</table>
+<p><strong>强制每次都用 worktree</strong>：给 subagent 的 frontmatter 加 <code>isolation: worktree</code>，无论怎么启动都用独立 worktree。参考第二章 2.3 / 附录 B。</p>
+<p><strong>worktree 在删 session 时连带删</strong>。要保留改动：先 push / merge，再 <code>claude rm</code>。找 worktree 路径：peek 该 session 或 attach 后看 cwd。</p>
+<blockquote>
+<p>残留清理：<code>.claude/worktrees/</code> 撑爆时，<code>git worktree list</code> 看遗留，<code>git worktree remove &lt;path&gt;</code> 逐个删。</p>
+</blockquote>
+<h3 id="89-supervisor--后台守夜人">8.9 Supervisor — 后台守夜人<a class="headerlink" href="#89-supervisor--后台守夜人" title="Permanent link">&para;</a></h3>
+<p>每个用户<strong>单个</strong> supervisor 进程托管所有后台 session：</p>
+<ul>
+<li>首次后台化 / 打开 agent view 时<strong>自启</strong></li>
+<li>凭据复用你交互 session 的认证，<strong>不开任何额外网络连接</strong></li>
+<li>每个 session 是独立 Claude Code 进程，父进程是 supervisor</li>
+</ul>
+<h4 id="进程生命周期">进程生命周期<a class="headerlink" href="#进程生命周期" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>触发</th>
+<th>supervisor 行为</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>session 正在工作 / 等你输入 / 有终端 attach</td>
+<td>进程保持运行</td>
+</tr>
+<tr>
+<td>session 完成且无人 attach <strong>约 1 小时</strong></td>
+<td><strong>停掉它的进程</strong>释放资源（图标变 <code>∙</code>），状态留盘</td>
+</tr>
+<tr>
+<td>下次 peek / reply / attach</td>
+<td>从断点重启进程 —— 这就是 <code>∙</code> 状态的来源</td>
+</tr>
+<tr>
+<td>所有 session 结束且无终端连接</td>
+<td>supervisor 自己也退出</td>
+</tr>
+<tr>
+<td>Claude Code 二进制被 auto-update 替换</td>
+<td>supervisor <strong>本地 file-watch</strong> 检测到，重启进新版（不是网络检查）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>后台 session 是 detached 进程，supervisor 重启时不会中断它们，新 supervisor 自动重连。</p>
+</blockquote>
+<h4 id="休眠--关机后恢复">休眠 / 关机后恢复<a class="headerlink" href="#休眠--关机后恢复" title="Permanent link">&para;</a></h4>
+<p>机器睡眠或关机会<strong>杀掉所有后台 session</strong>。重启后：</p>
+<div class="codehilite"><pre><span></span><code>claude<span class="w"> </span>respawn<span class="w"> </span>--all<span class="w">       </span><span class="c1"># 一次拉起所有断点 session</span>
+</code></pre></div>
+
+<h4 id="状态盘">状态盘<a class="headerlink" href="#状态盘" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>路径</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>~/.claude/daemon.log</code></td>
+<td>supervisor 日志</td>
+</tr>
+<tr>
+<td><code>~/.claude/daemon/roster.json</code></td>
+<td>在跑 session 名册（重启后据此重连）</td>
+</tr>
+<tr>
+<td><code>~/.claude/jobs/&lt;id&gt;/state.json</code></td>
+<td>单个 session 状态（agent view 显示用）</td>
+</tr>
+</tbody>
+</table>
+<p>设环境变量 <code>CLAUDE_CONFIG_DIR=/path/to/other</code> 启<strong>另一个独立 supervisor 实例</strong>，session 互不可见 —— 适合多账号 / 多环境隔离。</p>
+<h3 id="810-shell-管理命令全表">8.10 Shell 管理命令全表<a class="headerlink" href="#810-shell-管理命令全表" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>claude agents</code></td>
+<td>打开 Agent View</td>
+</tr>
+<tr>
+<td><code>claude attach &lt;id&gt;</code></td>
+<td>当前终端 attach 到指定 session</td>
+</tr>
+<tr>
+<td><code>claude logs &lt;id&gt;</code></td>
+<td>打印 session 最近输出</td>
+</tr>
+<tr>
+<td><code>claude stop &lt;id&gt;</code></td>
+<td>停掉 session（别名 <code>claude kill</code>）</td>
+</tr>
+<tr>
+<td><code>claude respawn &lt;id&gt;</code></td>
+<td>重启已停 session（对话保留）</td>
+</tr>
+<tr>
+<td><code>claude respawn --all</code></td>
+<td>重启<strong>所有</strong>已停 session</td>
+</tr>
+<tr>
+<td><code>claude rm &lt;id&gt;</code></td>
+<td>从列表移除（<strong>连带删 worktree</strong>）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>session ID 是后台化时打印的短 ID（如 <code>7c5dcf5d</code>）。<code>claude agents</code> 列表行内也能看到。</p>
+</blockquote>
+<h3 id="811-限制与坑research-preview">8.11 限制与坑（research preview）<a class="headerlink" href="#811-限制与坑research-preview" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>配额线性放大</strong></td>
+<td>后台与交互共享订阅 / API 配额，10 个并发 ≈ 1 个的 10 倍消耗 —— 别无脑派</td>
+</tr>
+<tr>
+<td><strong>仅本机运行</strong></td>
+<td>休眠 / 关机就停。云端持久化看 <a href="https://docs.anthropic.com/en/claude-code-on-the-web" target="_blank" rel="noopener">Claude Code on the web</a></td>
+</tr>
+<tr>
+<td><strong>删 session = 删 worktree</strong></td>
+<td>改动一定先 push / merge</td>
+</tr>
+<tr>
+<td><strong>bypassPermissions/auto 需先交互接受过</strong></td>
+<td><code>--bg --permission-mode bypassPermissions</code> 首次会被 CLI 拒</td>
+</tr>
+<tr>
+<td><strong>管理员可关</strong></td>
+<td><code>disableAgentView</code> setting / <code>CLAUDE_CODE_DISABLE_AGENT_VIEW</code> env</td>
+</tr>
+<tr>
+<td><strong>UI / 快捷键可能变</strong></td>
+<td>research preview，关注 release notes</td>
+</tr>
+</tbody>
+</table>
+<h3 id="812-实战工作流把-agent-view-当主入口">8.12 实战工作流：把 Agent View 当主入口<a class="headerlink" href="#812-实战工作流把-agent-view-当主入口" title="Permanent link">&para;</a></h3>
+<p>替代以前「tmux 多 pane + 每 pane 一个 claude」的模式：</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># 1. 开机第一件事：拉起昨晚被休眠的 session</span>
+$<span class="w"> </span>claude<span class="w"> </span>respawn<span class="w"> </span>--all
+
+<span class="c1"># 2. 用 agent view 作为日常主入口（替代 `claude`）</span>
+$<span class="w"> </span>claude<span class="w"> </span>agents
+
+<span class="c1"># 3. 派发当天的所有任务</span>
+&gt;<span class="w"> </span>@code-reviewer<span class="w"> </span>address<span class="w"> </span>PR<span class="w"> </span><span class="c1">#2048 review</span>
+&gt;<span class="w"> </span>investigate<span class="w"> </span>flaky<span class="w"> </span>SettingsChangeDetector<span class="w"> </span><span class="nb">test</span>
+&gt;<span class="w"> </span>/loop<span class="w"> </span>30m<span class="w"> </span>/babysit-prs<span class="w">       </span>←<span class="w"> </span>长跑<span class="w"> </span>loop<span class="w"> </span>显示<span class="w"> </span>✢<span class="w"> </span>图标
+
+<span class="c1"># 4. 时不时回来扫一眼</span>
+↑/↓<span class="w"> </span>优先看黄色（Needs<span class="w"> </span>input）→<span class="w"> </span>Space<span class="w"> </span>peek<span class="w"> </span>→<span class="w"> </span>就地回复
+绿色<span class="w"> </span>+<span class="w"> </span>PR<span class="w"> </span>链接的看<span class="w"> </span>CI<span class="w"> </span>状态<span class="w"> </span>→<span class="w"> </span>review<span class="w"> </span>/<span class="w"> </span>merge
+
+<span class="c1"># 5. 完工后清理</span>
+$<span class="w"> </span>claude<span class="w"> </span>rm<span class="w"> </span>&lt;id&gt;<span class="w">     </span><span class="c1"># 确保改动已 merge 再删，否则 worktree 一起没</span>
+</code></pre></div>
+
+<h4 id="与第五章-511-tmux-的分工">与第五章 5.1.1 tmux 的分工<a class="headerlink" href="#与第五章-511-tmux-的分工" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>用途</th>
+<th>工具</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>长跑前台服务（dev server / log tail / training）</td>
+<td><strong>tmux</strong></td>
+<td>持续输出、需要不断看到日志、纯命令行进程</td>
+</tr>
+<tr>
+<td>多个 Claude 任务派发 + 监视 + 切换</td>
+<td><strong>Agent View</strong></td>
+<td>状态自动摘要、统一总控、就地回复</td>
+</tr>
+<tr>
+<td>SSH 远程 + 多个 Claude</td>
+<td><strong>二者并用</strong></td>
+<td>tmux 跑 <code>claude agents</code>，agent view 管 Claude 们</td>
+</tr>
+</tbody>
+</table>
+<h4 id="与第七章-76-verification-的协同">与第七章 7.6 Verification 的协同<a class="headerlink" href="#与第七章-76-verification-的协同" title="Permanent link">&para;</a></h4>
+<p>后台 session 跑 <code>&lt;task&gt;, then /go</code>，结果通过<strong>状态变化</strong>反馈：</p>
+<ul>
+<li>跑完 + 验证通过 + 开了 PR → 行变绿 + 显示 PR 链接 + CI 状态</li>
+<li>验证失败 → 行变红 → <code>Space</code> peek 看错因</li>
+</ul>
+<p>你不再主动问"做完了吗"，而是 <strong>等行变色 + 看一句话摘要</strong>。</p>
+<hr />
+<h4 id="延伸阅读">延伸阅读<a class="headerlink" href="#延伸阅读" title="Permanent link">&para;</a></h4>
+<ul>
+<li><a href="https://code.claude.com/docs/en/agent-view" target="_blank" rel="noopener">官方文档：Manage multiple agents with agent view</a></li>
+<li><a href="https://docs.anthropic.com/en/agents" target="_blank" rel="noopener">Run agents in parallel</a> — Agent View vs subagent vs agent team vs worktree 的对比</li>
+<li><a href="https://docs.anthropic.com/en/sub-agents#supported-frontmatter-fields" target="_blank" rel="noopener">Subagents — <code>isolation: worktree</code> frontmatter</a></li>
+<li><a href="https://docs.anthropic.com/en/agent-teams" target="_blank" rel="noopener">Agent Teams</a> — 多 session 互相通信的进阶用法</li>
 </ul>
 <hr />
 <h2 id="附录-a高频命令速查">附录 A：高频命令速查<a class="headerlink" href="#附录-a高频命令速查" title="Permanent link">&para;</a></h2>
@@ -1923,6 +2530,11 @@ $<span class="w"> </span>claude<span class="w"> </span>--resume<span class="w"> 
 <td>快速记忆到 CLAUDE.md</td>
 <td><code># 用 snake_case</code></td>
 </tr>
+<tr>
+<td><code>/bg &lt;prompt&gt;</code></td>
+<td>在 session 内把当前对话扔后台并附加一条指令（→ 8.7.2）</td>
+<td><code>/bg 跑测试修失败</code></td>
+</tr>
 </tbody>
 </table>
 <h3 id="-cli-启动-flag">🏁 CLI 启动 flag<a class="headerlink" href="#-cli-启动-flag" title="Permanent link">&para;</a></h3>
@@ -1965,6 +2577,38 @@ $<span class="w"> </span>claude<span class="w"> </span>--resume<span class="w"> 
 <tr>
 <td><code>claude --resume &lt;id&gt; --fork-session</code></td>
 <td>Fork session</td>
+</tr>
+<tr>
+<td><code>claude agents</code></td>
+<td>打开 Agent View 总控（→ 8.2）</td>
+</tr>
+<tr>
+<td><code>claude --bg "&lt;prompt&gt;"</code></td>
+<td>直接派一个后台 session（→ 8.7.3）</td>
+</tr>
+<tr>
+<td><code>claude --bg --agent &lt;name&gt; "&lt;prompt&gt;"</code></td>
+<td>后台跑指定 subagent</td>
+</tr>
+<tr>
+<td><code>claude attach &lt;id&gt;</code></td>
+<td>把后台 session 拉回当前终端</td>
+</tr>
+<tr>
+<td><code>claude logs &lt;id&gt;</code></td>
+<td>看 session 最近输出</td>
+</tr>
+<tr>
+<td><code>claude stop &lt;id&gt;</code> / <code>claude kill &lt;id&gt;</code></td>
+<td>停止后台 session</td>
+</tr>
+<tr>
+<td><code>claude respawn &lt;id&gt;</code> / <code>claude respawn --all</code></td>
+<td>重启已停 session（对话保留）</td>
+</tr>
+<tr>
+<td><code>claude rm &lt;id&gt;</code></td>
+<td>从列表移除（<strong>连带删 worktree</strong>）</td>
 </tr>
 </tbody>
 </table>
@@ -2370,7 +3014,7 @@ $<span class="w"> </span>claude<span class="w"> </span>--resume<span class="w"> 
   <aside class="anchors" id="anchors">
     <p class="anchors-title">本页章节</p>
     <ul>
-      <li><a href="#-写在最前">📢 写在最前：</a></li><li><a href="#-目录">📑 目录</a></li><li><a href="#第一章上下文管理">第一章：上下文管理</a></li><li><a href="#第二章三大原语--commands--agents--skills">第二章：三大原语 — Commands / Agents / Skills</a></li><li><a href="#第三章skill-工程学--anthropic-内部-9-类--9-法则">第三章：Skill 工程学 — Anthropic 内部 9 类 + 9 法则</a></li><li><a href="#第四章hooks--真正确定性的自动化">第四章：Hooks — 真正确定性的自动化</a></li><li><a href="#第五章并行计算--让多个-claude-同时工作">第五章：并行计算 — 让多个 Claude 同时工作</a></li><li><a href="#第六章boris-隐藏王牌-15-招">第六章：Boris 隐藏王牌 15 招</a></li><li><a href="#第七章opus-47-时代的全新工作流">第七章：Opus 4.7 时代的全新工作流</a></li><li><a href="#第八章演讲脚本推荐-30-分钟版本">第八章：演讲脚本（推荐 30 分钟版本）</a></li><li><a href="#附录-a高频命令速查">附录 A：高频命令速查</a></li><li><a href="#附录-bsubagents-16-个-frontmatter-字段全表">附录 B：Subagents 16 个 Frontmatter 字段全表</a></li><li><a href="#附录-cskills-15-个-frontmatter-字段全表">附录 C：Skills 15 个 Frontmatter 字段全表</a></li><li><a href="#附录-d官方内置原语清单">附录 D：官方内置原语清单</a></li><li><a href="#-一页总结把这页贴到工位">🎓 一页总结：把这页贴到工位</a></li><li><a href="#-进阶资源">📖 进阶资源</a></li>
+      <li><a href="#-写在最前">📢 写在最前：</a></li><li><a href="#-目录">📑 目录</a></li><li><a href="#第一章上下文管理">第一章：上下文管理</a></li><li><a href="#第二章三大原语--commands--agents--skills">第二章：三大原语 — Commands / Agents / Skills</a></li><li><a href="#第三章skill-工程学--anthropic-内部-9-类--9-法则">第三章：Skill 工程学 — Anthropic 内部 9 类 + 9 法则</a></li><li><a href="#第四章hooks--真正确定性的自动化">第四章：Hooks — 真正确定性的自动化</a></li><li><a href="#第五章并行计算--让多个-claude-同时工作">第五章：并行计算 — 让多个 Claude 同时工作</a></li><li><a href="#第六章boris-隐藏王牌-15-招">第六章：Boris 隐藏王牌 15 招</a></li><li><a href="#第七章opus-47-时代的全新工作流">第七章：Opus 4.7 时代的全新工作流</a></li><li><a href="#第八章agent-view--从结对编程到-ai-团队管理">第八章：Agent View — 从结对编程到 AI 团队管理</a></li><li><a href="#附录-a高频命令速查">附录 A：高频命令速查</a></li><li><a href="#附录-bsubagents-16-个-frontmatter-字段全表">附录 B：Subagents 16 个 Frontmatter 字段全表</a></li><li><a href="#附录-cskills-15-个-frontmatter-字段全表">附录 C：Skills 15 个 Frontmatter 字段全表</a></li><li><a href="#附录-d官方内置原语清单">附录 D：官方内置原语清单</a></li><li><a href="#-一页总结把这页贴到工位">🎓 一页总结：把这页贴到工位</a></li><li><a href="#-进阶资源">📖 进阶资源</a></li>
     </ul>
   </aside>
 
