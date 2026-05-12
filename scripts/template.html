@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{TITLE}} · any-reports</title>
+<meta name="description" content="{{DESCRIPTION}}">
+<link rel="stylesheet" href="{{ASSETS_PREFIX}}assets/style.css">
+<link rel="stylesheet" href="{{ASSETS_PREFIX}}assets/highlight.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='14' font-size='14'%3E%F0%9F%93%A6%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+
+<header class="topbar">
+  <button class="topbar-toggle" aria-label="目录" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ 目录</button>
+  <a class="topbar-brand" href="{{ASSETS_PREFIX}}index.html">any-reports</a>
+  <nav class="topbar-nav">
+    <a href="{{ASSETS_PREFIX}}index.html">Home</a>
+    <a href="https://github.com/Pluto235/any-reports" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <p class="sidebar-title">📑 目录</p>
+    <nav class="sidebar-nav">
+      {{NAV}}
+    </nav>
+  </aside>
+
+  <main class="content">
+    <article>
+      {{CONTENT}}
+    </article>
+    <footer class="page-footer">
+      <span>更新于 {{UPDATED_DATE}}</span>
+      <a href="https://github.com/Pluto235/any-reports" target="_blank" rel="noopener">View on GitHub →</a>
+    </footer>
+  </main>
+
+  <aside class="anchors" id="anchors">
+    <p class="anchors-title">本页章节</p>
+    <ul>
+      {{ANCHORS}}
+    </ul>
+  </aside>
+
+</div>
+
+<script>
+// Scroll-spy：高亮当前可视区的章节
+(function () {
+  const navLinks = document.querySelectorAll('.sidebar-nav a, .anchors a');
+  if (!navLinks.length) return;
+
+  const idToLinks = new Map();
+  navLinks.forEach(a => {
+    const id = decodeURIComponent((a.getAttribute('href') || '').replace(/^#/, ''));
+    if (!id) return;
+    if (!idToLinks.has(id)) idToLinks.set(id, []);
+    idToLinks.get(id).push(a);
+  });
+
+  const headings = Array.from(document.querySelectorAll('.content h1, .content h2, .content h3, .content h4'))
+    .filter(h => h.id && idToLinks.has(h.id));
+  if (!headings.length) return;
+
+  let current = null;
+  function setActive(id) {
+    if (current === id) return;
+    if (current && idToLinks.has(current)) {
+      idToLinks.get(current).forEach(a => a.classList.remove('active'));
+    }
+    current = id;
+    if (id && idToLinks.has(id)) {
+      idToLinks.get(id).forEach(a => {
+        a.classList.add('active');
+        // 滚动到 nav 中可视区
+        const sb = a.closest('.sidebar, .anchors');
+        if (sb) {
+          const ar = a.getBoundingClientRect();
+          const sr = sb.getBoundingClientRect();
+          if (ar.top < sr.top || ar.bottom > sr.bottom) {
+            a.scrollIntoView({ block: 'nearest' });
+          }
+        }
+      });
+    }
+  }
+
+  function update() {
+    const offset = 80;
+    let active = headings[0].id;
+    for (const h of headings) {
+      if (h.getBoundingClientRect().top - offset <= 0) {
+        active = h.id;
+      } else {
+        break;
+      }
+    }
+    setActive(active);
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('hashchange', update);
+  update();
+
+  // 移动端：点 nav 后关掉抽屉
+  document.querySelectorAll('.sidebar-nav a').forEach(a => {
+    a.addEventListener('click', () => {
+      document.querySelector('.sidebar')?.classList.remove('open');
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

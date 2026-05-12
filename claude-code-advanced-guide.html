@@ -1,0 +1,2447 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Claude Code 进阶实战手册 · any-reports</title>
+<meta name="description" content="从 Vibe Coding 到 Agentic Engineering — 基于 Anthropic 团队一手经验的高密度实战指南">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='14' font-size='14'%3E%F0%9F%93%A6%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+
+<header class="topbar">
+  <button class="topbar-toggle" aria-label="目录" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ 目录</button>
+  <a class="topbar-brand" href="index.html">any-reports</a>
+  <nav class="topbar-nav">
+    <a href="index.html">Home</a>
+    <a href="https://github.com/Pluto235/any-reports" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <p class="sidebar-title">📑 目录</p>
+    <nav class="sidebar-nav">
+      <ol><li><a href="#-写在最前">📢 写在最前：</a></li><li><a href="#-目录">📑 目录</a></li><li><a href="#第一章上下文管理">第一章：上下文管理</a><ol><li><a href="#11-一切的起点context-rot上下文腐烂的科学">1.1 一切的起点：Context Rot（上下文腐烂）的科学</a><ol><li><a href="#实战法则">实战法则</a></li></ol></li><li><a href="#12-每个回合都是分支点thariq-五选一">1.2 每个回合都是分支点（Thariq 五选一）</a><ol><li><a href="#五选一决策表thariq-官方">五选一决策表（Thariq 官方）</a></li></ol></li><li><a href="#13-反直觉核心rewind--correct">1.3 反直觉核心：Rewind &gt; Correct</a><ol><li><a href="#-新手做法correcting">❌ 新手做法（Correcting）</a></li><li><a href="#-高手做法rewinding">✅ 高手做法（Rewinding）</a></li><li><a href="#进阶技巧summarize-from-here">进阶技巧：Summarize from here</a></li></ol></li><li><a href="#14-compact-vs-clear-决策表">1.4 /compact vs /clear 决策表</a></li><li><a href="#15-bad-compact-是怎么发生的避坑">1.5 Bad Compact 是怎么发生的（避坑）</a></li><li><a href="#16-subagent--上下文垃圾回收">1.6 Subagent = 上下文垃圾回收</a></li></ol></li><li><a href="#第二章三大原语--commands--agents--skills">第二章：三大原语 — Commands / Agents / Skills</a><ol><li><a href="#21-决策树什么时候用什么">2.1 决策树：什么时候用什么</a></li><li><a href="#22-commands-实战--你日常的-workflow-入口">2.2 Commands 实战 — 你日常的 workflow 入口</a><ol><li><a href="#极简模板claudecommandsshipmd">极简模板：.claude/commands/ship.md</a></li><li><a href="#经典-boris-模板构建-go-skill">经典 Boris 模板：构建 /go skill</a></li><li><a href="#推荐这些-command套路化生产力">推荐这些 Command（套路化生产力）</a></li><li><a href="#哪些是官方内置哪些要自己写重要澄清">哪些是官方内置，哪些要自己写？（重要澄清）</a></li><li><a href="#模板-1claudecommandsshipmd已在前文给过复用">模板 1：.claude/commands/ship.md（已在前文给过，复用）</a></li><li><a href="#模板-2claudecommandstechdebtmd">模板 2：.claude/commands/techdebt.md</a></li></ol></li><li><a href="#23-agents-深度--subagents-的-16-个-frontmatter-字段">2.3 Agents 深度 — Subagents 的 16 个 Frontmatter 字段</a><ol><li><a href="#必填字段">必填字段</a></li><li><a href="#工具与权限">工具与权限</a></li><li><a href="#模型与算力">模型与算力</a></li><li><a href="#能力扩展">能力扩展</a></li><li><a href="#运行模式">运行模式</a></li><li><a href="#真实例子feature-specific-agent">真实例子：feature-specific agent</a></li><li><a href="#怎么调用上面这个-db-migration-reviewer三种触发方式">怎么调用上面这个 db-migration-reviewer？三种触发方式</a></li></ol></li><li><a href="#24-skills-深度--15-个-frontmatter-字段">2.4 Skills 深度 — 15 个 Frontmatter 字段</a><ol><li><a href="#必学字段决定-skill-是否被触发">必学字段（决定 Skill 是否被触发）</a></li><li><a href="#调用方式控制">调用方式控制</a></li><li><a href="#算力与隔离">算力与隔离</a></li><li><a href="#description-写法的关键差异">Description 写法的关键差异</a></li><li><a href="#完整可抄的例子weather-fetcher-skill">完整可抄的例子：weather-fetcher skill</a></li><li><a href="#触发示例自动调用">触发示例：自动调用</a></li><li><a href="#触发示例显式调用">触发示例：显式调用</a></li></ol></li><li><a href="#25-编排模式command--agent--skill完整拆解">2.5 编排模式：Command → Agent → Skill（完整拆解）</a><ol><li><a href="#两种-skill-模式对照这是核心知识点">两种 Skill 模式对照（这是核心知识点）</a></li><li><a href="#你能学到的设计套路">你能学到的设计套路</a></li></ol></li></ol></li><li><a href="#第三章skill-工程学--anthropic-内部-9-类--9-法则">第三章：Skill 工程学 — Anthropic 内部 9 类 + 9 法则</a><ol><li><a href="#31-anthropic-内部-skill-9-大分类thariq-总结">3.1 Anthropic 内部 Skill 9 大分类（Thariq 总结）</a></li><li><a href="#32-thariq-9-大-skill-设计法则">3.2 Thariq 9 大 Skill 设计法则</a><ol><li><a href="#法则-1不要陈述显然">法则 1：不要陈述显然</a></li><li><a href="#法则-2构建-gotchas-章节">法则 2：构建 Gotchas 章节</a></li><li><a href="#法则-3用文件系统--progressive-disclosure">法则 3：用文件系统 + Progressive Disclosure</a></li><li><a href="#法则-4不要框死-claudeavoid-railroading">法则 4：不要框死 Claude（Avoid Railroading）</a></li><li><a href="#法则-5考虑-setup-流程">法则 5：考虑 Setup 流程</a></li><li><a href="#法则-6description-是写给模型的触发器">法则 6：Description 是写给模型的触发器</a></li><li><a href="#法则-7memory--持久存储">法则 7：Memory &amp; 持久存储</a></li><li><a href="#法则-8存脚本让-claude-组合而非重写">法则 8：存脚本，让 Claude 组合而非重写</a></li><li><a href="#法则-9on-demand-hooks">法则 9：On-demand Hooks</a></li></ol></li><li><a href="#33-实战5-步把你的工作流变成-skill-">3.3 实战：5 步把你的工作流变成 Skill ⭐️⭐️⭐️⭐️</a></li></ol></li><li><a href="#第四章hooks--真正确定性的自动化">第四章：Hooks — 真正确定性的自动化</a><ol><li><a href="#41-核心区别hook-vs-claudemd">4.1 核心区别：Hook vs CLAUDE.md</a><ol><li><a href="#反例对照">反例对照</a></li></ol></li><li><a href="#42-boris-实战5-大典型-hooks">4.2 Boris 实战：5 大典型 Hooks</a><ol><li><a href="#1-sessionstart--动态加载上下文">1. SessionStart — 动态加载上下文</a></li><li><a href="#2-pretooluse--拦截危险操作">2. PreToolUse — 拦截危险操作</a></li><li><a href="#3-posttooluse--自动格式化">3. PostToolUse — 自动格式化</a></li><li><a href="#4-stop--强制验收">4. Stop — 强制验收</a></li><li><a href="#5-permissionrequest--路由到外部审批">5. PermissionRequest — 路由到外部审批</a></li></ol></li><li><a href="#43-进阶on-demand-hooks-in-skills">4.3 进阶：On-demand Hooks in Skills</a></li></ol></li><li><a href="#第五章并行计算--让多个-claude-同时工作">第五章：并行计算 — 让多个 Claude 同时工作</a><ol><li><a href="#51-worktrees--并行开发的基石">5.1 Worktrees — 并行开发的基石</a><ol><li><a href="#三种启动方式">三种启动方式</a></li><li><a href="#真实工作流">真实工作流</a></li></ol></li><li><a href="#511-tmux--持久化与日常服务器工作的更优解">5.1.1 tmux — 持久化与日常服务器工作的更优解</a><ol><li><a href="#最小命令速查">最小命令速查</a></li><li><a href="#worktree-vs-tmux-对比表">worktree vs tmux 对比表</a></li></ol></li><li><a href="#52-batch--fan-out-到几十几百-worktrees">5.2 /batch — Fan Out 到几十/几百 Worktrees</a><ol><li><a href="#适用判断什么时候该用-batch">适用判断（什么时候该用 /batch）</a></li></ol></li><li><a href="#53-test-time-compute--双-agent-同模型">5.3 Test-Time Compute — 双 Agent 同模型</a><ol><li><a href="#怎么实现">怎么实现？</a></li></ol></li><li><a href="#54-loop--schedule--让-claude-在你睡觉时工作">5.4 /loop &amp; /schedule — 让 Claude 在你睡觉时工作</a><ol><li><a href="#loop本地最长-7-天">/loop（本地，最长 7 天）</a></li><li><a href="#schedule云端机器关机也跑">/schedule（云端，机器关机也跑）</a></li></ol></li><li><a href="#55-ralph-wiggum-loop--长跑自主开发">5.5 Ralph Wiggum Loop — 长跑自主开发</a><ol><li><a href="#step-1在终端启动-loop">Step 1：在终端启动 loop</a></li><li><a href="#step-2写-claudecommandsprocess-next-issuemd">Step 2：写 .claude/commands/process-next-issue.md</a></li><li><a href="#step-3必须配的两个-hook否则会写出垃圾代码">Step 3：必须配的两个 hook（否则会写出垃圾代码）</a></li><li><a href="#实际效果">实际效果</a></li></ol></li></ol></li><li><a href="#第六章boris-隐藏王牌-15-招">第六章：Boris 隐藏王牌 15 招</a><ol><li><a href="#1-mobile-app--手机也能写代码">1. Mobile App — 手机也能写代码</a></li><li><a href="#2-teleport--remote-control--跨设备移动-session">2. Teleport / Remote Control — 跨设备移动 session</a></li><li><a href="#3-loop--schedule--自动化定时任务">3. /loop &amp; /schedule — 自动化定时任务</a></li><li><a href="#4-hooks--已在第四章详述">4. Hooks — 已在第四章详述</a></li><li><a href="#5-cowork-dispatch--桌面-app-远程控制">5. Cowork Dispatch — 桌面 App 远程控制</a></li><li><a href="#6-chrome-扩展--前端必备">6. Chrome 扩展 — 前端必备</a></li><li><a href="#7-desktop-app-自动跑-web-server--内置浏览器测试">7. Desktop App 自动跑 web server + 内置浏览器测试</a></li><li><a href="#8-branch--fork-你的-session">8. /branch — Fork 你的 Session</a></li><li><a href="#9-btw--不打断-agent-的侧问">9. /btw — 不打断 Agent 的侧问</a></li><li><a href="#10-git-worktrees--已在第五章详述">10. Git Worktrees — 已在第五章详述</a></li><li><a href="#11-batch--已在第五章详述">11. /batch — 已在第五章详述</a></li><li><a href="#12---bare--sdk-启动加速-10x">12. --bare — SDK 启动加速 10x</a></li><li><a href="#13---add-dir--add-dir--跨多-repo-工作">13. --add-dir / /add-dir — 跨多 repo 工作</a></li><li><a href="#14---agent--启动时直接进自定义-agent">14. --agent — 启动时直接进自定义 agent</a></li><li><a href="#15-额外auto-mode--替代-dangerously-skip-permissions">15. （额外）Auto Mode — 替代 dangerously-skip-permissions</a></li></ol></li><li><a href="#第七章opus-47-时代的全新工作流">第七章：Opus 4.7 时代的全新工作流</a><ol><li><a href="#71-auto-mode--告别权限提示">7.1 Auto Mode — 告别权限提示</a></li><li><a href="#72-fewer-permission-prompts--自动调权限">7.2 /fewer-permission-prompts — 自动调权限</a></li><li><a href="#73-recaps--长任务回顾">7.3 Recaps — 长任务回顾</a></li><li><a href="#74-focus-mode--极简界面">7.4 Focus Mode — 极简界面</a></li><li><a href="#75-effort-slider--调智能速度">7.5 Effort Slider — 调智能/速度</a></li><li><a href="#76-verification--opus-47-时代最重要的事">7.6 Verification — Opus 4.7 时代最重要的事</a></li></ol></li><li><a href="#第八章演讲脚本推荐-30-分钟版本">第八章：演讲脚本（推荐 30 分钟版本）</a><ol><li><a href="#时间分配">时间分配</a></li><li><a href="#演讲核心-hook开场金句">演讲核心 Hook（开场金句）</a></li><li><a href="#demo-建议强烈推荐">Demo 建议（强烈推荐）</a></li><li><a href="#互动问题让组会不冷场">互动问题（让组会不冷场）</a></li></ol></li><li><a href="#附录-a高频命令速查">附录 A：高频命令速查</a><ol><li><a href="#-必学-12-条">🔑 必学 12 条</a></li><li><a href="#-输入前缀">⚙️ 输入前缀</a></li><li><a href="#-cli-启动-flag">🏁 CLI 启动 flag</a></li></ol></li><li><a href="#附录-bsubagents-16-个-frontmatter-字段全表">附录 B：Subagents 16 个 Frontmatter 字段全表</a></li><li><a href="#附录-cskills-15-个-frontmatter-字段全表">附录 C：Skills 15 个 Frontmatter 字段全表</a></li><li><a href="#附录-d官方内置原语清单">附录 D：官方内置原语清单</a><ol><li><a href="#5-个官方-subagents">5 个官方 Subagents</a></li><li><a href="#5-个官方-skills">5 个官方 Skills</a></li></ol></li><li><a href="#-一页总结把这页贴到工位">🎓 一页总结：把这页贴到工位</a></li><li><a href="#-进阶资源">📖 进阶资源</a><ol><li><a href="#必看视频按价值排序">必看视频（按价值排序）</a></li><li><a href="#必读一手帖按时间倒序">必读一手帖（按时间倒序）</a></li><li><a href="#核心仓库">核心仓库</a></li><li><a href="#关注的人x--twitter">关注的人（X / Twitter）</a></li></ol></li></ol>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <article>
+      <h1 id="claude-code-进阶实战手册">Claude Code 进阶实战手册<a class="headerlink" href="#claude-code-进阶实战手册" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>从 Vibe Coding 到 Agentic Engineering — 基于 Anthropic 团队一手经验的高密度实战指南</p>
+<p><strong>内容来源</strong>：<a href="https://github.com/shanraisshan/claude-code-best-practice" target="_blank" rel="noopener">shanraisshan/claude-code-best-practice</a> 仓库 + Boris Cherny（Claude Code 创始人）、Thariq（Anthropic 团队）、Dex Horthy（HumanLayer）的一手分享。</p>
+<ul>
+<li><strong>官方文档</strong>：<a href="https://docs.anthropic.com/en/docs/claude-code/overview" target="_blank" rel="noopener">Claude Code Overview (docs.anthropic.com)</a></li>
+<li><strong>中文社区</strong>：<a href="https://github.com/xianyu110/awesome-claudcode-tutorial" target="_blank" rel="noopener">xianyu110/awesome-claudcode-tutorial</a>（中文教程合集 + 实战案例）</li>
+<li><strong>YouTube</strong>：<a href="https://youtu.be/julbw1JuAz0" target="_blank" rel="noopener">Building Claude Code with Boris Cherny — The Pragmatic Engineer</a>（Boris 一手解读，最值得反复看）</li>
+</ul>
+<p><strong>适用读者</strong>：已掌握 Claude Code 基础对话、想从"聊天助手用法"升级到"工程化智能体系统"的开发者。</p>
+<p><strong>更新日期</strong>：2026-04-26 · Claude Code v2.1.118 / Opus 4.7 时代</p>
+</blockquote>
+<hr />
+<h2 id="-写在最前">📢 写在最前：<a class="headerlink" href="#-写在最前" title="Permanent link">&para;</a></h2>
+<p><strong>L1 聊天助手</strong>用法：打开终端 → 输入 prompt → 复制代码。</p>
+<p><strong>L2 工具用法</strong>：会写自定义 <code>/command</code>、配 <code>CLAUDE.md</code>、装几个 MCP，但仍然以<strong>单 session、单任务、串行</strong>为主，没有形成 Skill ↔ Agent ↔ Hook 的编排。</p>
+<blockquote>
+<p><strong>L2 vs L3 对照（同一个需求："让 Claude 写完代码自动跑测试"）</strong></p>
+<table>
+<thead>
+<tr>
+<th>层级</th>
+<th>实现方式</th>
+<th>失效点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>L2</strong></td>
+<td>在 <code>CLAUDE.md</code> 写："写完代码后请自动运行 <code>pytest</code>"</td>
+<td>模型可能忽略；长 CLAUDE.md 后注意力被稀释；不可靠</td>
+</tr>
+<tr>
+<td><strong>L3</strong></td>
+<td>在 <code>settings.json</code> 配 <code>Stop</code> hook：<code>pytest -q &amp;&amp; ruff check . \|\| echo "NOT DONE"</code></td>
+<td>harness 强制执行，不依赖模型记忆，100% 触发</td>
+</tr>
+</tbody>
+</table>
+<p>同样的"自动跑测试"，L2 是<strong>祈祷模型听话</strong>，L3 是<strong>让 harness 替你执法</strong>。这就是分水岭。</p>
+</blockquote>
+<p><strong>L3 Agentic Engineering</strong>：Claude Code 真正的设计意图是让你成为一个<strong>编排者</strong>：用 Commands 定义入口，用 Agents 隔离职责，用 Skills 注入能力，用 Hooks 强制约束行为。</p>
+<blockquote>
+<p><em><em>Boris Cherny：</em>"The best Claude Code users don't write better prompts — they design better systems."</em></p>
+</blockquote>
+<p>本手册的目标：用最短篇幅，把你从 L1/L2 推到 L3。读完后你应能：<br />
+1. <strong>管理上下文</strong>像管理稀缺资源一样精确<br />
+2. <strong>设计 Skills</strong>像 Anthropic 内部那样分 9 大类<br />
+3. <strong>编排工作流</strong>让 Command → Agent → Skill 形成自动流水线<br />
+4. <strong>写 Hooks</strong>让自动化真正确定性发生<br />
+5. <strong>跑并行 Claude</strong>让多个 instance 同时为你工作</p>
+<hr />
+<h2 id="-目录">📑 目录<a class="headerlink" href="#-目录" title="Permanent link">&para;</a></h2>
+<ol>
+<li><a href="#第一章上下文管理--高手的真正分水岭">第一章：上下文管理 — 高手的真正分水岭</a></li>
+<li><a href="#第二章三大原语--commands--agents--skills">第二章：三大原语 — Commands / Agents / Skills</a></li>
+<li><a href="#第三章skill-工程学--anthropic-内部-9-类--9-法则">第三章：Skill 工程学 — Anthropic 内部 9 类 + 9 法则</a></li>
+<li><a href="#第四章hooks--真正确定性的自动化">第四章：Hooks — 真正确定性的自动化</a></li>
+<li><a href="#第五章并行计算--让多个-claude-同时工作">第五章：并行计算 — 让多个 Claude 同时工作</a></li>
+<li><a href="#第六章boris-隐藏王牌-15-招">第六章：Boris 隐藏王牌 15 招</a></li>
+<li><a href="#第七章opus-47-时代的全新工作流">第七章：Opus 4.7 时代的全新工作流</a></li>
+<li><a href="#第八章组会演讲脚本推荐-30-分钟版本">第八章：组会演讲脚本（推荐 30 分钟版本）</a></li>
+<li><a href="#附录-a高频命令速查">附录 A：高频命令速查</a></li>
+<li><a href="#附录-bsubagents-16-个-frontmatter-字段全表">附录 B：Subagents 16 个 Frontmatter 字段全表</a></li>
+<li><a href="#附录-cskills-15-个-frontmatter-字段全表">附录 C：Skills 15 个 Frontmatter 字段全表</a></li>
+<li><a href="#附录-d官方内置原语清单">附录 D：官方内置原语清单</a></li>
+</ol>
+<hr />
+<h2 id="第一章上下文管理">第一章：上下文管理<a class="headerlink" href="#第一章上下文管理" title="Permanent link">&para;</a></h2>
+<h3 id="11-一切的起点context-rot上下文腐烂的科学">1.1 一切的起点：Context Rot（上下文腐烂）的科学<a class="headerlink" href="#11-一切的起点context-rot上下文腐烂的科学" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p><strong>Thariq（Anthropic 工程团队）实测结论</strong>：<br />
+Claude Code 的 1M 上下文窗口包含<strong>系统提示 + 完整对话 + 所有工具调用与输出 + 所有读过的文件</strong>。当上下文越长，注意力越分散，老的、不相关的内容会<strong>干扰当前任务的判断</strong>。</p>
+<p><strong>关键数字</strong>：1M context 模型在用到 <strong>300-400k token（约 30-40%）</strong> 时，开始出现明显的智能下降，这是软性阈值（与任务有关），但很可靠。</p>
+</blockquote>
+<h4 id="实战法则">实战法则<a class="headerlink" href="#实战法则" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>用户类型</th>
+<th>安全区</th>
+<th>警戒区</th>
+<th>红线</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>新手</td>
+<td>&lt; 40%</td>
+<td>40-60% 该 wrap up</td>
+<td>&gt; 60% 立刻处理</td>
+</tr>
+<tr>
+<td>资深</td>
+<td>&lt; 30%</td>
+<td>60% 仅简单任务</td>
+<td>&gt; 60% 切 session</td>
+</tr>
+<tr>
+<td>智力敏感任务</td>
+<td>&lt; 30%</td>
+<td>—</td>
+<td>任何时候不超 40%</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>怎么看占用？</strong> <code>/context</code> 命令实时显示。</p>
+</blockquote>
+<h3 id="12-每个回合都是分支点thariq-五选一">1.2 每个回合都是分支点（Thariq 五选一）<a class="headerlink" href="#12-每个回合都是分支点thariq-五选一" title="Permanent link">&para;</a></h3>
+<p>这是把你从 L2 推到 L3 的<strong>核心心智模型</strong>。Claude 答完一轮，你不是只能"继续"——你有 5 个选项：</p>
+<div class="codehilite"><pre><span></span><code>              ┌─────────── Claude 完成一轮回复 ───────────┐
+              │                                              │
+              ▼                                              │
+   ┌──────────────────────────────────────────────────────┐ │
+   │  你下一步选什么？（每个选项保留的上下文不同）          │ │
+   └──┬──────┬──────┬──────┬──────┬──────────────────────┘ │
+      │      │      │      │      │                         │
+      ▼      ▼      ▼      ▼      ▼                         │
+   Continue  Rewind  Compact  Clear  Subagent               │
+   (全留)   (尾巴丢)  (有损)   (清零)  (隔离)                 │
+      │      │      │      │      │                         │
+      └──────┴──────┴──────┴──────┴─────────────────────────┘
+                                                            │
+                                                            ▼
+                                                          决策！
+</code></pre></div>
+
+<h4 id="五选一决策表thariq-官方">五选一决策表（Thariq 官方）<a class="headerlink" href="#五选一决策表thariq-官方" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>选什么</th>
+<th>为什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>同一任务，上下文都还有用</td>
+<td><strong>Continue</strong></td>
+<td>上下文里全是 load-bearing 的，别花成本重建</td>
+</tr>
+<tr>
+<td>Claude 走错路</td>
+<td><strong>Rewind</strong>（双击 Esc）</td>
+<td>保留有用的文件读取，丢掉失败尝试，带着教训重试</td>
+</tr>
+<tr>
+<td>任务还没完，但 session 被 debug 噪音淹没</td>
+<td><strong>/compact \&lt;hint&gt;</strong></td>
+<td>低成本；Claude 自己决定保留什么。用 hint 引导它</td>
+</tr>
+<tr>
+<td>真正的新任务</td>
+<td><strong>/clear</strong></td>
+<td>零腐烂；你自己决定带什么进去</td>
+</tr>
+<tr>
+<td>下一步会产生大量你只要结论的输出</td>
+<td><strong>Subagent</strong></td>
+<td>中间噪音留在子上下文，只回传结论</td>
+</tr>
+</tbody>
+</table>
+<h3 id="13-反直觉核心rewind--correct">1.3 反直觉核心：Rewind &gt; Correct<a class="headerlink" href="#13-反直觉核心rewind--correct" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p><strong>Thariq 原话</strong>：<em>"If I had to pick one habit that signals good context management, it's rewind."</em></p>
+</blockquote>
+<h4 id="-新手做法correcting">❌ 新手做法（Correcting）<a class="headerlink" href="#-新手做法correcting" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code>&gt; 帮我重构 auth.py
+[Claude 给方案 A，有问题]
+&gt; 不对，应该考虑 X 情况
+[Claude 改方案 B，可能仍带 A 的偏见]
+</code></pre></div>
+
+<p>最终 context = 文件读取 + <strong>2 次失败尝试</strong> + <strong>2 次纠正</strong> + 修复方案。<strong>失败的尝试在污染未来的判断。</strong></p>
+<h4 id="-高手做法rewinding">✅ 高手做法（Rewinding）<a class="headerlink" href="#-高手做法rewinding" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code>&gt; 帮我重构 auth.py
+[Claude 给方案 A，有问题 — 但你看到了 X 是关键]
+[双击 Esc 或 /rewind 回到提问之前]
+&gt; 帮我重构 auth.py，注意 X 情况，foo 模块不暴露 Y，直接走 B 路线
+[Claude 一次到位]
+</code></pre></div>
+
+<p>最终 context = 文件读取 + <strong>一条带教训的提示</strong> + 修复方案。</p>
+<h4 id="进阶技巧summarize-from-here">进阶技巧：Summarize from here<a class="headerlink" href="#进阶技巧summarize-from-here" title="Permanent link">&para;</a></h4>
+<p>回退之前先让 Claude 总结："<strong>summarize from here</strong>" — 它会写一份<strong>给未来的自己</strong>的交接信，包括"我尝试了什么、为什么失败、应该怎么走"。然后再 rewind，就能在新尝试里复用这些教训。</p>
+<p><strong>实战示例</strong>：</p>
+<div class="codehilite"><pre><span></span><code>&gt; summarize from here, I&#39;m about to rewind. Include:
+  - what I tried
+  - why it failed
+  - what I learned
+  - what to try next
+
+[Claude 输出]
+📌 Handoff to future-me:
+- ❌ Tried: 把 `auth.py` 拆成 `auth_core.py` + `auth_oauth.py`，让 `foo` 模块直接 import `_internal_token` 走捷径
+- ❌ Why failed: 测试 `test_token_rotation` 在 CI 跑 fail；`foo` 暴露 `_internal_token` 导致一个下游 service 拿到旧 token 不刷新
+- 📌 Key finding: `foo` 模块**绝不能**直接持有 token，必须通过 `TokenProvider` 接口拿
+- ✅ Next try: 走方案 B —— 保持 auth.py 单文件，仅抽出 `TokenProvider` 协议，让 `foo` 依赖协议而非具体实现
+
+[你双击 Esc 回退到提问之前]
+
+&gt; 帮我重构 auth.py。注意：
+  - foo 模块不能持有 _internal_token（上次因此 fail）
+  - 改走方案 B：抽 TokenProvider 协议
+  - 别动 token rotation 逻辑
+</code></pre></div>
+
+<p>这一条 prompt 已经把 5 分钟的失败经验<strong>编码进了下一次尝试</strong>，新 context 里没有那条死路。</p>
+<h3 id="14-compact-vs-clear-决策表">1.4 /compact vs /clear 决策表<a class="headerlink" href="#14-compact-vs-clear-决策表" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>长 session 怎么减负？
+        │
+        ├─ 任务还在进行，要保动量 → /compact &lt;hint&gt;
+        │   特点：有损、便宜、Claude 决定细节
+        │   适合：mid-task、模糊细节可丢
+        │   关键：永远带 hint！
+        │   例：/compact focus on auth refactor, drop the test debugging noise
+        │
+        └─ 切到新任务、高风险下一步 → /clear + 自己写 brief
+            特点：精确、麻烦、你决定带什么
+            适合：new task、高风险关键决策
+            例：/clear → &quot;我们在重构 auth middleware，约束是 X，关键文件 A B，
+                  排除了方案 Y&quot;
+</code></pre></div>
+
+<blockquote>
+<p><strong>关键洞察</strong>：<strong>永远不要让 auto-compact 自然触发</strong>。模型在 context rot 状态下做的总结质量最差。</p>
+</blockquote>
+<h3 id="15-bad-compact-是怎么发生的避坑">1.5 Bad Compact 是怎么发生的（避坑）<a class="headerlink" href="#15-bad-compact-是怎么发生的避坑" title="Permanent link">&para;</a></h3>
+<p><strong>真实场景</strong>：debug 跑了很久，autocompact 触发，Claude 总结成"我们一直在 debug 函数 X"。然后你说"现在去修 bar.ts 里的另一个 warning"——但<strong>那个 warning 已经被丢进总结失去了</strong>。</p>
+<p><strong>预防</strong>：<br />
+1. 用 <code>/context</code> 监控，到 60% 主动 <code>/compact &lt;hint&gt;</code> 而不是等 auto<br />
+2. 切换关注焦点前，先 <code>/compact "to do next: 修 bar.ts 的 warning, 之前发现 ..."</code><br />
+3. 任务变化大就直接 <code>/clear</code> + 重新写 brief</p>
+<h3 id="16-subagent--上下文垃圾回收">1.6 Subagent = 上下文垃圾回收<a class="headerlink" href="#16-subagent--上下文垃圾回收" title="Permanent link">&para;</a></h3>
+<p><strong>核心判断</strong>：<em>"Will I need this tool output again, or just the conclusion?"</em></p>
+<table>
+<thead>
+<tr>
+<th>主上下文里跑 ❌</th>
+<th>派 Subagent ✅</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>想读 20 个文件找一个函数</td>
+<td>"Spin up a subagent to find the auth function"</td>
+</tr>
+<tr>
+<td>想 grep 12 个关键词探索</td>
+<td>"Spin off Explore agent, summarize the architecture"</td>
+</tr>
+<tr>
+<td>想读另一个 codebase 借鉴写法</td>
+<td>"Subagent: read repo X, summarize the auth flow, then I'll implement here"</td>
+</tr>
+<tr>
+<td>想根据 git diff 写 docs</td>
+<td>"Spin off subagent: write docs for the changes in this PR"</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Subagent 干完之后，20 个文件读取 + 12 次 grep + 3 条死路 全部留在子上下文</strong>，<strong>只有最终报告回到主上下文</strong>。这就是上下文垃圾回收。</p>
+<blockquote>
+<p><strong>进阶</strong>：Skills 有 <code>context: fork</code> 字段，能让特定 skill 自动跑在隔离 subagent 里——结合下文 skill 章节使用。</p>
+</blockquote>
+<p><strong>实战示例</strong>：跨 codebase 找一个函数的所有 init 位置</p>
+<div class="codehilite"><pre><span></span><code>&gt; Spin up a subagent to find where we initialize the OAuth client
+  across the codebase. Just return file:line and a one-line
+  description of each spot. Don&#39;t read more than 30 files.
+
+[主 session 出现 task 卡片：Explore — locate OAuth init]
+[5 秒后 subagent 返回报告]
+
+📋 Subagent report:
+- src/auth/oauth.ts:42        — primary client init (called from app bootstrap)
+- src/jobs/refresh.ts:18      — background token refresher creates a 2nd client
+- src/api/middleware.ts:91    — request-scoped client for per-tenant tokens
+- tests/fixtures/mock-oauth.ts:7 — test stub
+- scripts/migrate-tokens.py:23 — one-off migration helper
+
+&gt; 主上下文净增 ~200 tokens；20 个文件读取 + 12 次 grep 全部留在子上下文里
+&gt; 你直接基于这个清单决定怎么改，不用先把 20 个文件刷进主上下文
+</code></pre></div>
+
+<p><strong>对比反例</strong>（如果不用 subagent）：你会在主 session 里 <code>Read</code> 20 个文件、<code>Grep</code> 十几次，主上下文从 30k 涨到 80k —— 后续每一次模型回答都要在这 80k 里找信号，<strong>注意力被稀释，回答变笨</strong>。Subagent 把"过程性噪音"全部隔离在子上下文，主上下文只拿到结论。这就是 §1.6 说的"上下文垃圾回收"。</p>
+<hr />
+<h2 id="第二章三大原语--commands--agents--skills">第二章：三大原语 — Commands / Agents / Skills<a class="headerlink" href="#第二章三大原语--commands--agents--skills" title="Permanent link">&para;</a></h2>
+<h3 id="21-决策树什么时候用什么">2.1 决策树：什么时候用什么<a class="headerlink" href="#21-决策树什么时候用什么" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>你想要的能力是...
+│
+├─ 我每天会主动触发 N 次的固定流程？
+│   └─ ✅ 写 Command（用户驱动入口）
+│       位置：.claude/commands/&lt;name&gt;.md
+│       调用：/&lt;name&gt;
+│
+├─ 在某些条件下 Claude 应该自动调用？
+│   └─ ✅ 写 Skill（模型驱动能力）
+│       位置：.claude/skills/&lt;name&gt;/SKILL.md
+│       关键：description 字段是&quot;何时触发&quot;
+│       核心特点：是文件夹，可包含 references/ scripts/ examples/
+│
+├─ 需要独立上下文 + 自定义工具集 + 长链路推理？
+│   └─ ✅ 写 Subagent（隔离执行单元）
+│       位置：.claude/agents/&lt;name&gt;.md
+│       核心特点：自己的 context window，自己的工具集
+│
+└─ &quot;每次 X 之后必然 Y&quot; 的硬性约束？
+    └─ ✅ 写 Hook（确定性事件钩子，harness 保证执行）
+        位置：.claude/hooks/ + settings.json
+</code></pre></div>
+
+<h3 id="22-commands-实战--你日常的-workflow-入口">2.2 Commands 实战 — 你日常的 workflow 入口<a class="headerlink" href="#22-commands-实战--你日常的-workflow-入口" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p><strong>Boris 法则</strong>：<em>"如果一件事一天做超过一次，就把它做成 Command 或 Skill。"</em></p>
+</blockquote>
+<h4 id="极简模板claudecommandsshipmd">极简模板：<code>.claude/commands/ship.md</code><a class="headerlink" href="#极简模板claudecommandsshipmd" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code>---
+<span class="gu">description: Test, simplify, and PR a feature end-to-end</span>
+<span class="gu">---</span>
+
+Run the full ship workflow on the currently changed files:
+
+<span class="k">1.</span> Run all tests; if any fail, stop and report.
+<span class="k">2.</span> Verify the feature end-to-end (browser/curl/etc) — not just type-check.
+<span class="k">3.</span> Run /simplify on changed files to remove duplication.
+<span class="k">4.</span> Generate a commit message that focuses on the WHY, not the WHAT.
+<span class="k">5.</span> Open PR with structured body (Summary + Test plan).
+
+Goal: when I come back, the work is shippable, not just compileable.
+</code></pre></div>
+
+<p>调用：<code>/ship</code>。</p>
+<h4 id="经典-boris-模板构建-go-skill">经典 Boris 模板：构建 <code>/go</code> skill<a class="headerlink" href="#经典-boris-模板构建-go-skill" title="Permanent link">&para;</a></h4>
+<p>Boris 现在写代码的标准 prompt 是：</p>
+<div class="codehilite"><pre><span></span><code>Claude do &lt;task&gt;, then /go
+</code></pre></div>
+
+<p><code>/go</code> 这个 skill 自动完成：<br />
+1. 端到端测试（bash / browser / Computer Use）<br />
+2. 跑 <code>/simplify</code><br />
+3. 开 PR</p>
+<blockquote>
+<p><strong>回来时，你知道代码是 work 的，不只是编译通过。</strong></p>
+</blockquote>
+<h4 id="推荐这些-command套路化生产力">推荐这些 Command（套路化生产力）<a class="headerlink" href="#推荐这些-command套路化生产力" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/ship</code></td>
+<td>上面的 ship 流程</td>
+</tr>
+<tr>
+<td><code>/review</code></td>
+<td>让 Claude 自审本次修改（"prove this works, diff main vs branch"）</td>
+</tr>
+<tr>
+<td><code>/techdebt</code></td>
+<td>列出当前模块的技术债务 + 优先级</td>
+</tr>
+<tr>
+<td><code>/context-dump</code></td>
+<td>把当前任务的关键信息整理成一段，便于 /clear 后带回</td>
+</tr>
+<tr>
+<td><code>/analytics</code></td>
+<td>分析 git history 找 hotspot 文件</td>
+</tr>
+</tbody>
+</table>
+<h4 id="哪些是官方内置哪些要自己写重要澄清">哪些是官方内置，哪些要自己写？（重要澄清）<a class="headerlink" href="#哪些是官方内置哪些要自己写重要澄清" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>来源</th>
+<th>你需要做什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/review</code></td>
+<td><strong>官方内置 skill</strong></td>
+<td>直接用，无需任何文件</td>
+</tr>
+<tr>
+<td><code>/security-review</code></td>
+<td><strong>官方内置 skill</strong></td>
+<td>直接用</td>
+</tr>
+<tr>
+<td><code>/simplify</code></td>
+<td><strong>官方内置 skill</strong></td>
+<td>直接用</td>
+</tr>
+<tr>
+<td><code>/ship</code> <code>/techdebt</code> <code>/context-dump</code> <code>/analytics</code></td>
+<td><strong>Boris 演讲里的设想，仓库未提供</strong></td>
+<td>需要在 <code>.claude/commands/&lt;name&gt;.md</code> 自己写</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>也就是说：上面那张"推荐 Command"表里大部分要<strong>自己写</strong>。本节给两个完整的可直接抄的模板。</p>
+</blockquote>
+<h4 id="模板-1claudecommandsshipmd已在前文给过复用">模板 1：<code>.claude/commands/ship.md</code>（已在前文给过，复用）<a class="headerlink" href="#模板-1claudecommandsshipmd已在前文给过复用" title="Permanent link">&para;</a></h4>
+<p>直接复用本节"极简模板"里的 <code>ship.md</code>。</p>
+<h4 id="模板-2claudecommandstechdebtmd">模板 2：<code>.claude/commands/techdebt.md</code><a class="headerlink" href="#模板-2claudecommandstechdebtmd" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code>---
+<span class="gu">description: List the top technical debt in the current module, ranked by impact</span>
+<span class="gu">---</span>
+
+Goal: produce an actionable tech-debt punch list for the directory I&#39;m in.
+
+Steps:
+<span class="k">1.</span> Detect the module root (nearest pyproject.toml / package.json / go.mod going up).
+<span class="k">2.</span> Scan for <span class="sb">`TODO`</span>, <span class="sb">`FIXME`</span>, <span class="sb">`HACK`</span>, <span class="sb">`XXX`</span> comments — group by file.
+<span class="k">3.</span> Run <span class="sb">`git log --since=&quot;6 months ago&quot; --pretty=format:&quot;%h %s&quot; -- .`</span> and
+   identify files that have been touched &gt; 5 times — these are hotspots.
+<span class="k">4.</span> For each hotspot file, read it and identify:
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>functions &gt; 80 lines
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>duplicated branches (similar if-else trees)
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>missing tests (no corresponding test_*.py or *.test.ts)
+<span class="k">5.</span> Output a markdown table:
+   | Priority | File:Line | Issue | Why it hurts | Suggested fix |
+   Sort by Priority (P0 = blocks new features, P1 = slows everyone, P2 = annoyance).
+
+Do NOT auto-fix. Just report.
+</code></pre></div>
+
+<p>调用：<code>/techdebt</code>，结果可直接贴到 issue tracker。同样的模板可以套出 <code>/context-dump</code>、<code>/analytics</code>：把第 2-5 步换成你想要的扫描逻辑。</p>
+<h3 id="23-agents-深度--subagents-的-16-个-frontmatter-字段">2.3 Agents 深度 — Subagents 的 16 个 Frontmatter 字段<a class="headerlink" href="#23-agents-深度--subagents-的-16-个-frontmatter-字段" title="Permanent link">&para;</a></h3>
+<p>Subagent 不只是"另一个 Claude"，它是一个<strong>可以高度定制的执行单元</strong>。来看完整字段表：</p>
+<h4 id="必填字段">必填字段<a class="headerlink" href="#必填字段" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td>string</td>
+<td>唯一标识符，小写字母+连字符</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>string</td>
+<td>何时调用。<strong>写 <code>"PROACTIVELY"</code> 让 Claude 自动调用</strong></td>
+</tr>
+</tbody>
+</table>
+<h4 id="工具与权限">工具与权限<a class="headerlink" href="#工具与权限" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tools</code></td>
+<td>允许的工具白名单（如 <code>Read, Write, Edit, Bash</code>）。支持 <code>Agent(agent_type)</code> 限制能 spawn 的子 agent</td>
+</tr>
+<tr>
+<td><code>disallowedTools</code></td>
+<td>禁用工具（黑名单优先级高）</td>
+</tr>
+<tr>
+<td><code>permissionMode</code></td>
+<td><code>default</code> / <code>acceptEdits</code> / <code>auto</code> / <code>dontAsk</code> / <code>bypassPermissions</code> / <code>plan</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="模型与算力">模型与算力<a class="headerlink" href="#模型与算力" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>model</code></td>
+<td><code>sonnet</code> / <code>opus</code> / <code>haiku</code> / 完整模型 ID / <code>inherit</code></td>
+</tr>
+<tr>
+<td><code>effort</code></td>
+<td>Opus 4.6 only：<code>low</code> / <code>medium</code> / <code>high</code> / <code>max</code></td>
+</tr>
+<tr>
+<td><code>maxTurns</code></td>
+<td>最大 agentic turns，防止失控</td>
+</tr>
+</tbody>
+</table>
+<h4 id="能力扩展">能力扩展<a class="headerlink" href="#能力扩展" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>skills</code></td>
+<td>启动时<strong>预加载</strong>的 skills 列表（完整内容注入到 agent 上下文）</td>
+</tr>
+<tr>
+<td><code>mcpServers</code></td>
+<td>这个 agent 可用的 MCP servers</td>
+</tr>
+<tr>
+<td><code>hooks</code></td>
+<td>仅在此 agent 内生效的生命周期 hooks</td>
+</tr>
+<tr>
+<td><code>memory</code></td>
+<td>持久化记忆作用域：<code>user</code> / <code>project</code> / <code>local</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="运行模式">运行模式<a class="headerlink" href="#运行模式" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>background</code></td>
+<td>true = 总是后台跑</td>
+</tr>
+<tr>
+<td><code>isolation</code></td>
+<td><code>"worktree"</code> = 在临时 git worktree 里跑（无修改时自动清理）</td>
+</tr>
+<tr>
+<td><code>initialPrompt</code></td>
+<td>自动作为第一轮用户输入提交，可包含 commands/skills</td>
+</tr>
+<tr>
+<td><code>color</code></td>
+<td>task list 显示颜色：<code>red</code>/<code>blue</code>/<code>green</code>/<code>yellow</code>/<code>purple</code>/<code>orange</code>/<code>pink</code>/<code>cyan</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="真实例子feature-specific-agent">真实例子：feature-specific agent<a class="headerlink" href="#真实例子feature-specific-agent" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code>---
+name: db-migration-reviewer
+description: |
+  PROACTIVELY review any SQL migration files for safety:
+<span class="w">  </span><span class="k">-</span><span class="w"> </span>NOT NULL columns on existing tables
+<span class="w">  </span><span class="k">-</span><span class="w"> </span>Missing transaction wrappers
+<span class="w">  </span><span class="k">-</span><span class="w"> </span>Backfill timing on large tables
+model: opus
+effort: high
+tools: Read, Grep, Glob
+permissionMode: plan
+skills:
+<span class="w">  </span><span class="k">-</span><span class="w"> </span>db-best-practices
+<span class="w">  </span><span class="k">-</span><span class="w"> </span>migration-checklist
+isolation: worktree
+<span class="gu">color: red</span>
+<span class="gu">---</span>
+
+You are a database migration safety reviewer. Your only job is to identify
+risks in proposed schema changes. Use the preloaded skills as ground truth.
+
+Output format:
+<span class="k">-</span><span class="w"> </span>VERDICT: SAFE | RISKY | UNSAFE
+<span class="k">-</span><span class="w"> </span>ISSUES: bulleted list with file:line references
+<span class="k">-</span><span class="w"> </span>RECOMMENDATIONS: what to change before merging
+</code></pre></div>
+
+<blockquote>
+<p><strong>关键设计原则</strong>：feature-specific（专精） &gt; general-purpose（万能）。</p>
+<p>Boris：<em>"Have feature-specific subagents with skills, instead of general qa, backend engineer."</em></p>
+</blockquote>
+<h4 id="怎么调用上面这个-db-migration-reviewer三种触发方式">怎么调用上面这个 db-migration-reviewer？三种触发方式<a class="headerlink" href="#怎么调用上面这个-db-migration-reviewer三种触发方式" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="c1"># 方式 1：在普通 session 中显式调用（最常用）</span>
+&gt;<span class="w"> </span>Use<span class="w"> </span>the<span class="w"> </span>db-migration-reviewer<span class="w"> </span>agent<span class="w"> </span>to<span class="w"> </span>check
+<span class="w">  </span>migrations/0042_add_user_email_notnull.sql
+
+<span class="c1"># 方式 2：开 session 时直接进入此 agent（整个 session 都按它的 frontmatter 跑）</span>
+$<span class="w"> </span>claude<span class="w"> </span>--agent<span class="o">=</span>db-migration-reviewer
+
+<span class="c1"># 方式 3：在 PreToolUse hook 中匹配 *.sql 自动触发</span>
+<span class="c1">#   settings.json 里写：编辑 migrations/*.sql 时自动 spawn 这个 agent 做 review</span>
+</code></pre></div>
+
+<p><strong>示例输出</strong>（方式 1 调用后）：</p>
+<div class="codehilite"><pre><span></span><code>🔍 db-migration-reviewer report on migrations/0042_add_user_email_notnull.sql
+
+VERDICT: RISKY
+
+ISSUES:
+- migrations/0042_add_user_email_notnull.sql:3
+  Adding NOT NULL on `users.email` without a DEFAULT.
+  Table is ~50M rows (inferred from migrations/0001_users.sql comment).
+  This will lock the table for the duration of the rewrite — likely 15+ min downtime.
+
+- migrations/0042_add_user_email_notnull.sql:7
+  No transaction wrapper. If step 2 fails, schema is left half-applied.
+
+RECOMMENDATIONS:
+1. Two-phase rollout:
+   Phase A: ADD COLUMN email TEXT (nullable), backfill in batches of 10k.
+   Phase B: ALTER COLUMN email SET NOT NULL once backfill confirmed.
+2. Wrap each phase in BEGIN/COMMIT.
+3. Add a migration test that runs against a 1M-row fixture.
+</code></pre></div>
+
+<blockquote>
+<p><strong>重点</strong>：agent <strong>只输出报告</strong>，不动文件、不开 PR。这是 <code>permissionMode: plan</code> + <code>tools: Read, Grep, Glob</code>（无 Write/Edit）的设计带来的强约束 —— harness 保证它干不出格的事。</p>
+</blockquote>
+<h3 id="24-skills-深度--15-个-frontmatter-字段">2.4 Skills 深度 — 15 个 Frontmatter 字段<a class="headerlink" href="#24-skills-深度--15-个-frontmatter-字段" title="Permanent link">&para;</a></h3>
+<p>Skill 的精髓不是文件，是<strong>文件夹</strong> —— 它可以装 references、scripts、examples、data，让 Claude 在需要时按需读取（progressive disclosure）。</p>
+<h4 id="必学字段决定-skill-是否被触发">必学字段（决定 Skill 是否被触发）<a class="headerlink" href="#必学字段决定-skill-是否被触发" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>关键作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td>string</td>
+<td>默认 = 目录名</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>string</td>
+<td><strong>最重要：这是写给模型看的"何时触发"指令，不是给人看的总结</strong></td>
+</tr>
+<tr>
+<td><code>when_to_use</code></td>
+<td>string</td>
+<td>补充触发场景（追加到 description，受 1536 字符上限）</td>
+</tr>
+</tbody>
+</table>
+<h4 id="调用方式控制">调用方式控制<a class="headerlink" href="#调用方式控制" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>disable-model-invocation</code></td>
+<td>true = 禁止 Claude 自动调用（仅 user 显式触发）</td>
+</tr>
+<tr>
+<td><code>user-invocable</code></td>
+<td>false = 不显示在 <code>/</code> 菜单（仅供 agent 预加载）</td>
+</tr>
+<tr>
+<td><code>paths</code></td>
+<td>glob 模式 — 仅当编辑匹配文件时才加载 skill</td>
+</tr>
+<tr>
+<td><code>argument-hint</code></td>
+<td>自动补全提示（如 <code>[issue-number]</code>）</td>
+</tr>
+<tr>
+<td><code>arguments</code></td>
+<td>命名位置参数，对应 SKILL.md 中的 <code>$name</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="算力与隔离">算力与隔离<a class="headerlink" href="#算力与隔离" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>model</code></td>
+<td>这个 skill 跑在什么模型</td>
+</tr>
+<tr>
+<td><code>effort</code></td>
+<td><code>low</code> / <code>medium</code> / <code>high</code> / <code>xhigh</code> / <code>max</code></td>
+</tr>
+<tr>
+<td><code>context</code></td>
+<td><code>fork</code> = 在隔离 subagent 里跑</td>
+</tr>
+<tr>
+<td><code>agent</code></td>
+<td>配合 <code>context: fork</code>，指定 agent 类型</td>
+</tr>
+<tr>
+<td><code>allowed-tools</code></td>
+<td>skill 激活时免提示的工具</td>
+</tr>
+<tr>
+<td><code>hooks</code></td>
+<td>仅在此 skill 生效的生命周期 hooks</td>
+</tr>
+<tr>
+<td><code>shell</code></td>
+<td><code>bash</code>（默认）/ <code>powershell</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="description-写法的关键差异">Description 写法的关键差异<a class="headerlink" href="#description-写法的关键差异" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="c1"># ❌ 写给人看的总结（自动触发率低）</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">This skill helps with database migrations.</span>
+
+<span class="c1"># ✅ 写给模型看的触发条件（自动触发率高）</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">  </span><span class="no">TRIGGER when: SQL migration files (*.sql in migrations/) are added or</span>
+<span class="w">  </span><span class="no">modified, OR user mentions schema changes, ALTER TABLE, NOT NULL on</span>
+<span class="w">  </span><span class="no">existing columns, backfill, or zero-downtime migrations.</span>
+<span class="w">  </span><span class="no">SKIP when: read-only queries or app-level code without schema changes.</span>
+</code></pre></div>
+
+<blockquote>
+<p><strong>Thariq 原话</strong>：<em>"The description field is for the model. It's not a summary, it's a description of when to trigger this skill."</em></p>
+</blockquote>
+<h4 id="完整可抄的例子weather-fetcher-skill">完整可抄的例子：weather-fetcher skill<a class="headerlink" href="#完整可抄的例子weather-fetcher-skill" title="Permanent link">&para;</a></h4>
+<p>来自 <a href="https://github.com/shanraisshan/claude-code-best-practice" target="_blank" rel="noopener">shanraisshan/claude-code-best-practice</a> 仓库。</p>
+<p><strong>文件夹结构</strong>（skill 是文件夹，不是单文件）：</p>
+<div class="codehilite"><pre><span></span><code>.claude/skills/weather-fetcher/
+├── SKILL.md          # 主入口（必需）
+├── examples.md       # 调用样例（progressive disclosure，按需读）
+└── reference.md      # API 详细签名 / 错误码（按需读）
+</code></pre></div>
+
+<p><strong><code>SKILL.md</code> 完整内容</strong>：</p>
+<div class="codehilite"><pre><span></span><code>---
+name: weather-fetcher
+description: |
+  TRIGGER when the user asks for current temperature, humidity, weather
+  conditions, or forecast for a city or coordinates. Also when another
+  agent/skill needs structured weather data (temperature + unit + city).
+  SKIP when: user asks about climate trends or historical data — use
+  climate-data skill instead.
+<span class="gu">allowed-tools: WebFetch</span>
+<span class="gu">---</span>
+
+<span class="gh"># Weather Fetcher</span>
+
+Fetch current weather from the free Open-Meteo API.
+
+<span class="gu">## Usage</span>
+
+<span class="k">1.</span> If the user gave a city name, geocode it first via:
+   <span class="sb">`https://geocoding-api.open-meteo.com/v1/search?name={city}&amp;count=1`</span>
+<span class="k">2.</span> Call:
+   <span class="sb">`https://api.open-meteo.com/v1/forecast?latitude={lat}&amp;longitude={lon}&amp;current=temperature_2m,relative_humidity_2m,wind_speed_10m`</span>
+<span class="k">3.</span> Return a JSON object: <span class="sb">`{ city, temperature, unit, humidity, wind_speed }`</span>.
+<span class="k">4.</span> Default unit is Celsius. If the user asks for Fahrenheit, add <span class="sb">`&amp;temperature_unit=fahrenheit`</span>.
+
+For full parameter list see <span class="sb">`reference.md`</span>. For sample call/response see <span class="sb">`examples.md`</span>.
+
+<span class="gu">## Gotchas</span>
+
+<span class="k">-</span><span class="w"> </span>Open-Meteo is rate-limited to 10k req/day per IP — cache results within a session.
+<span class="k">-</span><span class="w"> </span>Geocoding can return multiple matches; always pick <span class="sb">`results[0]`</span> and log the chosen <span class="sb">`country`</span> so the user can correct it.
+<span class="k">-</span><span class="w"> </span>Wind speed unit defaults to km/h, NOT m/s.
+</code></pre></div>
+
+<h4 id="触发示例自动调用">触发示例：自动调用<a class="headerlink" href="#触发示例自动调用" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code>&gt; Dubai 现在多少度？
+
+[Claude 看到 description 命中触发条件，自动加载 weather-fetcher]
+[skill 指令告诉它先 geocode，再查 forecast]
+[调用 WebFetch：geocoding-api.open-meteo.com/...]
+[调用 WebFetch：api.open-meteo.com/v1/forecast?latitude=25.07...]
+
+🌡 Dubai 现在 38.4°C，湿度 42%，风速 12 km/h（来源：Open-Meteo）。
+</code></pre></div>
+
+<p><strong>用户没说一个字关于"用 skill"——是 description 里的 TRIGGER 条件让 Claude 自动加载。</strong></p>
+<h4 id="触发示例显式调用">触发示例：显式调用<a class="headerlink" href="#触发示例显式调用" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code>&gt; Use the weather-fetcher skill to get current Dubai temp in Fahrenheit
+</code></pre></div>
+
+<p>显式调用绕过 description 匹配，Claude 直接加载并按 skill 指令执行。</p>
+<blockquote>
+<p><strong>关键</strong>：<code>description</code> 字段写得好不好，直接决定这个 skill 在 N 个 skill 共存时<strong>有多大概率被自动选中</strong>。再次强调 §2.4 的法则 —— description 是写给模型的触发器，不是给人看的总结。</p>
+</blockquote>
+<h3 id="25-编排模式command--agent--skill完整拆解">2.5 编排模式：Command → Agent → Skill（完整拆解）<a class="headerlink" href="#25-编排模式command--agent--skill完整拆解" title="Permanent link">&para;</a></h3>
+<p>仓库提供了一个<strong>天气预报</strong>的标准编排示例，体现 Claude Code 设计哲学。</p>
+<div class="codehilite"><pre><span></span><code>╔══════════════════════════════════════════════════════════════════╗
+║              ORCHESTRATION WORKFLOW (官方示例)                    ║
+║           Command  →  Agent (with skill)  →  Skill                ║
+╚══════════════════════════════════════════════════════════════════╝
+
+                    ┌───────────────────┐
+                    │  User Interaction │
+                    └─────────┬─────────┘
+                              │ 用户运行：/weather-orchestrator
+                              ▼
+       ┌────────────────────────────────────────────────────┐
+       │  /weather-orchestrator (Command, model: haiku)     │
+       │  ─ 用 AskUserQuestion 问用户：摄氏还是华氏？         │
+       └────────────────────────────┬───────────────────────┘
+                                    │ Step 2: 调用 Agent tool
+                                    ▼
+       ┌────────────────────────────────────────────────────┐
+       │  weather-agent (Agent, model: sonnet, color: green)│
+       │   skills: [weather-fetcher]   ← 预加载              │
+       │   tools: WebFetch, Read                              │
+       │  ─ 按预加载 skill 的指令调 Open-Meteo API            │
+       │  ─ 返回 {temperature: 26, unit: &quot;Celsius&quot;}           │
+       └────────────────────────────┬───────────────────────┘
+                                    │ Step 3: 调用 Skill tool
+                                    ▼
+       ┌────────────────────────────────────────────────────┐
+       │  weather-svg-creator (Skill，独立调用)              │
+       │  ─ 用 Step 2 返回的数据渲染 SVG 卡片                 │
+       │  ─ 输出 weather.svg + output.md                      │
+       └────────────────────────────────────────────────────┘
+</code></pre></div>
+
+<h4 id="两种-skill-模式对照这是核心知识点">两种 Skill 模式对照（这是核心知识点）<a class="headerlink" href="#两种-skill-模式对照这是核心知识点" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>触发方式</th>
+<th>使用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Agent Skill（预加载）</strong></td>
+<td>在 agent frontmatter 的 <code>skills:</code> 列表里指定，启动时<strong>完整注入</strong> agent 上下文</td>
+<td>给 agent 的领域知识、SOP、API 用法，<strong>类似实验手册</strong></td>
+</tr>
+<tr>
+<td><strong>Skill（直接调用）</strong></td>
+<td>通过 Skill tool 显式调用，runs in caller's context</td>
+<td>一次性的能力（生成图表、跑某流程），<strong>直接的执行工具</strong></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>关键设计</strong>：fetch（agent 干）和 render（skill 干）<strong>职责分离</strong> — 每个组件只做一件事。</p>
+</blockquote>
+<h4 id="你能学到的设计套路">你能学到的设计套路<a class="headerlink" href="#你能学到的设计套路" title="Permanent link">&para;</a></h4>
+<ol>
+<li><strong>Command 是入口</strong>，处理用户交互（问问题、汇总结果）</li>
+<li><strong>Agent 做数据获取</strong>，用预加载 skill 知识</li>
+<li><strong>Skill 做产出物</strong>，独立运行，从 caller 上下文拿数据</li>
+<li><strong>每个组件单一职责</strong>，组合起来跑完整流程</li>
+</ol>
+<hr />
+<h2 id="第三章skill-工程学--anthropic-内部-9-类--9-法则">第三章：Skill 工程学 — Anthropic 内部 9 类 + 9 法则<a class="headerlink" href="#第三章skill-工程学--anthropic-内部-9-类--9-法则" title="Permanent link">&para;</a></h2>
+<h3 id="31-anthropic-内部-skill-9-大分类thariq-总结">3.1 Anthropic 内部 Skill 9 大分类（Thariq 总结）<a class="headerlink" href="#31-anthropic-内部-skill-9-大分类thariq-总结" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>在内部，Anthropic 团队管理着<strong>几百个 skills</strong>。Thariq 把它们归为 9 类，<strong>好的 skill 严格属于其中一类，混乱的 skill 跨了多类</strong>。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>分类</th>
+<th>作用</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>Library &amp; API Reference</strong></td>
+<td>教 Claude 用某个库/CLI/SDK，含代码片段和坑点</td>
+<td><code>billing-lib</code>, <code>internal-platform-cli</code>, <code>frontend-design</code></td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>Product Verification</strong></td>
+<td>描述如何测试代码是否真的 work（常配 Playwright/tmux）</td>
+<td><code>signup-flow-driver</code>, <code>checkout-verifier</code>, <code>tmux-cli-driver</code></td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>Data Fetching &amp; Analysis</strong></td>
+<td>连数据/监控 stack（含凭证、dashboard ID）</td>
+<td><code>funnel-query</code>, <code>cohort-compare</code>, <code>grafana</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Business Process &amp; Team Automation</strong></td>
+<td>把重复 workflow 一键化</td>
+<td><code>standup-post</code>, <code>create-ticket</code>, <code>weekly-recap</code></td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>Code Scaffolding &amp; Templates</strong></td>
+<td>生成 framework 模板代码</td>
+<td><code>new-workflow</code>, <code>new-migration</code>, <code>create-app</code></td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Code Quality &amp; Review</strong></td>
+<td>强制代码规范、自动审查</td>
+<td><code>adversarial-review</code>, <code>code-style</code>, <code>testing-practices</code></td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>CI/CD &amp; Deployment</strong></td>
+<td>拉/推/部署代码</td>
+<td><code>babysit-pr</code>, <code>deploy-service</code>, <code>cherry-pick-prod</code></td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>Runbooks</strong></td>
+<td>接收告警/错误 → 多工具调查 → 输出结构化报告</td>
+<td><code>service-debugging</code>, <code>oncall-runner</code>, <code>log-correlator</code></td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>Infrastructure Operations</strong></td>
+<td>含破坏性动作的运维（要 guardrails）</td>
+<td><code>resource-orphans</code>, <code>dependency-management</code>, <code>cost-investigation</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>科研代码场景的映射建议</strong>：<br />
+- 实验复现 → <strong>Runbook 类</strong>（接收 paper 链接 → 调研 → 出复现指南）<br />
+- 数据预处理 → <strong>Data Fetching 类</strong>（连 dataset、监控数据质量）<br />
+- 论文实验脚本 → <strong>Scaffolding 类</strong>（标准化新实验目录结构）<br />
+- 结果验证 → <strong>Verification 类</strong>（跑指标、对比 baseline）<br />
+- lab 周报 → <strong>Business Process 类</strong>（git log → 周报）</p>
+</blockquote>
+<h3 id="32-thariq-9-大-skill-设计法则">3.2 Thariq 9 大 Skill 设计法则<a class="headerlink" href="#32-thariq-9-大-skill-设计法则" title="Permanent link">&para;</a></h3>
+<h4 id="法则-1不要陈述显然">法则 1：不要陈述显然<a class="headerlink" href="#法则-1不要陈述显然" title="Permanent link">&para;</a></h4>
+<blockquote>
+<p><em>"Claude already knows a lot about coding. If you're publishing a knowledge skill, focus on what pushes Claude OUT of its default thinking."</em></p>
+</blockquote>
+<p><strong>反面例子</strong>：写一个"Python best practices" skill 复述 PEP 8 — 没用。<br />
+<strong>正面例子</strong>：<code>frontend-design</code> skill 是通过反复迭代 + 客户反馈做出来的，专门让 Claude <strong>避免</strong>默认审美（Inter 字体、紫色渐变这类 LLM 烂梗）。</p>
+<h4 id="法则-2构建-gotchas-章节">法则 2：构建 Gotchas 章节<a class="headerlink" href="#法则-2构建-gotchas-章节" title="Permanent link">&para;</a></h4>
+<p><strong>最高信噪比的内容是 Gotchas</strong>。把 Claude 反复犯错的点写进去，然后随时间持续更新。</p>
+<div class="codehilite"><pre><span></span><code><span class="gu">## Gotchas</span>
+
+<span class="gu">### ❌ Don&#39;t use `pd.read_csv` on the trades table</span>
+<span class="k">-</span><span class="w"> </span>It&#39;s 50GB+. Use <span class="sb">`pl.scan_csv`</span> (Polars lazy) instead.
+<span class="k">-</span><span class="w"> </span>Even chunked, pandas hits memory issues.
+
+<span class="gu">### ❌ Don&#39;t auto-add timezone to timestamps</span>
+<span class="k">-</span><span class="w"> </span>Market data is in NY time but stored naive. Adding tz_localize(&#39;UTC&#39;)
+  silently shifts everything 5h. Always check trader-meta.json first.
+</code></pre></div>
+
+<h4 id="法则-3用文件系统--progressive-disclosure">法则 3：用文件系统 + Progressive Disclosure<a class="headerlink" href="#法则-3用文件系统--progressive-disclosure" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code>.claude/skills/my-skill/
+├── SKILL.md              # 主入口，简短，指向其他文件
+├── references/
+│   ├── api.md            # API 详细签名
+│   └── examples.md       # 用例
+├── scripts/
+│   ├── setup.sh
+│   └── verify.py
+└── examples/
+    ├── basic.py
+    └── advanced.py
+</code></pre></div>
+
+<p>SKILL.md 只放概要，引用：<em>"Detailed API reference in <code>references/api.md</code>. Working examples in <code>examples/</code>."</em> — Claude 按需读，节省主上下文。</p>
+<h4 id="法则-4不要框死-claudeavoid-railroading">法则 4：不要框死 Claude（Avoid Railroading）<a class="headerlink" href="#法则-4不要框死-claudeavoid-railroading" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="c1"># ❌ 太死板</span>
+<span class="l l-Scalar l-Scalar-Plain">1. Read foo.py</span>
+<span class="l l-Scalar l-Scalar-Plain">2. Run `npm test`</span>
+<span class="l l-Scalar l-Scalar-Plain">3. If pass, commit with message &quot;fix</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bar&quot;</span>
+<span class="l l-Scalar l-Scalar-Plain">4. Push</span>
+
+<span class="c1"># ✅ 给目标和约束</span>
+<span class="nt">Goal</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">get this PR merged.</span>
+<span class="nt">Constraints</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">All tests must pass before push</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Commit message focuses on WHY, not WHAT</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Squash merge only</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Never push to main directly</span>
+</code></pre></div>
+
+<blockquote>
+<p>Skill 是<strong>通用模式</strong>，不是特定脚本。给 Claude 判断空间。</p>
+</blockquote>
+<h4 id="法则-5考虑-setup-流程">法则 5：考虑 Setup 流程<a class="headerlink" href="#法则-5考虑-setup-流程" title="Permanent link">&para;</a></h4>
+<p>需要用户配置的 skill，存 <code>config.json</code>。如果 config 不存在，让 Claude <strong>用 AskUserQuestion 工具</strong>问出来：</p>
+<div class="codehilite"><pre><span></span><code>On invocation:
+<span class="k">1.</span> Read <span class="sb">`config.json`</span> in this skill&#39;s folder.
+<span class="k">2.</span> If missing or incomplete, use AskUserQuestion to gather:
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>API endpoint
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>Auth token (or env var name)
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>Default workspace
+<span class="k">3.</span> Save to <span class="sb">`config.json`</span> for future runs.
+</code></pre></div>
+
+<h4 id="法则-6description-是写给模型的触发器">法则 6：Description 是写给模型的触发器<a class="headerlink" href="#法则-6description-是写给模型的触发器" title="Permanent link">&para;</a></h4>
+<p>已强调过，再放一遍：</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># ❌</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">This skill helps with database queries.</span>
+
+<span class="c1"># ✅</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">  </span><span class="no">TRIGGER when user mentions: SQL query optimization, slow queries,</span>
+<span class="w">  </span><span class="no">EXPLAIN plans, query performance, missing indexes.</span>
+<span class="w">  </span><span class="no">Files: any *.sql in queries/ or analytics/</span>
+<span class="w">  </span><span class="no">SKIP when: schema changes, migrations (use db-migration skill instead).</span>
+</code></pre></div>
+
+<h4 id="法则-7memory--持久存储">法则 7：Memory &amp; 持久存储<a class="headerlink" href="#法则-7memory--持久存储" title="Permanent link">&para;</a></h4>
+<p>skill 需要记忆？用 <code>${CLAUDE_PLUGIN_DATA}</code> 文件夹（不会被 skill 升级清掉）：</p>
+<div class="codehilite"><pre><span></span><code>On every invocation, append to <span class="sb">`${CLAUDE_PLUGIN_DATA}/runs.jsonl`</span>:
+{ &quot;ts&quot;: &quot;...&quot;, &quot;args&quot;: {...}, &quot;outcome&quot;: &quot;...&quot; }
+
+This lets future invocations reflect on past runs.
+</code></pre></div>
+
+<h4 id="法则-8存脚本让-claude-组合而非重写">法则 8：存脚本，让 Claude 组合而非重写<a class="headerlink" href="#法则-8存脚本让-claude-组合而非重写" title="Permanent link">&para;</a></h4>
+<blockquote>
+<p><em>"Giving Claude scripts and libraries lets Claude spend its turns on composition, deciding what to do next rather than reconstructing boilerplate."</em></p>
+</blockquote>
+<p>不要让 Claude 每次重写 SQL 模板。把模板放 <code>scripts/</code>，让 Claude 调用 + 组合。</p>
+<h4 id="法则-9on-demand-hooks">法则 9：On-demand Hooks<a class="headerlink" href="#法则-9on-demand-hooks" title="Permanent link">&para;</a></h4>
+<p>skill 内可以注册仅在该 skill 激活时生效的 hooks。例：<br />
+- <code>/careful</code> skill：激活后 PreToolUse hook 拦截 <code>rm</code>、<code>git push --force</code> 等<br />
+- <code>/freeze</code> skill：激活后禁止编辑某目录外的文件<br />
+- <code>/measure-skill-usage</code>：PreToolUse 统计哪些 skill 被频繁触发</p>
+<h3 id="33-实战5-步把你的工作流变成-skill-">3.3 实战：5 步把你的工作流变成 Skill ⭐️⭐️⭐️⭐️<a class="headerlink" href="#33-实战5-步把你的工作流变成-skill-" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>1. 找出&quot;一天做超过一次&quot;的流程
+   例：把实验日志整理到 Obsidian daily/
+
+2. 划归类型（9 大类哪一类）
+   答：Business Process
+
+3. 写 description 作为触发器（写给模型看）
+   &quot;TRIGGER when user says: &#39;记录实验&#39;, &#39;log experiment&#39;, or pastes
+    nohup output / wandb URL&quot;
+
+4. 设计文件夹结构
+   .claude/skills/log-experiment/
+   ├── SKILL.md
+   ├── references/template.md
+   └── scripts/parse_wandb.py
+
+5. 写 Gotchas（最重要）
+   - 不要覆盖已有 daily note
+   - GPU 时间用 hh:mm:ss 格式
+   - 失败的实验也要记
+</code></pre></div>
+
+<hr />
+<h2 id="第四章hooks--真正确定性的自动化">第四章：Hooks — 真正确定性的自动化<a class="headerlink" href="#第四章hooks--真正确定性的自动化" title="Permanent link">&para;</a></h2>
+<h3 id="41-核心区别hook-vs-claudemd">4.1 核心区别：Hook vs CLAUDE.md<a class="headerlink" href="#41-核心区别hook-vs-claudemd" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>CLAUDE.md 指令</th>
+<th>Hook</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>执行方</strong></td>
+<td>模型（概率性）</td>
+<td>Harness（确定性）</td>
+</tr>
+<tr>
+<td><strong>可靠性</strong></td>
+<td>低 — 模型可能忽略，尤其是长 CLAUDE.md</td>
+<td>100% — 事件触发就执行</td>
+</tr>
+<tr>
+<td><strong>适合场景</strong></td>
+<td>风格偏好、判断指导</td>
+<td>强制约束、自动化、外部集成</td>
+</tr>
+<tr>
+<td><strong>失败模式</strong></td>
+<td>静默忽略</td>
+<td>显式报错</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>判断准则</strong>：句子里出现 <strong>"每次"、"自动"、"必须"、"绝不"</strong> 时——用 Hook，不要写 CLAUDE.md。</p>
+</blockquote>
+<h4 id="反例对照">反例对照<a class="headerlink" href="#反例对照" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>❌ 写在 CLAUDE.md</th>
+<th>✅ 用 Hook</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"永远不要在 commit 加 Co-Authored-By"</td>
+<td><code>settings.json</code> 的 <code>attribution.commit: ""</code></td>
+</tr>
+<tr>
+<td>"每次写完代码都要跑 prettier"</td>
+<td><code>PostToolUse</code> hook（matcher: Edit/Write）</td>
+</tr>
+<tr>
+<td>"绝不要执行 rm -rf"</td>
+<td><code>PreToolUse</code> hook 拦截危险 bash</td>
+</tr>
+<tr>
+<td>"必须先跑测试再提交"</td>
+<td><code>Stop</code> hook 强制验证</td>
+</tr>
+</tbody>
+</table>
+<h3 id="42-boris-实战5-大典型-hooks">4.2 Boris 实战：5 大典型 Hooks<a class="headerlink" href="#42-boris-实战5-大典型-hooks" title="Permanent link">&para;</a></h3>
+<h4 id="1-sessionstart--动态加载上下文">1. SessionStart — 动态加载上下文<a class="headerlink" href="#1-sessionstart--动态加载上下文" title="Permanent link">&para;</a></h4>
+<p>每次启动 Claude，自动注入当前最新信息：</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;hooks&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;SessionStart&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span>
+<span class="w">      </span><span class="nt">&quot;hooks&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span>
+<span class="w">        </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;command&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;echo &#39;Today is $(date). Active branch: $(git branch --show-current). Last 3 commits:&#39;; git log --oneline -3&quot;</span>
+<span class="w">      </span><span class="p">}]</span>
+<span class="w">    </span><span class="p">}]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h4 id="2-pretooluse--拦截危险操作">2. PreToolUse — 拦截危险操作<a class="headerlink" href="#2-pretooluse--拦截危险操作" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;PreToolUse&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span>
+<span class="w">    </span><span class="nt">&quot;matcher&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Bash&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;hooks&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;command&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;echo \&quot;$CLAUDE_BASH_COMMAND\&quot; | grep -E &#39;(rm -rf /|--no-verify|push --force.*main|DROP DATABASE)&#39; &amp;&amp; { echo &#39;BLOCKED: dangerous command&#39;; exit 1; } || exit 0&quot;</span>
+<span class="w">    </span><span class="p">}]</span>
+<span class="w">  </span><span class="p">}]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h4 id="3-posttooluse--自动格式化">3. PostToolUse — 自动格式化<a class="headerlink" href="#3-posttooluse--自动格式化" title="Permanent link">&para;</a></h4>
+<blockquote>
+<p><em>"Claude generates well-formatted code, the hook handles the last 10% to avoid CI failures."</em></p>
+</blockquote>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;PostToolUse&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span>
+<span class="w">    </span><span class="nt">&quot;matcher&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Edit|Write&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;hooks&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;command&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;case \&quot;$CLAUDE_FILE_PATH\&quot; in *.py) ruff format \&quot;$CLAUDE_FILE_PATH\&quot; 2&gt;/dev/null;; *.ts|*.tsx) prettier --write \&quot;$CLAUDE_FILE_PATH\&quot; 2&gt;/dev/null;; esac; true&quot;</span>
+<span class="w">    </span><span class="p">}]</span>
+<span class="w">  </span><span class="p">}]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h4 id="4-stop--强制验收">4. Stop — 强制验收<a class="headerlink" href="#4-stop--强制验收" title="Permanent link">&para;</a></h4>
+<p>每次 Claude 结束 turn，自动跑测试 / lint，没过就让 Claude 继续：</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;Stop&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span>
+<span class="w">    </span><span class="nt">&quot;hooks&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;command&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pytest -q &amp;&amp; ruff check . &amp;&amp; echo OK || echo &#39;NOT DONE: tests/lint failed, please fix&#39;&quot;</span>
+<span class="w">    </span><span class="p">}]</span>
+<span class="w">  </span><span class="p">}]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h4 id="5-permissionrequest--路由到外部审批">5. PermissionRequest — 路由到外部审批<a class="headerlink" href="#5-permissionrequest--路由到外部审批" title="Permanent link">&para;</a></h4>
+<p>Boris 用这个把权限请求<strong>路由到 WhatsApp</strong> 自己批准：</p>
+<div class="codehilite"><pre><span></span><code>PermissionRequest → WhatsApp Bot → 你手机点 ✓/✗ → Claude 继续
+</code></pre></div>
+
+<p>进阶：把请求<strong>路由给 Opus</strong> 自动审批安全的，只有可疑的才打扰你。</p>
+<h3 id="43-进阶on-demand-hooks-in-skills">4.3 进阶：On-demand Hooks in Skills<a class="headerlink" href="#43-进阶on-demand-hooks-in-skills" title="Permanent link">&para;</a></h3>
+<p>Skill 可以注册<strong>仅自己激活时生效</strong>的 hooks：</p>
+<div class="codehilite"><pre><span></span><code><span class="nn">---</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">careful</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TRIGGER when user says &quot;be careful&quot; or starts touching prod files</span>
+<span class="nt">hooks</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">PreToolUse</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">matcher</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Bash&quot;</span>
+<span class="w">      </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;warn-and-confirm.sh&quot;</span>
+<span class="nn">---</span>
+</code></pre></div>
+
+<p>调用 <code>/careful</code> 后，所有 bash 都要二次确认；<code>/careful</code> 退出后，hook 自动卸载。</p>
+<hr />
+<h2 id="第五章并行计算--让多个-claude-同时工作">第五章：并行计算 — 让多个 Claude 同时工作<a class="headerlink" href="#第五章并行计算--让多个-claude-同时工作" title="Permanent link">&para;</a></h2>
+<h3 id="51-worktrees--并行开发的基石">5.1 Worktrees — 并行开发的基石<a class="headerlink" href="#51-worktrees--并行开发的基石" title="Permanent link">&para;</a></h3>
+<p><strong>Boris 原话</strong>：<em>"I have dozens of Claudes running at all times. This is how I do it."</em></p>
+<h4 id="三种启动方式">三种启动方式<a class="headerlink" href="#三种启动方式" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="c1"># 方式 1：CLI 直接启 worktree</span>
+claude<span class="w"> </span>-w
+
+<span class="c1"># 方式 2：从主 session 内创建</span>
+&gt;<span class="w"> </span>/worktree<span class="w"> </span>create<span class="w"> </span>feature-auth
+
+<span class="c1"># 方式 3：手动 git worktree + 进入</span>
+git<span class="w"> </span>worktree<span class="w"> </span>add<span class="w"> </span>../proj-feature<span class="w"> </span>feature-branch
+<span class="nb">cd</span><span class="w"> </span>../proj-feature<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>claude
+</code></pre></div>
+
+<h4 id="真实工作流">真实工作流<a class="headerlink" href="#真实工作流" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code>你（main 分支）         Claude#1（feature-a worktree）       Claude#2（bugfix worktree）
+  │                          │                                    │
+  │ 复杂 PR review            │ 写新 auth 模块                      │ 修紧急 bug
+  │                          │                                    │
+  ▼                          ▼                                    ▼
+ 主 session                 独立工作树                            独立工作树
+ 上下文干净                 自己的 .git/branches                  自己的 commit history
+                           不会冲突                              不会冲突
+</code></pre></div>
+
+<blockquote>
+<p>三个 Claude 同时跑，互不污染，最后各自开 PR 进 main。</p>
+</blockquote>
+<h3 id="511-tmux--持久化与日常服务器工作的更优解">5.1.1 tmux — 持久化与日常服务器工作的更优解<a class="headerlink" href="#511-tmux--持久化与日常服务器工作的更优解" title="Permanent link">&para;</a></h3>
+<p>worktree 解决的是"代码隔离"，但解决不了"终端断了任务就死"的问题。这就是 <code>tmux</code> 出场的地方。</p>
+<blockquote>
+<p>来自 [[Claude Code入门指南.md]] 的实践经验：</p>
+</blockquote>
+<p>如果你是在本地轻量用一用，<code>claude</code> 直接开就够了；但只要你开始做远程开发、跑长任务、挂 SSH、晚上让它慢慢干活，<code>tmux</code> 基本就会变成必需品。</p>
+<p>它最大的价值不是"炫技"，而是避免下面这种情况：<br />
+- 任务跑了 1 小时<br />
+- 你合上电脑或者 SSH 断了<br />
+- 会话跟着一起没了</p>
+<p>更稳定的做法是：先进入 <code>tmux</code>，再在 <code>tmux</code> 里运行 Claude Code。即使终端断开，后台会话还在。</p>
+<h4 id="最小命令速查">最小命令速查<a class="headerlink" href="#最小命令速查" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code>tmux<span class="w"> </span>new<span class="w"> </span>-s<span class="w"> </span>claude<span class="w">        </span><span class="c1"># 新建一个名为 claude 的 session</span>
+<span class="c1"># 在里面运行：claude</span>
+
+<span class="c1"># 离开（任务继续跑）</span>
+Ctrl-b<span class="w"> </span>然后按<span class="w"> </span>d<span class="w">           </span><span class="c1"># detach，session 留在后台</span>
+
+<span class="c1"># 任意时间回来（哪怕重启过 SSH）</span>
+tmux<span class="w"> </span>ls<span class="w">                   </span><span class="c1"># 看有哪些 session</span>
+tmux<span class="w"> </span>attach<span class="w"> </span>-t<span class="w"> </span>claude<span class="w">     </span><span class="c1"># 重新接上</span>
+
+<span class="c1"># 杀掉 session</span>
+tmux<span class="w"> </span>kill-session<span class="w"> </span>-t<span class="w"> </span>claude
+</code></pre></div>
+
+<h4 id="worktree-vs-tmux-对比表">worktree vs tmux 对比表<a class="headerlink" href="#worktree-vs-tmux-对比表" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>推荐</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>多 agent 同时改不同分支代码</td>
+<td><strong>worktree</strong></td>
+<td>各自独立 git 树，零冲突</td>
+</tr>
+<tr>
+<td>单 agent 长跑（训练/数据处理/夜跑）</td>
+<td><strong>tmux</strong></td>
+<td>终端断开任务继续</td>
+</tr>
+<tr>
+<td>SSH 远程登录服务器（IHEP / 集群）</td>
+<td><strong>tmux</strong></td>
+<td>必备，否则 disconnect 即死，所有进度归零</td>
+</tr>
+<tr>
+<td>一台机器并行 N 个任务</td>
+<td><strong>二者结合</strong></td>
+<td>tmux 多 window，每个 window 跑一个 worktree</td>
+</tr>
+</tbody>
+</table>
+<p><strong>结论</strong>：worktree 解决"空间隔离"，tmux 解决"时间持久化"。两者正交，不替代。日常服务器工作（尤其是 SSH 远程）几乎一定要用 tmux；多 agent 并行改代码时叠加 worktree。</p>
+<blockquote>
+<p>一份偏向 CC 使用的 tmux 配置：<a href="https://github.com/Pluto235/tmux" target="_blank" rel="noopener">Pluto235/tmux</a>。最省事的安装方法是把仓库链接发给 Claude Code，让它帮你装。</p>
+</blockquote>
+<h3 id="52-batch--fan-out-到几十几百-worktrees">5.2 /batch — Fan Out 到几十/几百 Worktrees<a class="headerlink" href="#52-batch--fan-out-到几十几百-worktrees" title="Permanent link">&para;</a></h3>
+<p><code>/batch</code> 会先<strong>面试你</strong>（用 AskUserQuestion 收集需求），然后 fan out 到尽可能多的 worktree agents 并行干。</p>
+<blockquote>
+<p>/batch = 自动帮你开几十个 agent + worktree，同时改一堆文件</p>
+</blockquote>
+<p><strong>适合场景</strong>：<br />
+- 大型代码迁移（v1 → v2 across 200 files）<br />
+- 批量重构（所有 service 加 logging）<br />
+- 大规模 codemod<br />
+- 多文件统一改名/格式化</p>
+<p>每个 worktree agent <strong>独立工作 + 独立提 PR</strong>，你只负责最后批量合并。</p>
+<p><strong>实战示例</strong>：给 12 个 service 统一加结构化日志</p>
+<div class="codehilite"><pre><span></span><code>&gt; /batch 给所有 services/*.py 加结构化日志（用 structlog），
+  每个 service 单独开 PR，不要堆到同一个 PR 里
+
+[Claude 触发 AskUserQuestion 面试你]
+  Q1: 默认日志级别？     → INFO
+  Q2: 错误也要 stack trace？ → 是
+  Q3: 是否替换已有的 print()？ → 是，全部替换
+
+[确认后 fan out]
+✓ 扫到 12 个 service：auth.py / billing.py / users.py / ... / webhooks.py
+✓ 创建 12 个 worktree：.claude/worktrees/batch-auth, batch-billing, ...
+✓ 12 个 agent 并行启动（每个 agent 只看自己那一个文件 + 共享的 logger 配置）
+
+[~3 分钟后]
+  ✅ feature/log-auth     → PR #2041 opened
+  ✅ feature/log-billing  → PR #2042 opened
+  ✅ feature/log-users    → PR #2043 opened
+  ... (×12)
+
+&gt; 你只批 PR，不写代码。每个 PR 单独 review、单独合并、单独回滚。
+</code></pre></div>
+
+<h4 id="适用判断什么时候该用-batch">适用判断（什么时候该用 /batch）<a class="headerlink" href="#适用判断什么时候该用-batch" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>适合 ✅</th>
+<th>不适合 ❌</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>单文件改动量 &lt; 100 行</td>
+<td>改动跨多个文件且互相依赖</td>
+</tr>
+<tr>
+<td>改法<strong>高度同质</strong>（同一个套路套 N 次）</td>
+<td>每个文件需要不同思考</td>
+</tr>
+<tr>
+<td>能并行 review（PR 互相不依赖）</td>
+<td>必须串行合并（B 依赖 A）</td>
+</tr>
+<tr>
+<td>大型 v1→v2 codemod、批量加 logging、批量补 type hint</td>
+<td>架构级重构、跨服务协议变更</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>核心</strong>：<code>/batch</code> = "我有 N 个独立的同质小任务" → fan out → N 个独立 PR。它不解决复杂耦合任务，只解决"重复劳动"。</p>
+</blockquote>
+<h3 id="53-test-time-compute--双-agent-同模型">5.3 Test-Time Compute — 双 Agent 同模型<a class="headerlink" href="#53-test-time-compute--双-agent-同模型" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>Boris：<em>"Separate context windows make results better; one agent can cause bugs and another (same model) can find them."</em></p>
+</blockquote>
+<div class="codehilite"><pre><span></span><code>            ┌─────────────────┐
+            │  Implementer    │  写代码
+            │  (Sonnet 4.6)   │
+            └────────┬────────┘
+                     │ 提交代码
+                     ▼
+            ┌─────────────────┐
+            │   Reviewer      │  独立 session 找 bug
+            │  (Sonnet 4.6)   │  ← 同模型，不同上下文
+            └─────────────────┘
+</code></pre></div>
+
+<p><strong>关键洞察</strong>：不是让 Claude 自己反思，而是<strong>起一个新 instance</strong> review。同一个模型在不同上下文里，盲点不同。</p>
+<h4 id="怎么实现">怎么实现？<a class="headerlink" href="#怎么实现" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="c1"># 方式 1：spawn subagent</span>
+&gt;<span class="w"> </span>Spin<span class="w"> </span>up<span class="w"> </span>a<span class="w"> </span>reviewer<span class="w"> </span>agent<span class="w"> </span>with<span class="w"> </span>a<span class="w"> </span>fresh<span class="w"> </span>context.<span class="w"> </span>It<span class="w"> </span>should:
+<span class="w">  </span><span class="m">1</span>.<span class="w"> </span>Only<span class="w"> </span><span class="nb">read</span><span class="w"> </span>the<span class="w"> </span>diff<span class="w"> </span><span class="o">(</span>not<span class="w"> </span>the<span class="w"> </span>conversation<span class="w"> </span><span class="nb">history</span><span class="o">)</span>
+<span class="w">  </span><span class="m">2</span>.<span class="w"> </span>Try<span class="w"> </span>to<span class="w"> </span>find<span class="w"> </span>bugs,<span class="w"> </span>security<span class="w"> </span>issues,<span class="w"> </span>edge<span class="w"> </span>cases
+<span class="w">  </span><span class="m">3</span>.<span class="w"> </span>Be<span class="w"> </span>skeptical<span class="w"> </span>—<span class="w"> </span>assume<span class="w"> </span>the<span class="w"> </span>implementer<span class="w"> </span>missed<span class="w"> </span>something
+
+<span class="c1"># 方式 2：另起 Claude 跑 /code-review beta</span>
+$<span class="w"> </span>claude
+&gt;<span class="w"> </span>/code-review<span class="w"> </span>HEAD~1
+</code></pre></div>
+
+<h3 id="54-loop--schedule--让-claude-在你睡觉时工作">5.4 /loop &amp; /schedule — 让 Claude 在你睡觉时工作<a class="headerlink" href="#54-loop--schedule--让-claude-在你睡觉时工作" title="Permanent link">&para;</a></h3>
+<h4 id="loop本地最长-7-天">/loop（本地，最长 7 天）<a class="headerlink" href="#loop本地最长-7-天" title="Permanent link">&para;</a></h4>
+<p>Boris 实际在跑的 loops：</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/loop 5m /babysit</code></td>
+<td>每 5 分钟自动处理 PR review、auto-rebase、推动 PR 到 production</td>
+</tr>
+<tr>
+<td><code>/loop 30m /slack-feedback</code></td>
+<td>每 30 分钟把 Slack 反馈转成 PR</td>
+</tr>
+<tr>
+<td><code>/loop /post-merge-sweeper</code></td>
+<td>自动把漏掉的 review 评论转成 PR</td>
+</tr>
+<tr>
+<td><code>/loop 1h /pr-pruner</code></td>
+<td>每小时关掉过期的 stale PR</td>
+</tr>
+</tbody>
+</table>
+<p><strong>核心思路</strong>：把<strong>周期性 workflow 变成 skill + loop 自动化</strong>。</p>
+<h4 id="schedule云端机器关机也跑">/schedule（云端，机器关机也跑）<a class="headerlink" href="#schedule云端机器关机也跑" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code>/schedule &quot;Every weekday at 9am, summarize yesterday&#39;s PR comments and post to my email&quot;
+</code></pre></div>
+
+<p>Anthropic infrastructure 上跑，独立于你的本地机器。</p>
+<h3 id="55-ralph-wiggum-loop--长跑自主开发">5.5 Ralph Wiggum Loop — 长跑自主开发<a class="headerlink" href="#55-ralph-wiggum-loop--长跑自主开发" title="Permanent link">&para;</a></h3>
+<p>最激进的并行用法：<strong>自主迭代直到完成</strong>。</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># 启动一个能持续跑的循环，每轮：</span>
+<span class="c1"># 1. 看 issue tracker</span>
+<span class="c1"># 2. 选下一个 issue</span>
+<span class="c1"># 3. 写代码 + 测试</span>
+<span class="c1"># 4. 开 PR</span>
+<span class="c1"># 5. 等 review，根据反馈改</span>
+<span class="c1"># 6. 合并</span>
+<span class="c1"># 7. 回 step 1</span>
+</code></pre></div>
+
+<p>参考实现：<a href="https://github.com/shanraisshan/novel-llm-26" target="_blank" rel="noopener">shanraisshan/novel-llm-26</a></p>
+<blockquote>
+<p>🚫👶 这是完全不监督模式，不是新手玩法。</p>
+</blockquote>
+<p><strong>最小可跑示例</strong>：把"good first issue"自动消化成 PR</p>
+<h4 id="step-1在终端启动-loop">Step 1：在终端启动 loop<a class="headerlink" href="#step-1在终端启动-loop" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code>$<span class="w"> </span>claude
+&gt;<span class="w"> </span>/loop<span class="w"> </span>30m<span class="w"> </span>/process-next-issue
+</code></pre></div>
+
+<p>每 30 分钟自动跑一次 <code>/process-next-issue</code> skill，最长持续 7 天（loop 内置上限）。</p>
+<h4 id="step-2写-claudecommandsprocess-next-issuemd">Step 2：写 <code>.claude/commands/process-next-issue.md</code><a class="headerlink" href="#step-2写-claudecommandsprocess-next-issuemd" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code>---
+<span class="gu">description: Pick the next &quot;good first issue&quot;, implement, open PR</span>
+<span class="gu">---</span>
+
+Goal: pick ONE good-first-issue, implement it, open a PR. If no issue, exit cleanly.
+
+Steps:
+<span class="k">1.</span> Run: <span class="sb">`gh issue list --label &quot;good first issue&quot; --state open --assignee &quot;&quot; --limit 1 --json number,title,body`</span>
+<span class="k">2.</span> If the result is empty, print &quot;No issues to process&quot; and exit 0. Do nothing else.
+<span class="k">3.</span> Otherwise:
+   a. <span class="sb">`gh issue edit &lt;n&gt; --add-assignee @me`</span> (claim it so other loop iterations skip it)
+   b. <span class="sb">`git checkout -b fix/issue-&lt;n&gt;`</span> from main
+   c. Read the issue body. Read related files (use Explore subagent to find them).
+   d. Implement the fix.
+   e. Run the full test suite. If anything fails, DO NOT proceed — leave a comment
+      &quot;Attempted, blocked by failing test X. Needs human.&quot; and exit.
+   f. <span class="sb">`gh pr create --title &quot;fix: &lt;issue title&gt; (#&lt;n&gt;)&quot; --body &quot;Closes #&lt;n&gt;\n\n&lt;summary&gt;&quot;`</span>
+<span class="k">4.</span> Done — exit. Loop will fire again in 30 min.
+</code></pre></div>
+
+<h4 id="step-3必须配的两个-hook否则会写出垃圾代码">Step 3：必须配的两个 hook（否则会写出垃圾代码）<a class="headerlink" href="#step-3必须配的两个-hook否则会写出垃圾代码" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;Stop&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span>
+<span class="w">    </span><span class="nt">&quot;hooks&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;command&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pytest -q &amp;&amp; ruff check . || { echo &#39;NOT DONE: tests/lint failed&#39;; exit 2; }&quot;</span>
+<span class="w">    </span><span class="p">}]</span>
+<span class="w">  </span><span class="p">}],</span>
+<span class="w">  </span><span class="nt">&quot;PreToolUse&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span>
+<span class="w">    </span><span class="nt">&quot;matcher&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Bash&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;hooks&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;command&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;echo \&quot;$CLAUDE_BASH_COMMAND\&quot; | grep -E &#39;(rm -rf|push --force|DROP|--no-verify)&#39; &amp;&amp; exit 1 || exit 0&quot;</span>
+<span class="w">    </span><span class="p">}]</span>
+<span class="w">  </span><span class="p">}]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ul>
+<li><strong><code>Stop</code> hook</strong>：每次结束 turn 必须测试和 lint 全绿，否则 harness 让 Claude 继续修。这一条是 Ralph Loop 不变成"自动化垃圾生成器"的命门。</li>
+<li><strong><code>PreToolUse</code> hook</strong>：拦截危险命令，自主长跑场景里你<strong>不在线</strong>，必须把护栏写死。</li>
+</ul>
+<h4 id="实际效果">实际效果<a class="headerlink" href="#实际效果" title="Permanent link">&para;</a></h4>
+<div class="codehilite"><pre><span></span><code>[10:00] /loop 启动
+[10:00] iter 1 → 处理 #142 &quot;Typo in README&quot; → PR #2050 ✅
+[10:30] iter 2 → 处理 #156 &quot;Add --version flag&quot; → 测试 fail → 评论 &quot;blocked&quot; 退出
+[11:00] iter 3 → 处理 #160 &quot;Update deps&quot; → PR #2051 ✅
+[11:30] iter 4 → 没有未认领 issue → exit 0
+[12:00] iter 5 → 没有未认领 issue → exit 0
+... (你睡觉，它继续每 30 min check)
+</code></pre></div>
+
+<blockquote>
+<p><strong>核心警告</strong>：Ralph Loop 是<strong>全自主</strong>模式。没有 Stop hook 强制测试通过、没有 PreToolUse 拦危险命令，<strong>它会写出能编译但不工作的代码、能 merge 但 break prod 的 PR、甚至 <code>rm -rf</code> 你的 repo</strong>。这不是夸张，是 Boris 多次强调的事实。配了 hook 再开，没配就别开。</p>
+</blockquote>
+<hr />
+<h2 id="第六章boris-隐藏王牌-15-招">第六章：Boris 隐藏王牌 15 招<a class="headerlink" href="#第六章boris-隐藏王牌-15-招" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>这是 Boris Cherny（创始人）2026-03-30 在 X 上发的"15 个最被低估的 Claude Code 特性"，几乎每条都能立刻提升生产力。</p>
+</blockquote>
+<h3 id="1-mobile-app--手机也能写代码">1. Mobile App — 手机也能写代码<a class="headerlink" href="#1-mobile-app--手机也能写代码" title="Permanent link">&para;</a></h3>
+<p>iOS / Android 装 Claude App → 进 <strong>Code 标签</strong> → 看修改、批 PR、写代码全在手机。Boris 自己很多代码是从 iOS 写的。</p>
+<h3 id="2-teleport--remote-control--跨设备移动-session">2. Teleport / Remote Control — 跨设备移动 session<a class="headerlink" href="#2-teleport--remote-control--跨设备移动-session" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>方向</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>claude --teleport</code> 或 <code>/teleport</code></td>
+<td>云 session → 本地终端</td>
+</tr>
+<tr>
+<td><code>/remote-control</code> 或 <code>/rc</code></td>
+<td>本地 session → 任意设备控制</td>
+</tr>
+</tbody>
+</table>
+<p>Boris 在 <code>/config</code> 里设置了 <strong>"Enable Remote Control for all sessions"</strong> 默认开启。</p>
+<h3 id="3-loop--schedule--自动化定时任务">3. /loop &amp; /schedule — 自动化定时任务<a class="headerlink" href="#3-loop--schedule--自动化定时任务" title="Permanent link">&para;</a></h3>
+<p>已在第五章详述。<strong>Boris 称这是最强大的两个特性。</strong></p>
+<h3 id="4-hooks--已在第四章详述">4. Hooks — 已在第四章详述<a class="headerlink" href="#4-hooks--已在第四章详述" title="Permanent link">&para;</a></h3>
+<p><code>SessionStart</code> 加载上下文、<code>PreToolUse</code> 日志 bash、<code>PermissionRequest</code> 路由 WhatsApp、<code>Stop</code> 推动继续。</p>
+<h3 id="5-cowork-dispatch--桌面-app-远程控制">5. Cowork Dispatch — 桌面 App 远程控制<a class="headerlink" href="#5-cowork-dispatch--桌面-app-远程控制" title="Permanent link">&para;</a></h3>
+<p>不写代码时 Boris 在用 <strong>Dispatch</strong>：从手机控制 Claude Desktop App，处理 Slack、邮件、文件管理 — 用你的 MCP、浏览器、电脑（需授权）。</p>
+<h3 id="6-chrome-扩展--前端必备">6. Chrome 扩展 — 前端必备<a class="headerlink" href="#6-chrome-扩展--前端必备" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p><em>"The most important tip: give Claude a way to verify its output."</em></p>
+</blockquote>
+<p>写网页代码时 Boris 必开 Chrome 扩展。<strong>比让 Claude 自己想象 UI 长什么样靠谱 100 倍</strong>。</p>
+<h3 id="7-desktop-app-自动跑-web-server--内置浏览器测试">7. Desktop App 自动跑 web server + 内置浏览器测试<a class="headerlink" href="#7-desktop-app-自动跑-web-server--内置浏览器测试" title="Permanent link">&para;</a></h3>
+<p>如果你用 Desktop App，它能自动启动你的 dev server、用内置浏览器访问、看 console、截图。</p>
+<h3 id="8-branch--fork-你的-session">8. /branch — Fork 你的 Session<a class="headerlink" href="#8-branch--fork-你的-session" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># 方式 1：在当前 session 内</span>
+&gt;<span class="w"> </span>/branch
+<span class="c1"># 你现在在 fork 出来的分支里。回原 session：</span>
+$<span class="w"> </span>claude<span class="w"> </span>-r<span class="w"> </span>&lt;original-session-id&gt;
+
+<span class="c1"># 方式 2：CLI</span>
+$<span class="w"> </span>claude<span class="w"> </span>--resume<span class="w"> </span>&lt;session-id&gt;<span class="w"> </span>--fork-session
+</code></pre></div>
+
+<p><strong>典型场景</strong>：当前 session 里想试一个<strong>冒险的 refactor</strong> 但不想污染主线，<code>/branch</code> 试试看，不行就回原 session。</p>
+<h3 id="9-btw--不打断-agent-的侧问">9. /btw — 不打断 Agent 的侧问<a class="headerlink" href="#9-btw--不打断-agent-的侧问" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>[Agent 正在跑长任务]
+&gt; /btw how do I spell dachshund?
+&gt; dachshund — German for &quot;badger dog&quot;
+[Agent 继续跑，没被打断]
+</code></pre></div>
+
+<p>写 prompt 写一半想查个东西？用 <code>/btw</code>。</p>
+<h3 id="10-git-worktrees--已在第五章详述">10. Git Worktrees — 已在第五章详述<a class="headerlink" href="#10-git-worktrees--已在第五章详述" title="Permanent link">&para;</a></h3>
+<p><code>claude -w</code> 启动 worktree session。Boris：<em>"dozens of Claudes at all times."</em></p>
+<h3 id="11-batch--已在第五章详述">11. /batch — 已在第五章详述<a class="headerlink" href="#11-batch--已在第五章详述" title="Permanent link">&para;</a></h3>
+<p>fan out 到几十/几百 worktree agents。</p>
+<h3 id="12---bare--sdk-启动加速-10x">12. <code>--bare</code> — SDK 启动加速 10x<a class="headerlink" href="#12---bare--sdk-启动加速-10x" title="Permanent link">&para;</a></h3>
+<p>非交互场景（<code>claude -p</code> 或 SDK）默认会扫所有 CLAUDE.md / settings / MCPs。<code>--bare</code> 跳过这些：</p>
+<div class="codehilite"><pre><span></span><code>claude<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;summarize this codebase&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-format<span class="o">=</span>stream-json<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--verbose<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--bare<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--system-prompt<span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--mcp-config<span class="w"> </span><span class="s2">&quot;...&quot;</span>
+</code></pre></div>
+
+<blockquote>
+<p>未来会变默认，现在手动加 flag。</p>
+</blockquote>
+<h3 id="13---add-dir--add-dir--跨多-repo-工作">13. <code>--add-dir</code> / <code>/add-dir</code> — 跨多 repo 工作<a class="headerlink" href="#13---add-dir--add-dir--跨多-repo-工作" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>claude<span class="w"> </span>--add-dir<span class="w"> </span>../other-repo<span class="w"> </span>--add-dir<span class="w"> </span>../another-repo
+</code></pre></div>
+
+<p>或团队 <code>settings.json</code> 里：</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span><span class="w"> </span><span class="nt">&quot;additionalDirectories&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;../shared-lib&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+
+<p>不只是告诉 Claude 知道这些目录，还<strong>给了它在这些目录工作的权限</strong>。</p>
+<h3 id="14---agent--启动时直接进自定义-agent">14. <code>--agent</code> — 启动时直接进自定义 agent<a class="headerlink" href="#14---agent--启动时直接进自定义-agent" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>claude<span class="w"> </span>--agent<span class="o">=</span>db-migration-reviewer
+</code></pre></div>
+
+<p>整个 session 用这个 agent 的工具集、模型、initialPrompt。</p>
+<h3 id="15-额外auto-mode--替代-dangerously-skip-permissions">15. （额外）Auto Mode — 替代 dangerously-skip-permissions<a class="headerlink" href="#15-额外auto-mode--替代-dangerously-skip-permissions" title="Permanent link">&para;</a></h3>
+<p>详见第七章。</p>
+<hr />
+<h2 id="第七章opus-47-时代的全新工作流">第七章：Opus 4.7 时代的全新工作流<a class="headerlink" href="#第七章opus-47-时代的全新工作流" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>Opus 4.7 + Boris 经过几周 dogfood 后总结的<strong>6 个新最佳实践</strong>。</p>
+</blockquote>
+<h3 id="71-auto-mode--告别权限提示">7.1 Auto Mode — 告别权限提示<a class="headerlink" href="#71-auto-mode--告别权限提示" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p><em>"Opus 4.7 loves doing complex, long-running tasks. In the past you either babysit, or use --dangerously-skip-permissions."</em></p>
+</blockquote>
+<p><strong>Auto Mode</strong> = 模型分类器决定每个命令是否安全：<br />
+- 安全 → 自动批准<br />
+- 风险 → 暂停问你</p>
+<p><strong>激活</strong>：Shift+Tab 在 <code>Ask permissions → Plan mode → Auto mode</code> 之间切换。</p>
+<blockquote>
+<p>Max / Teams / Enterprise 用户可用。<strong>不再需要 <code>--dangerously-skip-permissions</code>。</strong><br />
+<strong>虽然有Auto Model，但是我还是喜欢用cc alias 到--dangerously-skip-permissions来启动。</strong></p>
+</blockquote>
+<h3 id="72-fewer-permission-prompts--自动调权限">7.2 /fewer-permission-prompts — 自动调权限<a class="headerlink" href="#72-fewer-permission-prompts--自动调权限" title="Permanent link">&para;</a></h3>
+<p>新 skill：<strong>扫描你的 session history</strong>，找出"安全但反复弹权限"的 bash/MCP 命令，输出推荐 allowlist。</p>
+<div class="codehilite"><pre><span></span><code>&gt;<span class="w"> </span>/fewer-permission-prompts
+&gt;<span class="w"> </span>发现以下命令安全但反复弹权限：
+<span class="w">  </span>-<span class="w"> </span>npm<span class="w"> </span><span class="nb">test</span>
+<span class="w">  </span>-<span class="w"> </span>npm<span class="w"> </span>run<span class="w"> </span>lint
+<span class="w">  </span>-<span class="w"> </span>git<span class="w"> </span>status
+<span class="w">  </span>-<span class="w"> </span>bq<span class="w"> </span>query<span class="w"> </span>--dry-run
+&gt;<span class="w"> </span>已生成推荐<span class="w"> </span>allowlist，复制到你的<span class="w"> </span>.claude/settings.json：
+<span class="w">  </span><span class="o">{</span><span class="w"> </span><span class="s2">&quot;permissions&quot;</span>:<span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="s2">&quot;allow&quot;</span>:<span class="w"> </span><span class="o">[</span><span class="s2">&quot;Bash(npm test)&quot;</span>,<span class="w"> </span><span class="s2">&quot;Bash(npm run lint)&quot;</span>,<span class="w"> </span>...<span class="o">]</span><span class="w"> </span><span class="o">}</span><span class="w"> </span><span class="o">}</span>
+</code></pre></div>
+
+<h3 id="73-recaps--长任务回顾">7.3 Recaps — 长任务回顾<a class="headerlink" href="#73-recaps--长任务回顾" title="Permanent link">&para;</a></h3>
+<p>长 session 回来，自动给你看 Claude 干了啥 + 下一步：</p>
+<div class="codehilite"><pre><span></span><code>* Cogitated for 6m 27s
+
+* recap: Fixing the post-submit transcript shift bug. The styling-flash
+  part is shipped as PR #29869. Next: I need a screen recording of the
+  remaining horizontal rewrap on `cc -c` to target that separate cause.
+</code></pre></div>
+
+<p><code>/config</code> 关闭。</p>
+<h3 id="74-focus-mode--极简界面">7.4 Focus Mode — 极简界面<a class="headerlink" href="#74-focus-mode--极简界面" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>&gt; /focus
+</code></pre></div>
+
+<p>隐藏所有中间过程（工具调用、思考、文件读写），<strong>只看最终结果</strong>。</p>
+<blockquote>
+<p>Boris：<em>"The model has reached a point where I generally trust it to run the right commands. I just look at the final result."</em></p>
+</blockquote>
+<h3 id="75-effort-slider--调智能速度">7.5 Effort Slider — 调智能/速度<a class="headerlink" href="#75-effort-slider--调智能速度" title="Permanent link">&para;</a></h3>
+<p>Opus 4.7 用 <strong>adaptive thinking</strong>（不再是 thinking budget）：</p>
+<div class="codehilite"><pre><span></span><code>速度  ◀── low · medium · high · xhigh · max ──▶  智能
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>选项</th>
+<th>适合场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>low</code></td>
+<td>简单 refactor、改名、bash 跑命令</td>
+</tr>
+<tr>
+<td><code>medium</code></td>
+<td>默认，日常代码</td>
+</tr>
+<tr>
+<td><code>high</code></td>
+<td>复杂 debug、架构决策</td>
+</tr>
+<tr>
+<td><code>xhigh</code></td>
+<td>跨文件大重构</td>
+</tr>
+<tr>
+<td><code>max</code></td>
+<td>安全审查、性能优化、对正确性极敏感</td>
+</tr>
+</tbody>
+</table>
+<h3 id="76-verification--opus-47-时代最重要的事">7.6 Verification — Opus 4.7 时代最重要的事<a class="headerlink" href="#76-verification--opus-47-时代最重要的事" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p><em>"4.7 is 2-3x what you get out of Claude, so verification matters more than ever."</em></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>任务类型</th>
+<th>让 Claude 怎么验证</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Backend</td>
+<td>跑你的 server / service，端到端测试</td>
+</tr>
+<tr>
+<td>Frontend</td>
+<td>用 Chrome 扩展控制浏览器，截图比对</td>
+</tr>
+<tr>
+<td>Desktop App</td>
+<td>用 Computer Use（macOS）</td>
+</tr>
+<tr>
+<td>数据处理</td>
+<td>跑指标对比 baseline</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Boris 现在标准 prompt</strong>：<code>Claude do &lt;task&gt;, then /go</code></p>
+<p><code>/go</code> 是个 skill，自动：<br />
+1. 端到端测试<br />
+2. <code>/simplify</code> 去重<br />
+3. 开 PR</p>
+<blockquote>
+<p><strong>回来时，你不用怀疑代码是否真 work — 它已经被验证过了。</strong></p>
+</blockquote>
+<hr />
+<h2 id="第八章演讲脚本推荐-30-分钟版本">第八章：演讲脚本（推荐 30 分钟版本）<a class="headerlink" href="#第八章演讲脚本推荐-30-分钟版本" title="Permanent link">&para;</a></h2>
+<h3 id="时间分配">时间分配<a class="headerlink" href="#时间分配" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>时间</th>
+<th>内容</th>
+<th>重点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>0-3 min</strong></td>
+<td>开场：三层境界 + L1/L2/L3 自我诊断</td>
+<td>让大家代入"我目前在哪一层"</td>
+</tr>
+<tr>
+<td><strong>3-10 min</strong></td>
+<td>第一章：上下文管理</td>
+<td>40% 法则 + 五选一决策 + Rewind &gt; Correct（<strong>最高密度干货</strong>）</td>
+</tr>
+<tr>
+<td><strong>10-15 min</strong></td>
+<td>第二章：三大原语</td>
+<td>决策树 + Skill description 写法对比（<strong>给 demo</strong>）</td>
+</tr>
+<tr>
+<td><strong>15-20 min</strong></td>
+<td>第三章：Skill 工程学</td>
+<td>9 大分类 + 9 法则中挑 3-4 条讲（Gotchas、Description、Progressive Disclosure）</td>
+</tr>
+<tr>
+<td><strong>20-23 min</strong></td>
+<td>第四章：Hooks</td>
+<td>hook vs CLAUDE.md 对比表（<strong>最易记的反差</strong>）</td>
+</tr>
+<tr>
+<td><strong>23-26 min</strong></td>
+<td>第六章：Boris 王牌</td>
+<td>挑 5 个最炫的：worktrees、/batch、/loop、Chrome、auto mode</td>
+</tr>
+<tr>
+<td><strong>26-30 min</strong></td>
+<td>第七章 + Q&amp;A</td>
+<td>Opus 4.7 时代的新东西 + 问答</td>
+</tr>
+</tbody>
+</table>
+<h3 id="演讲核心-hook开场金句">演讲核心 Hook（开场金句）<a class="headerlink" href="#演讲核心-hook开场金句" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>"我用 Claude Code 半年，前 4 个月把它当 ChatGPT 用。<br />
+直到我读了 Boris 和 Thariq 写的官方实践，才发现：<br />
+<strong>真正的 AI 编程不是写更好的 prompt，是设计更好的系统。</strong><br />
+今天用 30 分钟，把这套系统拆给你们看。"</p>
+</blockquote>
+<h3 id="demo-建议强烈推荐">Demo 建议（强烈推荐）<a class="headerlink" href="#demo-建议强烈推荐" title="Permanent link">&para;</a></h3>
+<p>如果时间允许，<strong>现场跑一个 mini orchestration</strong>：<br />
+1. 写一个 <code>/research-paper</code> command<br />
+2. 它调用一个 paper-fetcher agent（预加载 arxiv-search skill）<br />
+3. 它再调用一个 paper-summarizer skill 输出 markdown</p>
+<p>这比任何 PPT 都直观。<strong>记得演示 <code>/context</code> 看上下文占用，演示 <code>/rewind</code> 回退。</strong></p>
+<h3 id="互动问题让组会不冷场">互动问题（让组会不冷场）<a class="headerlink" href="#互动问题让组会不冷场" title="Permanent link">&para;</a></h3>
+<ul>
+<li>"谁的 CLAUDE.md 写超过 200 行了？"（举手 → 引出第四章 hook 替代方案）</li>
+<li>"谁试过同时跑 2 个 Claude？"（引出 worktrees）</li>
+<li>"谁还在用 <code>--dangerously-skip-permissions</code>？"（引出 auto mode）</li>
+</ul>
+<hr />
+<h2 id="附录-a高频命令速查">附录 A：高频命令速查<a class="headerlink" href="#附录-a高频命令速查" title="Permanent link">&para;</a></h2>
+<h3 id="-必学-12-条">🔑 必学 12 条<a class="headerlink" href="#-必学-12-条" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+<th>出现章节</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Shift+Tab</code></td>
+<td>切 Plan / Auto / Ask 模式</td>
+<td>7.1</td>
+</tr>
+<tr>
+<td><code>Esc Esc</code> 或 <code>/rewind</code></td>
+<td>回退到之前的状态</td>
+<td>1.3</td>
+</tr>
+<tr>
+<td><code>/compact &lt;hint&gt;</code></td>
+<td>带提示压缩，<strong>永远带 hint</strong></td>
+<td>1.4</td>
+</tr>
+<tr>
+<td><code>/clear</code></td>
+<td>切新任务，零腐烂</td>
+<td>1.4</td>
+</tr>
+<tr>
+<td><code>/context</code></td>
+<td>看上下文占用百分比</td>
+<td>1.1</td>
+</tr>
+<tr>
+<td><code>/model</code></td>
+<td>切模型（Opus 规划，Sonnet 执行）</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>ultrathink</code></td>
+<td>触发高强度推理</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>/branch</code></td>
+<td>Fork session 试冒险方案</td>
+<td>6.8</td>
+</tr>
+<tr>
+<td><code>/btw &lt;q&gt;</code></td>
+<td>不打断 agent 的侧问</td>
+<td>6.9</td>
+</tr>
+<tr>
+<td><code>/teleport</code></td>
+<td>把云 session 拉到本地</td>
+<td>6.2</td>
+</tr>
+<tr>
+<td><code>/focus</code></td>
+<td>隐藏中间过程只看结果</td>
+<td>7.4</td>
+</tr>
+<tr>
+<td><code>/fewer-permission-prompts</code></td>
+<td>自动调权限 allowlist</td>
+<td>7.2</td>
+</tr>
+</tbody>
+</table>
+<h3 id="-输入前缀">⚙️ 输入前缀<a class="headerlink" href="#-输入前缀" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>前缀</th>
+<th>作用</th>
+<th>例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/</code></td>
+<td>触发 command/skill</td>
+<td><code>/ship</code></td>
+</tr>
+<tr>
+<td><code>!</code></td>
+<td>在 shell 直接执行</td>
+<td><code>!git status</code></td>
+</tr>
+<tr>
+<td><code>@</code></td>
+<td>引用文件/MCP 资源</td>
+<td><code>@src/auth.ts</code></td>
+</tr>
+<tr>
+<td><code>#</code></td>
+<td>快速记忆到 CLAUDE.md</td>
+<td><code># 用 snake_case</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="-cli-启动-flag">🏁 CLI 启动 flag<a class="headerlink" href="#-cli-启动-flag" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>claude</code></td>
+<td>普通启动</td>
+</tr>
+<tr>
+<td><code>claude -w</code></td>
+<td>在新 worktree 启动</td>
+</tr>
+<tr>
+<td><code>claude -p "..."</code></td>
+<td>非交互</td>
+</tr>
+<tr>
+<td><code>claude --bare</code></td>
+<td>跳过加载 CLAUDE.md/settings/MCPs，<strong>SDK 加速 10x</strong></td>
+</tr>
+<tr>
+<td><code>claude --add-dir &lt;path&gt;</code></td>
+<td>加额外目录访问</td>
+</tr>
+<tr>
+<td><code>claude --agent=&lt;name&gt;</code></td>
+<td>用自定义 agent 启动</td>
+</tr>
+<tr>
+<td><code>claude -r &lt;session-id&gt;</code></td>
+<td>恢复 session</td>
+</tr>
+<tr>
+<td><code>claude --resume &lt;id&gt; --fork-session</code></td>
+<td>Fork session</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="附录-bsubagents-16-个-frontmatter-字段全表">附录 B：Subagents 16 个 Frontmatter 字段全表<a class="headerlink" href="#附录-bsubagents-16-个-frontmatter-字段全表" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>必填</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td>string</td>
+<td>✅</td>
+<td>唯一标识，小写+连字符</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>string</td>
+<td>✅</td>
+<td>何时调用；写 <code>"PROACTIVELY"</code> 自动调用</td>
+</tr>
+<tr>
+<td><code>tools</code></td>
+<td>string/list</td>
+<td>❌</td>
+<td>工具白名单。支持 <code>Agent(agent_type)</code></td>
+</tr>
+<tr>
+<td><code>disallowedTools</code></td>
+<td>string/list</td>
+<td>❌</td>
+<td>工具黑名单</td>
+</tr>
+<tr>
+<td><code>model</code></td>
+<td>string</td>
+<td>❌</td>
+<td><code>sonnet</code> / <code>opus</code> / <code>haiku</code> / 完整 ID / <code>inherit</code></td>
+</tr>
+<tr>
+<td><code>permissionMode</code></td>
+<td>string</td>
+<td>❌</td>
+<td><code>default</code> / <code>acceptEdits</code> / <code>auto</code> / <code>dontAsk</code> / <code>bypassPermissions</code> / <code>plan</code></td>
+</tr>
+<tr>
+<td><code>maxTurns</code></td>
+<td>integer</td>
+<td>❌</td>
+<td>最大 agentic turns</td>
+</tr>
+<tr>
+<td><code>skills</code></td>
+<td>list</td>
+<td>❌</td>
+<td>启动时<strong>预加载</strong>的 skills（完整内容注入）</td>
+</tr>
+<tr>
+<td><code>mcpServers</code></td>
+<td>list</td>
+<td>❌</td>
+<td>这个 agent 可用的 MCP servers</td>
+</tr>
+<tr>
+<td><code>hooks</code></td>
+<td>object</td>
+<td>❌</td>
+<td>仅本 agent 生效的生命周期 hooks</td>
+</tr>
+<tr>
+<td><code>memory</code></td>
+<td>string</td>
+<td>❌</td>
+<td><code>user</code> / <code>project</code> / <code>local</code></td>
+</tr>
+<tr>
+<td><code>background</code></td>
+<td>boolean</td>
+<td>❌</td>
+<td>true = 总是后台跑</td>
+</tr>
+<tr>
+<td><code>effort</code></td>
+<td>string</td>
+<td>❌</td>
+<td>Opus 4.6 only：<code>low</code>/<code>medium</code>/<code>high</code>/<code>max</code></td>
+</tr>
+<tr>
+<td><code>isolation</code></td>
+<td>string</td>
+<td>❌</td>
+<td><code>"worktree"</code> = 在临时 worktree 跑</td>
+</tr>
+<tr>
+<td><code>initialPrompt</code></td>
+<td>string</td>
+<td>❌</td>
+<td>自动作为第一轮用户输入提交</td>
+</tr>
+<tr>
+<td><code>color</code></td>
+<td>string</td>
+<td>❌</td>
+<td>task list 颜色：red/blue/green/yellow/purple/orange/pink/cyan</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="附录-cskills-15-个-frontmatter-字段全表">附录 C：Skills 15 个 Frontmatter 字段全表<a class="headerlink" href="#附录-cskills-15-个-frontmatter-字段全表" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>必填</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td>string</td>
+<td>❌</td>
+<td>默认 = 目录名</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>string</td>
+<td>推荐</td>
+<td><strong>写给模型看的触发器</strong>，自动补全和自动发现都用它</td>
+</tr>
+<tr>
+<td><code>when_to_use</code></td>
+<td>string</td>
+<td>❌</td>
+<td>补充触发场景，受 1536 字符上限</td>
+</tr>
+<tr>
+<td><code>argument-hint</code></td>
+<td>string</td>
+<td>❌</td>
+<td>自动补全提示（如 <code>[issue-number]</code>）</td>
+</tr>
+<tr>
+<td><code>arguments</code></td>
+<td>string/list</td>
+<td>❌</td>
+<td>命名位置参数，对应 <code>$name</code></td>
+</tr>
+<tr>
+<td><code>disable-model-invocation</code></td>
+<td>boolean</td>
+<td>❌</td>
+<td>true = 禁止 Claude 自动调用</td>
+</tr>
+<tr>
+<td><code>user-invocable</code></td>
+<td>boolean</td>
+<td>❌</td>
+<td>false = 隐藏在 <code>/</code> 菜单（仅供 agent 预加载）</td>
+</tr>
+<tr>
+<td><code>allowed-tools</code></td>
+<td>string</td>
+<td>❌</td>
+<td>skill 激活时免提示的工具</td>
+</tr>
+<tr>
+<td><code>model</code></td>
+<td>string</td>
+<td>❌</td>
+<td>这个 skill 跑在什么模型</td>
+</tr>
+<tr>
+<td><code>effort</code></td>
+<td>string</td>
+<td>❌</td>
+<td><code>low</code>/<code>medium</code>/<code>high</code>/<code>xhigh</code>/<code>max</code></td>
+</tr>
+<tr>
+<td><code>context</code></td>
+<td>string</td>
+<td>❌</td>
+<td><code>fork</code> = 在隔离 subagent 里跑</td>
+</tr>
+<tr>
+<td><code>agent</code></td>
+<td>string</td>
+<td>❌</td>
+<td>配合 <code>context: fork</code>，指定 agent 类型（默认 <code>general-purpose</code>）</td>
+</tr>
+<tr>
+<td><code>hooks</code></td>
+<td>object</td>
+<td>❌</td>
+<td>仅本 skill 生效的 hooks</td>
+</tr>
+<tr>
+<td><code>paths</code></td>
+<td>string/list</td>
+<td>❌</td>
+<td>glob 模式 — 仅匹配文件时加载</td>
+</tr>
+<tr>
+<td><code>shell</code></td>
+<td>string</td>
+<td>❌</td>
+<td><code>bash</code>（默认）/ <code>powershell</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="附录-d官方内置原语清单">附录 D：官方内置原语清单<a class="headerlink" href="#附录-d官方内置原语清单" title="Permanent link">&para;</a></h2>
+<h3 id="5-个官方-subagents">5 个官方 Subagents<a class="headerlink" href="#5-个官方-subagents" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Agent</th>
+<th>模型</th>
+<th>工具</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>general-purpose</code></td>
+<td>inherit</td>
+<td>All</td>
+<td>复杂多步任务，研究/搜索/自主工作</td>
+</tr>
+<tr>
+<td><code>Explore</code></td>
+<td>haiku</td>
+<td>Read-only</td>
+<td><strong>快速代码库搜索</strong>，找文件、搜代码、答问</td>
+</tr>
+<tr>
+<td><code>Plan</code></td>
+<td>inherit</td>
+<td>Read-only</td>
+<td><strong>Plan mode 中的预研</strong>，探索 + 设计实现方案</td>
+</tr>
+<tr>
+<td><code>statusline-setup</code></td>
+<td>sonnet</td>
+<td>Read, Edit</td>
+<td>配置 Claude Code 状态栏</td>
+</tr>
+<tr>
+<td><code>claude-code-guide</code></td>
+<td>haiku</td>
+<td>Glob/Grep/Read/WebFetch/WebSearch</td>
+<td>答 Claude Code 相关问题</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>最常用</strong>：Explore（搜索）、Plan（plan mode 预研）。</p>
+</blockquote>
+<h3 id="5-个官方-skills">5 个官方 Skills<a class="headerlink" href="#5-个官方-skills" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Skill</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>simplify</code></td>
+<td>审查改动代码，去重、提质量、提效率</td>
+</tr>
+<tr>
+<td><code>batch</code></td>
+<td>在多个文件批量执行命令</td>
+</tr>
+<tr>
+<td><code>debug</code></td>
+<td>调试失败命令或代码问题</td>
+</tr>
+<tr>
+<td><code>loop</code></td>
+<td>循环跑某 prompt/skill（最长 3 天）</td>
+</tr>
+<tr>
+<td><code>claude-api</code></td>
+<td>构建 Claude API / Anthropic SDK 应用，<strong>自动在 import 时触发</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="-一页总结把这页贴到工位">🎓 一页总结：把这页贴到工位<a class="headerlink" href="#-一页总结把这页贴到工位" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code>═══════════════════════════════════════════════════════════════════
+              CLAUDE CODE 进阶心法（一页纸）
+═══════════════════════════════════════════════════════════════════
+
+▶ 上下文管理（最重要）
+  • 40% 法则：超 40% 智能开始下降，60% 必须处理
+  • 五选一：Continue / Rewind / Compact / Clear / Subagent
+  • 反直觉：Rewind &gt; Correct（错了就回退，别在错的基础上修）
+  • Compact 永远带 hint：/compact focus on auth, drop debug noise
+
+▶ 三大原语
+  Command  = 你触发的 workflow（.claude/commands/）
+  Skill    = Claude 自动加载的能力（.claude/skills/&lt;name&gt;/）
+  Agent    = 隔离上下文执行单元（.claude/agents/）
+  Hook     = harness 跑的确定性事件钩子（settings.json）
+
+▶ Skill 9 法则（Thariq）
+  1. 不要陈述显然，写让 Claude 跳出默认的内容
+  2. Gotchas 章节是最高信噪比内容
+  3. Skill 是文件夹（progressive disclosure）
+  4. 给目标和约束，不要给步骤
+  5. 用 config.json + AskUserQuestion 处理 setup
+  6. description 是写给模型的触发器
+  7. 用 ${CLAUDE_PLUGIN_DATA} 存数据
+  8. 存脚本让 Claude 组合而不是重写
+  9. on-demand hooks 在 skill 激活时生效
+
+▶ 反模式（一定避免）
+  ❌ 主 session 干所有事 → 用 subagent / 切 session
+  ❌ 错了再 prompt 修 → /rewind
+  ❌ CLAUDE.md 写硬性约束 → 用 Hook
+  ❌ auto-compact 自然触发 → 主动 /compact &lt;hint&gt;
+  ❌ 通用 agent 一把梭 → feature-specific agent + skills
+  ❌ --dangerously-skip-permissions → auto mode
+  ❌ 让 Claude 想象 UI → Chrome 扩展
+
+▶ Boris 写代码标准 prompt
+  Claude do &lt;task&gt;, then /go
+  其中 /go = 测试 + /simplify + 开 PR
+
+▶ 每天三件事
+  1. claude --update（每天有新功能）
+  2. 读 CHANGELOG.md
+  3. /usage 看预算
+═══════════════════════════════════════════════════════════════════
+</code></pre></div>
+
+<hr />
+<h2 id="-进阶资源">📖 进阶资源<a class="headerlink" href="#-进阶资源" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>cc自己找的，我还只看了一部分。。。</p>
+</blockquote>
+<h3 id="必看视频按价值排序">必看视频（按价值排序）<a class="headerlink" href="#必看视频按价值排序" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong><a href="https://youtu.be/julbw1JuAz0" target="_blank" rel="noopener">Building Claude Code with Boris Cherny</a></strong> — The Pragmatic Engineer（最全）</li>
+<li><strong><a href="https://youtu.be/PQU9o_5rHC4" target="_blank" rel="noopener">Inside Claude Code With Its Creator</a></strong> — Y Combinator</li>
+<li><strong><a href="https://youtu.be/YwZR6tc7qYg" target="_blank" rel="noopener">Everything We Got Wrong About Research-Plan-Implement (Dex)</a></strong> — MLOps Community</li>
+<li><strong><a href="https://youtu.be/IDSAMqip6ms" target="_blank" rel="noopener">The Secrets of Claude Code From the Engineers Who Built It</a></strong> — Every</li>
+</ol>
+<h3 id="必读一手帖按时间倒序">必读一手帖（按时间倒序）<a class="headerlink" href="#必读一手帖按时间倒序" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><a href="https://x.com/bcherny" target="_blank" rel="noopener">6 Tips for Getting More Out of Opus 4.7 (Boris) | 2026-04-16</a></strong></li>
+<li><strong><a href="https://x.com/trq212" target="_blank" rel="noopener">Session Management &amp; 1M Context (Thariq) | 2026-04-16</a></strong></li>
+<li><strong><a href="https://x.com/bcherny/status/2038454336355999749" target="_blank" rel="noopener">15 Hidden &amp; Under-Utilized Features (Boris) | 2026-03-30</a></strong></li>
+<li><strong><a href="https://x.com/trq212/status/2033949937936085378" target="_blank" rel="noopener">How We Use Skills (Thariq) | 2026-03-17</a></strong></li>
+<li><strong><a href="https://x.com/trq212/status/2024574133011673516" target="_blank" rel="noopener">Prompt Caching Is Everything (Thariq) | 2026-02-20</a></strong></li>
+</ul>
+<h3 id="核心仓库">核心仓库<a class="headerlink" href="#核心仓库" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="https://github.com/shanraisshan/claude-code-best-practice" target="_blank" rel="noopener">shanraisshan/claude-code-best-practice</a> — 本手册的内容来源</li>
+<li><a href="https://github.com/shanraisshan/claude-code-hooks" target="_blank" rel="noopener">shanraisshan/claude-code-hooks</a> — Hooks 模板大全</li>
+<li><a href="https://github.com/anthropics/skills" target="_blank" rel="noopener">anthropics/skills</a> — 官方 Skills 仓库</li>
+<li><a href="https://github.com/obra/superpowers" target="_blank" rel="noopener">obra/superpowers</a> — 166k ⭐ 最受欢迎的 TDD-first 框架</li>
+<li><a href="https://github.com/github/spec-kit" target="_blank" rel="noopener">github/spec-kit</a> — 90k ⭐ spec-driven 开发</li>
+</ul>
+<h3 id="关注的人x--twitter">关注的人（X / Twitter）<a class="headerlink" href="#关注的人x--twitter" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><a href="https://x.com/bcherny" target="_blank" rel="noopener">@bcherny</a></strong> — Boris Cherny，Claude Code 创始人</li>
+<li><strong><a href="https://x.com/trq212" target="_blank" rel="noopener">@trq212</a></strong> — Thariq，Anthropic Skills/Session 专家</li>
+<li><strong><a href="https://x.com/_catwu" target="_blank" rel="noopener">@_catwu</a></strong> — Cat Wu，Claude Code 工作流</li>
+<li><strong><a href="https://x.com/dexhorthy" target="_blank" rel="noopener">@dexhorthy</a></strong> — Dex，HumanLayer 创始人</li>
+<li><strong><a href="https://x.com/lydiahallie" target="_blank" rel="noopener">@lydiahallie</a></strong> — Lydia，Skills 进阶玩法</li>
+</ul>
+<hr />
+<blockquote>
+<p><strong>结尾献词</strong>：</p>
+<p><em>"The best Claude Code users don't write better prompts — they design better systems."</em> — Boris Cherny</p>
+<p>你在 L1 时，Claude Code 是聊天框。<br />
+你在 L2 时，Claude Code 是工具。<br />
+你在 L3 时，Claude Code 是你<strong>自己设计的智能体系统</strong>。</p>
+<p>这份手册的所有内容，都只为推你迈出从 L2 到 L3 的那一步。</p>
+<p>然后你会发现 — <strong>AI 编程的真正瓶颈不在模型，在你怎么编排它。</strong></p>
+</blockquote>
+<hr />
+<p><strong>手册版本</strong>：v1.0<br />
+<strong>最后更新</strong>：2026-04-26<br />
+<strong>Claude Code 版本</strong>：v2.1.118 / Opus 4.7</p>
+    </article>
+    <footer class="page-footer">
+      <span>更新于 2026-05-12</span>
+      <a href="https://github.com/Pluto235/any-reports" target="_blank" rel="noopener">View on GitHub →</a>
+    </footer>
+  </main>
+
+  <aside class="anchors" id="anchors">
+    <p class="anchors-title">本页章节</p>
+    <ul>
+      <li><a href="#-写在最前">📢 写在最前：</a></li><li><a href="#-目录">📑 目录</a></li><li><a href="#第一章上下文管理">第一章：上下文管理</a></li><li><a href="#第二章三大原语--commands--agents--skills">第二章：三大原语 — Commands / Agents / Skills</a></li><li><a href="#第三章skill-工程学--anthropic-内部-9-类--9-法则">第三章：Skill 工程学 — Anthropic 内部 9 类 + 9 法则</a></li><li><a href="#第四章hooks--真正确定性的自动化">第四章：Hooks — 真正确定性的自动化</a></li><li><a href="#第五章并行计算--让多个-claude-同时工作">第五章：并行计算 — 让多个 Claude 同时工作</a></li><li><a href="#第六章boris-隐藏王牌-15-招">第六章：Boris 隐藏王牌 15 招</a></li><li><a href="#第七章opus-47-时代的全新工作流">第七章：Opus 4.7 时代的全新工作流</a></li><li><a href="#第八章演讲脚本推荐-30-分钟版本">第八章：演讲脚本（推荐 30 分钟版本）</a></li><li><a href="#附录-a高频命令速查">附录 A：高频命令速查</a></li><li><a href="#附录-bsubagents-16-个-frontmatter-字段全表">附录 B：Subagents 16 个 Frontmatter 字段全表</a></li><li><a href="#附录-cskills-15-个-frontmatter-字段全表">附录 C：Skills 15 个 Frontmatter 字段全表</a></li><li><a href="#附录-d官方内置原语清单">附录 D：官方内置原语清单</a></li><li><a href="#-一页总结把这页贴到工位">🎓 一页总结：把这页贴到工位</a></li><li><a href="#-进阶资源">📖 进阶资源</a></li>
+    </ul>
+  </aside>
+
+</div>
+
+<script>
+// Scroll-spy：高亮当前可视区的章节
+(function () {
+  const navLinks = document.querySelectorAll('.sidebar-nav a, .anchors a');
+  if (!navLinks.length) return;
+
+  const idToLinks = new Map();
+  navLinks.forEach(a => {
+    const id = decodeURIComponent((a.getAttribute('href') || '').replace(/^#/, ''));
+    if (!id) return;
+    if (!idToLinks.has(id)) idToLinks.set(id, []);
+    idToLinks.get(id).push(a);
+  });
+
+  const headings = Array.from(document.querySelectorAll('.content h1, .content h2, .content h3, .content h4'))
+    .filter(h => h.id && idToLinks.has(h.id));
+  if (!headings.length) return;
+
+  let current = null;
+  function setActive(id) {
+    if (current === id) return;
+    if (current && idToLinks.has(current)) {
+      idToLinks.get(current).forEach(a => a.classList.remove('active'));
+    }
+    current = id;
+    if (id && idToLinks.has(id)) {
+      idToLinks.get(id).forEach(a => {
+        a.classList.add('active');
+        // 滚动到 nav 中可视区
+        const sb = a.closest('.sidebar, .anchors');
+        if (sb) {
+          const ar = a.getBoundingClientRect();
+          const sr = sb.getBoundingClientRect();
+          if (ar.top < sr.top || ar.bottom > sr.bottom) {
+            a.scrollIntoView({ block: 'nearest' });
+          }
+        }
+      });
+    }
+  }
+
+  function update() {
+    const offset = 80;
+    let active = headings[0].id;
+    for (const h of headings) {
+      if (h.getBoundingClientRect().top - offset <= 0) {
+        active = h.id;
+      } else {
+        break;
+      }
+    }
+    setActive(active);
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('hashchange', update);
+  update();
+
+  // 移动端：点 nav 后关掉抽屉
+  document.querySelectorAll('.sidebar-nav a').forEach(a => {
+    a.addEventListener('click', () => {
+      document.querySelector('.sidebar')?.classList.remove('open');
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

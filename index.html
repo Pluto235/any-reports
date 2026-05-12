@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>any-reports · 我的报告归档站</title>
+<meta name="description" content="我的工作报告归档站 — HTML 报告托管在 GitHub Pages，多设备访问。">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='14' font-size='14'%3E%F0%9F%93%A6%3C/text%3E%3C/svg%3E">
+<style>
+  .home-layout {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 40px 24px 64px;
+  }
+  .home-meta {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: var(--c-text-mute);
+    margin-bottom: 32px;
+  }
+  .home-meta a { color: var(--c-text-soft); border-bottom: 1px dotted var(--c-border-strong); }
+  .home-meta a:hover { color: var(--c-link); border-color: var(--c-link); }
+  .section-title {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--c-text-mute);
+    margin: 32px 0 14px;
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="topbar-brand" href="index.html">any-reports</a>
+  <nav class="topbar-nav">
+    <a href="https://github.com/Pluto235/any-reports" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+
+<main class="home-layout">
+
+  <section class="hero">
+    <h1>📦 any-reports</h1>
+    <p>我自己的工作报告归档站。各种项目生成的 HTML 报告丢这里，靠 GitHub Pages
+       托管，在任何设备的浏览器里都能打开 — 手机、平板、另一台服务器，都行。</p>
+    <div class="home-meta">
+      <span>Pages: <a href="https://pluto235.github.io/any-reports/">pluto235.github.io/any-reports</a></span>
+      <span>Repo: <a href="https://github.com/Pluto235/any-reports" target="_blank" rel="noopener">github.com/Pluto235/any-reports</a></span>
+    </div>
+  </section>
+
+  <p class="section-title">📚 报告</p>
+  <ul class="report-list">
+
+    <li>
+      <a class="report-card" href="claude-code-advanced-guide.html">
+        <span class="title">Claude Code 进阶实战手册</span>
+        <p class="desc">
+          从 Vibe Coding 到 Agentic Engineering — 把 Claude Code 用法从 L1/L2
+          推到 L3 的高密度实战指南。上下文管理、三大原语、Skill 工程、Hooks、
+          并行计算、Opus 4.7 工作流，1.6k 行 / 8 章 + 4 附录。
+        </p>
+        <span class="meta">
+          <time datetime="2026-04-26">2026-04-26</time>
+          <span class="tag">指南</span>
+          <span class="tag">Claude Code</span>
+          <span class="tag">中文</span>
+        </span>
+      </a>
+    </li>
+
+  </ul>
+
+  <footer class="page-footer" style="margin-top: 3em;">
+    <span>多设备访问的工作报告站点</span>
+    <a href="https://github.com/Pluto235/any-reports" target="_blank" rel="noopener">View on GitHub →</a>
+  </footer>
+
+</main>
+
+</body>
+</html>
