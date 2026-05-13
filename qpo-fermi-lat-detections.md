@@ -14,6 +14,7 @@
 - **方法演化**：LSP + REDFIT + WWZ（最常见组合）→ 加 CWT post-trial + Emmanoulopoulos PSD/PDF Monte Carlo（Ren+22 引入）→ 再加 Gaussian Process (DRW / SHO) + MCMC 物理参数拟合（Sharma+25 集成）。
 - **物理图像**：短周期 (< 1 yr) 偏好 helical jet / plasma blob helical motion；长周期 (> 1 yr) 偏好 SMBBH 轨道进动 / Lense-Thirring；mildly beamed 与 non-blazar 系统讨论 accretion + lighthouse 效应。
 - **发生率**：Chen+24 在 134 blazars 严格筛选下给出 transient QPO 发生率 **~3%**。
+- **LHAASO follow-up 候选**：21 个 unique Fermi QPO 源中 **2 个在 1LHAASO catalog 内** (Mrk 421 → J1104+3810, Mrk 501 → J1653+3943)，11 在视场内未检出，8 超出视场 — 详见末尾 [LHAASO catalog 比对](#lhaaso-catalog-比对vhe-follow-up-候选评估) 节。
 
 ## 主表 — 每篇论文一览
 
@@ -239,6 +240,113 @@
 
 7-day binned 已成 2022 年后的实际标准（短周期 < 1 yr 几乎必须）。
 
+## LHAASO catalog 比对（VHE follow-up 候选评估）
+
+> 本节面向**下一步工作**：用 LHAASO 数据搜寻上述 Fermi QPO 源在 VHE 段的
+> QPO 信号。比对依据为 1LHAASO catalog (Cao et al. 2024, [arXiv:2305.17030](https://arxiv.org/abs/2305.17030))。
+
+### LHAASO 观测窗与 1LHAASO catalog
+
+- 海拔 4410 m（中国四川稻城）；WCDA 1–25 TeV (508 d, 2021-03 → 2022-09)、KM2A >25 TeV (933 d, 2020-01 → 2022-09)
+- **天区覆盖**：Dec −20° 至 +80°
+- 1LHAASO 总数 ~90 源（绝大多数为 Galactic：SNR / PWN / pulsar / UNID）
+- **Extragalactic 仅 3 源**：
+
+| 1LHAASO ID | 对应天体 | 类型 | RA, Dec | TS (≈σ²) | 备注 |
+|---|---|---|---|---|---|
+| J1104+3810 | **Mrk 421** | BL Lac (z=0.030) | 166.07°, +38.18° | 5343.6 (~73σ) | WCDA only；KM2A 无 >25 TeV (EBL 吸收) |
+| J1653+3943 | **Mrk 501** | BL Lac (z=0.034) | 253.43°, +39.73° | 4121.6 (~64σ) | WCDA only |
+| J1219+2915 | NGC 4278 (候选) | LINER AGN (z=0.002) | 184.98°, +29.25° | 50.4 (~7σ) | 高 Galactic latitude，likely extragalactic |
+
+### Fermi QPO 源 × LHAASO 状态三档分类
+
+把本报告 8 篇论文里出现的 21 个 unique Fermi QPO 源按 LHAASO 视场/检出状态分三档。
+
+#### A 档：在 1LHAASO catalog 内（2 源）
+
+| Source | Dec | 类型 | Fermi QPO（Ren+22 Table 2） | 1LHAASO ID | LHAASO 显著性 |
+|---|---|---|---|---|---|
+| **Mrk 421** | +38.18° | BL Lac (z=0.030) | 30d LC: 300±64 d (>5σ, 3 cycles)；7d LC: 300±65 d (>5σ) | J1104+3810 | ~73σ |
+| **Mrk 501** | +39.73° | BL Lac (z=0.034) | 30d LC: 315±98 d (2.9σ)；7d LC: 326±76 d (>5σ, 7 cycles) | J1653+3943 | ~64σ |
+
+⚠️ 上轮报告主表的「完整 QPO 候选列表」里这两个源被归入 Ren+22「其余 ~18 源」未单独列出 — 本节把它们提升为 LHAASO follow-up 关键目标。
+
+#### B 档：LHAASO 视场内但未在 1LHAASO catalog 检出（11 源）
+
+| Source | Dec | 类型 | Fermi QPO 来源 | VHE 现状 / 评注 |
+|---|---|---|---|---|
+| OJ 287 | +20.10° | BL Lac (z=0.306) | Kushwaha+20 (314 d); Ren+22 (~300 d) | MAGIC/VERITAS 偶检；VHE 流强弱 |
+| 4C +01.02 | +01.58° | FSRQ (z=2.099) | Ren+22 (268, 123 d); Chen+24 (253 d) | 高 z FSRQ，VHE 段 EBL 吸收强 |
+| S5 1044+71 | +71.71° | FSRQ (z=1.15) | Ren+22 (**1127 d ★首报**, 117 d) | 高 z + 高纬度 |
+| B2 1520+31 | +31.74° | FSRQ (z=1.489) | Ren+22 (179, 71, 39 d) | 高 z FSRQ |
+| PKS 2247-131 | −12.81° | BL Lac (z=0.22) | Ren+22 (214, 34 d) | 视场内（Dec > −20）；中等 z BL Lac，潜在 VHE 候选 |
+| NGC 1275 | +41.51° | RDG (z=0.0176) | Ren+22 (92 d, 4 cycles, >5σ) | MAGIC 在 ~50 GeV 检出但 TeV 弱 |
+| S4 0954+658 | +65.57° | BL Lac (z=0.367) | Gong+23 (**66 d 9 cycles >5σ**; 210 d) | 已被 IACT 探到；LHAASO marginal |
+| S2 0109+22 | +22.74° | BL Lac (z=0.36) | Zhang+23 (~600 d); Sharma+25 (~667 d) | VHE 暗源 |
+| PKS 0336-01 | −01.78° | FSRQ (z=0.852) | Chen+24 (**94 d ★新发现**) | 高 z FSRQ |
+| PKS 1510-089 | −09.10° | FSRQ (z=0.36) | Ren+22 (~120 d); Chen+24 (92 d, 4.3σ) | HESS/MAGIC 偶检 |
+| PKS 0736+01 | +01.62° | FSRQ (z=0.189) | Sharma+25 (~1449 d, 4σ ★首报) | 低 z FSRQ，VHE 候选潜在 |
+
+#### C 档：超出 LHAASO 视场（Dec < −20°，8 源）
+
+| Source | Dec | 类型 | Fermi QPO 来源 |
+|---|---|---|---|
+| PKS 0521-36 | −36.55° | non-blazar AGN (z=0.056) | Zhang+21 (~1.1 yr); Sharma+23 (268, 295, **806 d**) |
+| PKS 0537-441 | −44.08° | BL Lac (z=0.892) | Ren+22 (~286 d); Chen+24 (**55, 54 d ★新双 transient**) |
+| PKS 0402-362 | −36.09° | FSRQ (z=1.417) | Chen+24 (103.9 d) |
+| PKS 1424-41 | −42.10° | FSRQ (z=1.522) | Chen+24 (**57 d ★新**, 341 d); Sharma+25 (~357 d) |
+| PKS 0244-470 | −46.84° | FSRQ (z=1.385) | Sharma+25 (~225 d) |
+| PKS 0405-385 | −38.43° | FSRQ (z=1.285) | Sharma+25 (~1000 d) |
+| PKS 0208-512 | −51.02° | FSRQ (z=1.003) | Sharma+25 (~909 d) |
+| PKS 0035-252 | −24.99° | FSRQ (z=0.49) | Sharma+25 (~357 d) |
+
+C 档多数为 z > 1 的 FSRQ，VHE 段会被 BLR / EBL 吸收 — 即使在视场内也不必然探到。真正合适的后续阵列是规划中的南天高海拔 **SWGO**。
+
+### 重点候选：Mrk 421 / Mrk 501 — Fermi QPO 周期 vs LHAASO 预期可探性
+
+#### Mrk 421（首选候选）
+
+| 维度 | 数据 |
+|---|---|
+| Fermi QPO 周期 | 300 ± 64 d (Ren+22, 30d binning, >5σ, **3 fitted cycles**) |
+| | 300 ± 65 d (Ren+22, 7d binning, >5σ) — 7d/30d 完全一致 |
+| LHAASO 流强 | 1LHAASO TS=5343.6 (~73σ)，flux ~3.68 Crab unit (WCDA) — **最亮 extragalactic** |
+| LHAASO 数据时长 | ~5 yr 已积累 (2021-03 → 2026 当前)，比 1LHAASO 公开版多 ~3 yr |
+| 周期 vs 数据量 | 300 d × 5 yr ≈ **6 cycles 可期** |
+| binning 可行性 | WCDA 流强足以做 weekly LC（与 IACT 监测兼容） |
+
+**结论**：数据量、显著性、binning 三方面都最利好。LHAASO QPO 搜寻**首选目标**。
+
+#### Mrk 501（次选候选）
+
+| 维度 | 数据 |
+|---|---|
+| Fermi QPO 周期 | 326 ± 76 d (Ren+22, 7d binning, >5σ, **7 fitted cycles**) |
+| | 315 ± 98 d (Ren+22, 30d binning, **2.9σ**) — ⚠️ binning 敏感 |
+| LHAASO 流强 | 1LHAASO TS=4121.6 (~64σ)，flux ~3.77 Crab unit |
+| LHAASO 数据时长 | ~5 yr 已积累 |
+| 周期 vs 数据量 | 326 d × 5 yr ≈ **5–6 cycles** |
+| binning 可行性 | weekly LC 可行但 SNR 弱于 Mrk 421 |
+
+**结论**：值得做，但**marginal**。Mrk 501 在 Fermi 数据里 30d vs 7d binning 显著性差异（2.9σ → >5σ）警示 binning 选择对 QPO 显著性敏感 — 在 LHAASO 端也需多种 binning 验证。
+
+#### LHAASO QPO 搜寻执行建议
+
+1. **优先 Mrk 421**：weekly + monthly 两种 binning 并行
+2. **Mrk 501 作为 binning 敏感性对照源**同时跑
+3. NGC 4278 (1LHAASO 候选 extragalactic, z=0.002, ~7σ) 流强弱，仅作 stacked / long-term check
+4. B 档源待 LHAASO 公开数据扩展后再考虑 stacked analysis
+
+### 比对统计
+
+| 档位 | 数量 | 占比 |
+|---|---|---|
+| A 档 (in 1LHAASO catalog) | 2 / 21 | ~10% |
+| B 档 (视场内未检出) | 11 / 21 | ~52% |
+| C 档 (超出视场) | 8 / 21 | ~38% |
+
+注：1LHAASO catalog 数据截至 2022-09；本节赤纬比对采用 4FGL J2000 坐标。
+
 ## 参考文献
 
 1. **Kushwaha P., Sarkar A., Gupta A. C., Tripathi A., Wiita P. J.**, 2020, *MNRAS*, 499, 653. *A Possible γ-ray Quasi-periodic Oscillation of ~314 days in the Blazar OJ 287.* [arXiv:2009.13754](https://arxiv.org/abs/2009.13754) · [DOI 10.1093/mnras/staa2899](https://doi.org/10.1093/mnras/staa2899)
@@ -249,7 +357,8 @@
 6. **Sharma A., Prince R., Bose D.**, 2023, *MNRAS* (submitted). *Detection of gamma-ray quasi-periodic oscillations in non-blazar AGN PKS 0521-36.* [arXiv:2312.12623](https://arxiv.org/abs/2312.12623)
 7. **Chen J., Yu J., Huang W., Ding N.**, 2024, *MNRAS*, 528, 6807. *Transient quasi-periodic oscillations in the gamma-ray light curves of bright blazars.* [arXiv:2401.10658](https://arxiv.org/abs/2401.10658) · [DOI 10.1093/mnras/stae416](https://doi.org/10.1093/mnras/stae416)
 8. **Sharma A., Chaudhary S., Sarath A., Bose D.**, 2025, preprint. *Exploring Year-timescale Gamma-ray Quasi-Periodic Oscillations in Blazars: Evidence for Supermassive Binary Black Holes Scenario.* [arXiv:2505.23697](https://arxiv.org/abs/2505.23697)
+9. **Cao Z. et al.** (LHAASO Collaboration), 2024, *ApJS*, 271, 25. *The First LHAASO Catalog of Gamma-Ray Sources.* [arXiv:2305.17030](https://arxiv.org/abs/2305.17030) · [DOI 10.3847/1538-4365/acfd29](https://doi.org/10.3847/1538-4365/acfd29) — LHAASO catalog 比对节的数据源
 
 ---
 
-*报告生成：2026-05-13 · 数据来源：上述 8 篇 arXiv PDF（保存在 `/home/server/projects/QPO/docus/`）· 数字与论文原表/正文对应；同一源在不同论文给出不一致周期时，原值保留 — 不在本报告中合并。*
+*报告生成：2026-05-13 · 修订：2026-05-13 加入 LHAASO catalog 比对节 · 数据来源：上述 8 篇 Fermi 论文 + 1LHAASO catalog（保存在 `/mnt/mydisk/server/projects/QPO/data/papers/`）· 数字与论文原表/正文对应；同一源在不同论文给出不一致周期时，原值保留 — 不在本报告中合并。*
