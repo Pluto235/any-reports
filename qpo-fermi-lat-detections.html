@@ -1,0 +1,956 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fermi-LAT QPO 检测调研 (2020–2025) · any-reports</title>
+<meta name="description" content="Fermi-LAT QPO 检测调研 (2020–2025)">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='14' font-size='14'%3E%F0%9F%93%A6%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+
+<header class="topbar">
+  <button class="topbar-toggle" aria-label="目录" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ 目录</button>
+  <a class="topbar-brand" href="index.html">any-reports</a>
+  <nav class="topbar-nav">
+    <a href="index.html">Home</a>
+    <a href="https://github.com/Pluto235/any-reports" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <p class="sidebar-title">📑 目录</p>
+    <nav class="sidebar-nav">
+      <ol><li><a href="#tldr">TL;DR</a></li><li><a href="#主表--每篇论文一览">主表 — 每篇论文一览</a></li><li><a href="#完整-qpo-候选列表每行--一个源--一个-qpo-信号">完整 QPO 候选列表（每行 = 一个源 × 一个 QPO 信号）</a></li><li><a href="#逐篇细读">逐篇细读</a><ol><li><a href="#1-kushwaha-2020--oj-287-arxiv200913754">1. Kushwaha+ 2020 — OJ 287 [arXiv:2009.13754]</a></li><li><a href="#2-zhang-2021--pks-0521-36-arxiv210610040">2. Zhang+ 2021 — PKS 0521-36 [arXiv:2106.10040]</a></li><li><a href="#3-ren-cerruti--sahakyan-2022--35-brightest-agn-arxiv220413051">3. Ren, Cerruti &amp; Sahakyan 2022 — 35 brightest AGN [arXiv:2204.13051]</a></li><li><a href="#4-gong-2023--s4-0954658-arxiv230403085">4. Gong+ 2023 — S4 0954+658 [arXiv:2304.03085]</a></li><li><a href="#5-zhang-2023--s2-010922-arxiv230611579">5. Zhang+ 2023 — S2 0109+22 [arXiv:2306.11579]</a></li><li><a href="#6-sharma-prince--bose-2023--pks-0521-36-arxiv231212623">6. Sharma, Prince &amp; Bose 2023 — PKS 0521-36 [arXiv:2312.12623]</a></li><li><a href="#7-chen-2024--134-blazars-systematic-search-arxiv240110658">7. Chen+ 2024 — 134 blazars systematic search [arXiv:2401.10658]</a></li><li><a href="#8-sharma-2025--7-blazars--smbbh-拟合-arxiv250523697">8. Sharma+ 2025 — 7 blazars + SMBBH 拟合 [arXiv:2505.23697]</a></li></ol></li><li><a href="#跨论文交叉">跨论文交叉</a><ol><li><a href="#同一源在多篇里出现">同一源在多篇里出现</a></li><li><a href="#方法使用频率">方法使用频率</a></li><li><a href="#物理解释优先级">物理解释优先级</a></li></ol></li><li><a href="#显著性-σ-分布">显著性 σ 分布</a></li><li><a href="#数据-binning-约定">数据 binning 约定</a></li><li><a href="#参考文献">参考文献</a></li></ol>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <article>
+      <h1 id="fermi-lat-γ-ray-qpo-检测调研-20202025">Fermi-LAT γ-ray QPO 检测调研 (2020–2025)<a class="headerlink" href="#fermi-lat-γ-ray-qpo-检测调研-20202025" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>范围</strong>：2020–2025 年发表在 arXiv 上、利用 Fermi-LAT γ 射线光变曲线搜寻<br />
+blazar / AGN 准周期振荡 (quasi-periodic oscillation, QPO) 的 <strong>8 篇论文</strong>。<br />
+不包含 TESS 光学和方法学性质论文。</p>
+<p><strong>数据生成日期</strong>：2026-05-13。数据来源于论文摘要、Tables 与 Section 4–5 正文。</p>
+</blockquote>
+<h2 id="tldr">TL;DR<a class="headerlink" href="#tldr" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>论文数</strong>：8（其中 3 篇大样本：Chen+24 扫 134 blazars、Ren+22 扫 35 brightest、Sharma+25 扫 7）。其余 5 篇为单源研究。</li>
+<li><strong>覆盖源</strong>：去重约 30+ 个独立 AGN（含 FSRQ、BL Lac、RDG/non-blazar）。</li>
+<li><strong>周期跨度</strong>：~35 d (PKS 2247-131 短周期) 至 ~3 yr (S5 1044+71 ~1127 d)，主体集中在 50 d–1 yr。</li>
+<li><strong>方法演化</strong>：LSP + REDFIT + WWZ（最常见组合）→ 加 CWT post-trial + Emmanoulopoulos PSD/PDF Monte Carlo（Ren+22 引入）→ 再加 Gaussian Process (DRW / SHO) + MCMC 物理参数拟合（Sharma+25 集成）。</li>
+<li><strong>物理图像</strong>：短周期 (&lt; 1 yr) 偏好 helical jet / plasma blob helical motion；长周期 (&gt; 1 yr) 偏好 SMBBH 轨道进动 / Lense-Thirring；mildly beamed 与 non-blazar 系统讨论 accretion + lighthouse 效应。</li>
+<li><strong>发生率</strong>：Chen+24 在 134 blazars 严格筛选下给出 transient QPO 发生率 <strong>~3%</strong>。</li>
+</ul>
+<h2 id="主表--每篇论文一览">主表 — 每篇论文一览<a class="headerlink" href="#主表--每篇论文一览" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>论文</th>
+<th>样本</th>
+<th>周期范围 / 数量</th>
+<th>最高 σ</th>
+<th>主要方法</th>
+<th>Fermi 数据</th>
+<th>物理解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Kushwaha+ 2020</td>
+<td>OJ 287</td>
+<td>~314 d × 1</td>
+<td>~3σ</td>
+<td>LSP, REDFIT, WWZ</td>
+<td>2008-08 → 2018-02</td>
+<td>quasi-stationary radio knots / SMBBH</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Zhang+ 2021</td>
+<td>PKS 0521-36</td>
+<td>~1.1 yr × 1</td>
+<td>~5σ</td>
+<td>LSP, WWZ, REDFIT, GP</td>
+<td>2008-08 → 2021-03</td>
+<td>γ-ray outburst-driven (mildly beamed)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Ren+ 2022</td>
+<td>35 brightest 4LAC (19 FSRQ + 15 BL Lac + 1 RDG)</td>
+<td>30 d – 1127 d，<strong>36 QPO 候选 in 24 源</strong></td>
+<td>&gt;5σ post-trial</td>
+<td>CWT (Morlet) + global wavelet + Emmanoulopoulos MC</td>
+<td>2008-08 → 2021-04</td>
+<td>SMBBH / jet precession / helical</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Gong+ 2023</td>
+<td>S4 0954+658</td>
+<td>66 d &amp; 210 d</td>
+<td>&gt;5σ (66d)</td>
+<td>LSP, WWZ, REDFIT, epoch fold</td>
+<td>2008 → 2022</td>
+<td>plasma blob helical motion</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Zhang+ 2023</td>
+<td>S2 0109+22</td>
+<td>~600 d</td>
+<td>3.5σ</td>
+<td>LSP, WWZ, REDFIT, phase fold</td>
+<td>2008-08 → 2023-01</td>
+<td>binary BH + lighthouse</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Sharma+ 2023</td>
+<td>PKS 0521-36</td>
+<td>268 d, 295 d, 806 d</td>
+<td>&gt;3σ</td>
+<td>LSP, WWZ, GP (SHO + DRW)</td>
+<td>2008-08 → 2023 (15 yr)</td>
+<td>first long-term QPO in non-blazar AGN</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Chen+ 2024</td>
+<td>134 blazars (flux-limited) → 6 源 8 QPO</td>
+<td>54 d – 341 d</td>
+<td>~4.3σ (PKS 1510-089)</td>
+<td>WWZ + LSP + Emmanoulopoulos MC, 严格 5+ cycles</td>
+<td>2008-08 → ~2021-04</td>
+<td>helical jet (favored)</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Sharma+ 2025</td>
+<td>7 blazars</td>
+<td>~225 d – ~1449 d</td>
+<td>4σ (PKS 0736+01)</td>
+<td>LSP + REDFIT + DRW MC (30k LC) + MCMC SMBBH 拟合</td>
+<td>2008-08 → 2025-04 (15+ yr)</td>
+<td>SMBBH 主导 + jet precession</td>
+</tr>
+</tbody>
+</table>
+<h2 id="完整-qpo-候选列表每行--一个源--一个-qpo-信号">完整 QPO 候选列表（每行 = 一个源 × 一个 QPO 信号）<a class="headerlink" href="#完整-qpo-候选列表每行--一个源--一个-qpo-信号" title="Permanent link">&para;</a></h2>
+<p>按发表年份-论文-显著性排序。同一源出现在不同论文里时多次列出，便于对比。</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Source</th>
+<th>4FGL / 类型</th>
+<th>周期 (d)</th>
+<th>Cycles</th>
+<th>σ</th>
+<th>方法</th>
+<th>论文</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>OJ 287</td>
+<td>J0854.8+2006 / BL Lac</td>
+<td>314</td>
+<td>—</td>
+<td>~3σ</td>
+<td>LSP+REDFIT+WWZ</td>
+<td>Kushwaha+ 2020</td>
+</tr>
+<tr>
+<td>2</td>
+<td>PKS 0521-36</td>
+<td>J0522.9-3628 / non-blazar AGN</td>
+<td>~400 (~1.1 yr)</td>
+<td>—</td>
+<td>~5σ</td>
+<td>LSP+WWZ+REDFIT+GP</td>
+<td>Zhang+ 2021</td>
+</tr>
+<tr>
+<td>3</td>
+<td>4C +01.02</td>
+<td>J0108.6+0134 / FSRQ</td>
+<td>268±55</td>
+<td>4</td>
+<td>&gt;5σ</td>
+<td>CWT 30d</td>
+<td>Ren+ 2022</td>
+</tr>
+<tr>
+<td>4</td>
+<td>4C +01.02</td>
+<td>FSRQ</td>
+<td>123±26 (∼122±26 7d)</td>
+<td>5</td>
+<td>4.7σ / &gt;5σ</td>
+<td>CWT</td>
+<td>Ren+ 2022</td>
+</tr>
+<tr>
+<td>5</td>
+<td>PKS 0537-441</td>
+<td>J0538.8-4405 / BL Lac</td>
+<td>285±67 (∼286±73 7d)</td>
+<td>4</td>
+<td>&gt;5σ</td>
+<td>CWT</td>
+<td>Ren+ 2022</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>S5 1044+71</strong></td>
+<td>J1048.4+7143 / FSRQ</td>
+<td><strong>1127±226</strong> (~3 yr)</td>
+<td>3</td>
+<td>4.6σ post-trial（首报）</td>
+<td>CWT</td>
+<td>Ren+ 2022</td>
+</tr>
+<tr>
+<td>7</td>
+<td>S5 1044+71</td>
+<td>FSRQ</td>
+<td>117±38</td>
+<td>4</td>
+<td>&gt;5σ</td>
+<td>CWT</td>
+<td>Ren+ 2022</td>
+</tr>
+<tr>
+<td>8</td>
+<td>B2 1520+31</td>
+<td>J1522.1+3144 / FSRQ</td>
+<td>179±42</td>
+<td>6</td>
+<td>&gt;5σ</td>
+<td>CWT</td>
+<td>Ren+ 2022</td>
+</tr>
+<tr>
+<td>9</td>
+<td>B2 1520+31</td>
+<td>FSRQ</td>
+<td>71±15</td>
+<td>14</td>
+<td>&gt;5σ</td>
+<td>CWT 7d</td>
+<td>Ren+ 2022</td>
+</tr>
+<tr>
+<td>10</td>
+<td>B2 1520+31</td>
+<td>FSRQ</td>
+<td>39±11</td>
+<td>17</td>
+<td>&gt;5σ</td>
+<td>CWT 7d</td>
+<td>Ren+ 2022</td>
+</tr>
+<tr>
+<td>11</td>
+<td>PKS 2247-131</td>
+<td>J2250.0-1250 / BL Lac</td>
+<td>214±43</td>
+<td>6</td>
+<td>&gt;5σ</td>
+<td>CWT</td>
+<td>Ren+ 2022</td>
+</tr>
+<tr>
+<td>12</td>
+<td>PKS 2247-131</td>
+<td>BL Lac</td>
+<td><strong>34±13</strong> (~1 month)</td>
+<td>10</td>
+<td>&gt;5σ</td>
+<td>CWT 7d</td>
+<td>Ren+ 2022</td>
+</tr>
+<tr>
+<td>13</td>
+<td>NGC 1275</td>
+<td>J0319.8+4130 / RDG</td>
+<td>92±33 (7d)</td>
+<td>4</td>
+<td>&gt;5σ</td>
+<td>CWT</td>
+<td>Ren+ 2022</td>
+</tr>
+<tr>
+<td>14</td>
+<td>…</td>
+<td>其余 18 源、~20 个候选</td>
+<td>见 paper Table 2</td>
+<td></td>
+<td></td>
+<td></td>
+<td>Ren+ 2022</td>
+</tr>
+<tr>
+<td>15</td>
+<td>S4 0954+658</td>
+<td>/ BL Lac</td>
+<td>66 ± 4.8</td>
+<td>9</td>
+<td>&gt;5σ</td>
+<td>LSP+WWZ+REDFIT+epoch fold</td>
+<td>Gong+ 2023</td>
+</tr>
+<tr>
+<td>16</td>
+<td>S4 0954+658</td>
+<td>BL Lac</td>
+<td>210 ± 43</td>
+<td>4</td>
+<td>~3.5σ</td>
+<td>同上</td>
+<td>Gong+ 2023</td>
+</tr>
+<tr>
+<td>17</td>
+<td>S2 0109+22</td>
+<td>J0112.1+2245 / BL Lac</td>
+<td>~600</td>
+<td>5.6</td>
+<td>~3.5σ</td>
+<td>LSP+WWZ+REDFIT+phase fold</td>
+<td>Zhang+ 2023</td>
+</tr>
+<tr>
+<td>18</td>
+<td>PKS 0521-36</td>
+<td>non-blazar AGN</td>
+<td>268</td>
+<td>—</td>
+<td>&gt;3σ</td>
+<td>LSP+WWZ+GP(SHO+DRW)</td>
+<td>Sharma+ 2023</td>
+</tr>
+<tr>
+<td>19</td>
+<td>PKS 0521-36</td>
+<td>non-blazar AGN</td>
+<td>295 / 283 (PSD)</td>
+<td>—</td>
+<td>&gt;3σ</td>
+<td>同上</td>
+<td>Sharma+ 2023</td>
+</tr>
+<tr>
+<td>20</td>
+<td>PKS 0521-36</td>
+<td>non-blazar AGN</td>
+<td><strong>806 / 886 (PSD)</strong> — 268 d 的第三谐波</td>
+<td>—</td>
+<td>&gt;3σ</td>
+<td>同上</td>
+<td>Sharma+ 2023</td>
+</tr>
+<tr>
+<td>21</td>
+<td>4C +01.02</td>
+<td>FSRQ</td>
+<td>253.2 ± 20.0</td>
+<td>6</td>
+<td>~2.7σ</td>
+<td>WWZ+LSP</td>
+<td>Chen+ 2024</td>
+</tr>
+<tr>
+<td>22</td>
+<td><strong>PKS 0336-01</strong></td>
+<td>/ FSRQ</td>
+<td><strong>94.6 ± 6.8</strong> ★新发现</td>
+<td>6</td>
+<td>~3.4σ</td>
+<td>WWZ+LSP</td>
+<td>Chen+ 2024</td>
+</tr>
+<tr>
+<td>23</td>
+<td>PKS 0402-362</td>
+<td>FSRQ</td>
+<td>103.9 ± 6.7</td>
+<td>5</td>
+<td>~2.6σ</td>
+<td>WWZ+LSP</td>
+<td>Chen+ 2024</td>
+</tr>
+<tr>
+<td>24</td>
+<td><strong>PKS 0537-441</strong></td>
+<td>BL Lac</td>
+<td><strong>55.0 ± 3.3 (QPO I)</strong> ★新</td>
+<td>7</td>
+<td>~4.1σ</td>
+<td>WWZ+LSP</td>
+<td>Chen+ 2024</td>
+</tr>
+<tr>
+<td>25</td>
+<td><strong>PKS 0537-441</strong></td>
+<td>BL Lac</td>
+<td><strong>54.7 ± 3.3 (QPO II)</strong> ★新（重复 transient）</td>
+<td>7</td>
+<td>~4.0σ</td>
+<td>WWZ+LSP</td>
+<td>Chen+ 2024</td>
+</tr>
+<tr>
+<td>26</td>
+<td><strong>PKS 1424-41</strong></td>
+<td>FSRQ</td>
+<td><strong>57.1 ± 4.5 (QPO I)</strong> ★新（嵌套）</td>
+<td>6</td>
+<td>~3.2σ</td>
+<td>WWZ+LSP</td>
+<td>Chen+ 2024</td>
+</tr>
+<tr>
+<td>27</td>
+<td>PKS 1424-41</td>
+<td>FSRQ</td>
+<td>341 ± 25.8 (QPO II)</td>
+<td>6</td>
+<td>~3.7σ</td>
+<td>WWZ+LSP</td>
+<td>Chen+ 2024</td>
+</tr>
+<tr>
+<td>28</td>
+<td>PKS 1510-089</td>
+<td>J1512.8-0906 / FSRQ</td>
+<td>92.3 ± 5.2</td>
+<td>8</td>
+<td>~4.3σ</td>
+<td>WWZ+LSP</td>
+<td>Chen+ 2024</td>
+</tr>
+<tr>
+<td>29</td>
+<td>PKS 0736+01</td>
+<td>J0739.2+0137 / FSRQ</td>
+<td>~1449 (~4 yr)</td>
+<td>—</td>
+<td>4σ</td>
+<td>LSP+REDFIT+DRW</td>
+<td>Sharma+ 2025</td>
+</tr>
+<tr>
+<td>30</td>
+<td>PKS 1424-41</td>
+<td>FSRQ</td>
+<td>~357</td>
+<td>—</td>
+<td>3σ</td>
+<td>LSP+REDFIT+DRW</td>
+<td>Sharma+ 2025</td>
+</tr>
+<tr>
+<td>31</td>
+<td>S2 0109+22</td>
+<td>BL Lac</td>
+<td>~667</td>
+<td>—</td>
+<td>3σ</td>
+<td>LSP+REDFIT+DRW</td>
+<td>Sharma+ 2025</td>
+</tr>
+<tr>
+<td>32</td>
+<td>PKS 0244-470</td>
+<td>FSRQ</td>
+<td>~227</td>
+<td>—</td>
+<td>3σ</td>
+<td>LSP+REDFIT+DRW</td>
+<td>Sharma+ 2025</td>
+</tr>
+<tr>
+<td>33</td>
+<td>PKS 0405-385</td>
+<td>FSRQ</td>
+<td>~1000</td>
+<td>—</td>
+<td>2.9σ</td>
+<td>LSP+REDFIT+DRW</td>
+<td>Sharma+ 2025</td>
+</tr>
+<tr>
+<td>34</td>
+<td>PKS 0208-512</td>
+<td>FSRQ</td>
+<td>~909</td>
+<td>—</td>
+<td>2.85σ</td>
+<td>LSP+REDFIT+DRW</td>
+<td>Sharma+ 2025</td>
+</tr>
+<tr>
+<td>35</td>
+<td>PKS 0035-252</td>
+<td>FSRQ</td>
+<td>~357</td>
+<td>—</td>
+<td>2.8σ</td>
+<td>LSP+REDFIT+DRW</td>
+<td>Sharma+ 2025</td>
+</tr>
+</tbody>
+</table>
+<p>★ = 该源在该周期/方法下的首次报告。<br />
+注：Ren+ 2022 给出 36 个候选，本表只列摘要里 5 个最显著源；完整列表见原文 Table 2。</p>
+<h2 id="逐篇细读">逐篇细读<a class="headerlink" href="#逐篇细读" title="Permanent link">&para;</a></h2>
+<h3 id="1-kushwaha-2020--oj-287-arxiv200913754">1. Kushwaha+ 2020 — OJ 287 [arXiv:2009.13754]<a class="headerlink" href="#1-kushwaha-2020--oj-287-arxiv200913754" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>源</strong>：OJ 287 (BL Lac，z=0.306)，最经典的 SMBBH 候选体（光学 12-yr QPO）。</li>
+<li><strong>检测</strong>：γ-ray 月度 binned 光变曲线中识别 ~314 d 周期 (~3σ)。</li>
+<li><strong>方法</strong>：LSP、REDFIT、WWZ 三件套，无 GP。</li>
+<li><strong>解释</strong>：与 quasi-stationary radio knot 位置漂移和 γ-ray–mm radio 强相关一致 — 信号可能与喷流内静止结节相关，而非 SMBBH 12-yr 主周期。</li>
+<li><strong>数据</strong>：Fermi-LAT 2008-08 → ~2018-02 (约 9.5 yr)。</li>
+</ul>
+<h3 id="2-zhang-2021--pks-0521-36-arxiv210610040">2. Zhang+ 2021 — PKS 0521-36 [arXiv:2106.10040]<a class="headerlink" href="#2-zhang-2021--pks-0521-36-arxiv210610040" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>源</strong>：PKS 0521-36 — 4LAC 中分类为 BL Lac / 中间态非典型 blazar，<strong>mildly beamed jet</strong>。</li>
+<li><strong>检测</strong>：在两次 outburst（2012-10 和 2019-05）之间的 ~5.8 yr 窗口（MJD 56317–58447）内识别 <strong>~1.1 yr 周期 (~5σ)</strong>。</li>
+<li><strong>方法</strong>：LSP + WWZ + REDFIT 三种 + Gaussian Process 模型四种独立验证。</li>
+<li><strong>解释</strong>：首例 γ-ray QPO in mildly beamed jet；推测 γ-ray outburst 在 QPO 形成中起关键作用。</li>
+<li><strong>数据</strong>：~12.6 yr LAT 全数据，但 QPO 仅在 5.8 yr 窗口内。</li>
+</ul>
+<h3 id="3-ren-cerruti--sahakyan-2022--35-brightest-agn-arxiv220413051">3. Ren, Cerruti &amp; Sahakyan 2022 — 35 brightest AGN [arXiv:2204.13051]<a class="headerlink" href="#3-ren-cerruti--sahakyan-2022--35-brightest-agn-arxiv220413051" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>样本</strong>：4LAC 中最亮 34 个 + 手工加入 PKS 2247-131，共 35 个（19 FSRQ + 15 BL Lac + 1 radio galaxy NGC 1275）。</li>
+<li><strong>方法</strong>：Continuous Wavelet Transform (Morlet, via <code>PyCWT</code>) + global wavelet spectrum + <strong>post-trial look-elsewhere correction</strong> (Auchère 2016) + Emmanoulopoulos PSD/PDF Monte Carlo（10⁴ artificial LC × 每源 × 每 binning）。</li>
+<li><strong>时间 binning</strong>：30 d 与 7 d 两套，独立比对。</li>
+<li><strong>能段</strong>：100 MeV – 500 GeV。<strong>数据跨度</strong> Aug 2008 → Apr 2021 (MJD 54686-59308)。</li>
+<li><strong>结果</strong>：<strong>36 QPO 候选 in 24/35 源</strong>（post-trial σ &gt; 3，至少 3 cycles）。</li>
+<li>长周期 (&gt;1 yr) 出现在 5 源：<strong>S5 0716+714, S5 1044+71, Mrk 421, PKS 2155-304, CTA 102</strong>。</li>
+<li>月周期 (&lt;300 d) 出现在 20 源。</li>
+<li>摘要 5 个最显著：4C +01.02, PKS 0537-441, <strong>S5 1044+71</strong> (1127 d 首报), B2 1520+31, PKS 2247-131。</li>
+<li><strong>结论</strong>：<strong>所有候选均为 transient</strong>（在分析窗口内出现/消失）。S5 1044+71 ~3 yr 周期作为最长多年 QPO 首次报告。</li>
+<li><strong>解释</strong>：与 SMBBH 在 SMBH 演化中的存在关联，但保持开放，认为 jet 内/外多种几何机制都可解释。</li>
+</ul>
+<h3 id="4-gong-2023--s4-0954658-arxiv230403085">4. Gong+ 2023 — S4 0954+658 [arXiv:2304.03085]<a class="headerlink" href="#4-gong-2023--s4-0954658-arxiv230403085" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>源</strong>：S4 0954+658 (BL Lac, z=0.367)。</li>
+<li><strong>检测</strong>：两个分段 transient QPO：</li>
+<li><strong>66 ± 4.8 d (&gt;5σ)</strong>，MJD 57145–57745（2015–2016），<strong>9 cycles</strong> — blazar γ-ray QPO 中观测到的最多 cycle 之一。</li>
+<li><strong>210 ± 43 d (~3.5σ)</strong>，MJD 59035–59915（2020–2022），4 cycles。</li>
+<li><strong>方法</strong>：LSP + WWZ + REDFIT + epoch folding。</li>
+<li><strong>解释</strong>：plasma blob 沿 helical 路径运动 + jet 几何模型 — 与短周期一致。</li>
+</ul>
+<h3 id="5-zhang-2023--s2-010922-arxiv230611579">5. Zhang+ 2023 — S2 0109+22 [arXiv:2306.11579]<a class="headerlink" href="#5-zhang-2023--s2-010922-arxiv230611579" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>源</strong>：S2 0109+22 (BL Lac, z~0.36)。射电、毫米波已知 ~657 d 周期。</li>
+<li><strong>检测</strong>：<strong>~600 d (3.5σ)</strong>，2013-11 至 2023-01，~9 yr / <strong>5.6 cycles</strong>。</li>
+<li><strong>方法</strong>：WWZ + LSP + REDFIT + phase-folded LC。Baluev 假警报修正 + Emmanoulopoulos MC (10⁵ LCs)。</li>
+<li><strong>数据</strong>：Fermi-LAT 2008-08-04 → 2023-01-16，7-day binned, TS&gt;9。</li>
+<li><strong>解释</strong>：与已知 radio 周期一致 → binary BH 系统的 accretion + lighthouse 效应。</li>
+</ul>
+<h3 id="6-sharma-prince--bose-2023--pks-0521-36-arxiv231212623">6. Sharma, Prince &amp; Bose 2023 — PKS 0521-36 [arXiv:2312.12623]<a class="headerlink" href="#6-sharma-prince--bose-2023--pks-0521-36-arxiv231212623" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>源</strong>：PKS 0521-36（与 Zhang+ 2021 同源）。<strong>non-blazar AGN</strong>，弱 beamed jet。</li>
+<li><strong>检测</strong>：3 个周期：<strong>268 d, 295 d, 806 d (&gt;3σ)</strong>；其中 806 d 是 268 d 的 <strong>第三谐波</strong>。GP（SHO + DRW）模型 PSD 显示 ~283 d 和 ~886 d 两个峰。</li>
+<li><strong>方法</strong>：LSP + WWZ + GP（SHO/DRW）。</li>
+<li><strong>数据</strong>：Fermi-LAT 15 yr 全数据。</li>
+<li><strong>意义</strong>：首例长周期 (&gt;800 d) γ-ray QPO in non-blazar AGN。</li>
+<li><strong>与 Zhang+ 2021 对比</strong>：Zhang+ 2021 在更短窗口给出 ~1.1 yr (~400 d)；Sharma+ 2023 在 15 yr 全数据给出多个周期且都更短/更长。说明在 5.8 yr vs 15 yr 窗口内，主导信号不同。</li>
+</ul>
+<h3 id="7-chen-2024--134-blazars-systematic-search-arxiv240110658">7. Chen+ 2024 — 134 blazars systematic search [arXiv:2401.10658]<a class="headerlink" href="#7-chen-2024--134-blazars-systematic-search-arxiv240110658" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>样本</strong>：134 blazars（Monitored Source List 中 peak flux &gt; 1×10⁻⁶ ph cm⁻²s⁻¹，7 BCU + 31 BL Lac + 95 FSRQ）。</li>
+<li><strong>方法</strong>：WWZ 全光变曲线扫描 → LSP 独立验证 → Emmanoulopoulos PSD/PDF MC 给出 σ。</li>
+<li><strong>筛选标准</strong>（比 Ren+ 2022 严格）：<br />
+  1. cycles ≥ 5<br />
+  2. 缺数据 &lt; 60%<br />
+  3. 肉眼可识 QPO</li>
+<li><strong>结果</strong>：8 个 transient QPOs in 6 sources，全为 FSRQ 或 BL Lac：</li>
+<li>PKS 0537-441 (2 个 QPO，重复 transient)</li>
+<li>PKS 1424-41 (2 个 QPO，嵌套 — 短周期叠在长周期上)</li>
+<li>4C +01.02, PKS 0336-01, PKS 0402-362, PKS 1510-089 各 1 个</li>
+<li><strong>新发现 4 个</strong>（首报）：PKS 0336-01 94 d、PKS 0537-441 55 d &amp; 54 d、PKS 1424-41 57 d。</li>
+<li><strong>发生率估算</strong>：~3%。</li>
+<li><strong>解释</strong>：helical jet motion 模型 best fit；同时讨论磁岛 / 磁重联，但 helical jet 仍最优。</li>
+</ul>
+<h3 id="8-sharma-2025--7-blazars--smbbh-拟合-arxiv250523697">8. Sharma+ 2025 — 7 blazars + SMBBH 拟合 [arXiv:2505.23697]<a class="headerlink" href="#8-sharma-2025--7-blazars--smbbh-拟合-arxiv250523697" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>样本</strong>：7 blazars (PKS 1424-41, PKS 0736+01, S2 0109+22, PKS 0244-470, PKS 0405-385, PKS 0208-512, PKS 0035-252)。</li>
+<li><strong>数据</strong>：Fermi-LAT 2008-08-05 → 2025-04-01 (MJD 54683–60766)，weekly binned，TS ≥ 9。</li>
+<li><strong>方法链条</strong>：<br />
+  1. LSP + REDFIT 找候选峰<br />
+  2. DRW (Damped Random Walk) 模型 + <strong>30,000 个 synthetic LC</strong> 评估显著性<br />
+  3. MCMC 拟合 SMBBH 物理参数（Lorentz factor Γ、视角 ψ）</li>
+<li><strong>检测</strong>（7 源全部检出，σ 不同）：</li>
+<li>PKS 0736+01 ~1449 d / 4σ（<strong>首次报告</strong>该源 QPO）</li>
+<li>PKS 1424-41 ~357 d / 3σ</li>
+<li>S2 0109+22 ~667 d / 3σ</li>
+<li>PKS 0244-470 ~227 d / 3σ</li>
+<li>PKS 0405-385 ~1000 d / 2.9σ</li>
+<li>PKS 0208-512 ~909 d / 2.85σ</li>
+<li>PKS 0035-252 ~357 d / 2.8σ</li>
+<li><strong>物理解释</strong>：长周期 (&gt;1 yr) 在 SMBBH 框架下 — 约束 Γ ~ 10–20，ψ 几度量级；助攻 SMBBH + 喷流方向相关性研究。</li>
+</ul>
+<h2 id="跨论文交叉">跨论文交叉<a class="headerlink" href="#跨论文交叉" title="Permanent link">&para;</a></h2>
+<h3 id="同一源在多篇里出现">同一源在多篇里出现<a class="headerlink" href="#同一源在多篇里出现" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>源</th>
+<th>论文</th>
+<th>周期 / σ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PKS 0521-36 (non-blazar AGN)</td>
+<td>Zhang+ 2021</td>
+<td>~1.1 yr / ~5σ</td>
+</tr>
+<tr>
+<td></td>
+<td>Sharma+ 2023</td>
+<td>268 / 295 / 806 d / &gt;3σ</td>
+</tr>
+<tr>
+<td>PKS 1424-41 (FSRQ)</td>
+<td>Ren+ 2022</td>
+<td>90±22, 92±25 d, &gt;5σ</td>
+</tr>
+<tr>
+<td></td>
+<td>Chen+ 2024</td>
+<td>57 / 341 d / 3.2σ / 3.7σ</td>
+</tr>
+<tr>
+<td></td>
+<td>Sharma+ 2025</td>
+<td>~357 d / 3σ</td>
+</tr>
+<tr>
+<td>S2 0109+22 (BL Lac)</td>
+<td>Zhang+ 2023</td>
+<td>~600 d / 3.5σ</td>
+</tr>
+<tr>
+<td></td>
+<td>Sharma+ 2025</td>
+<td>~667 d / 3σ</td>
+</tr>
+<tr>
+<td>PKS 0537-441 (BL Lac)</td>
+<td>Ren+ 2022</td>
+<td>285 d (~5σ)</td>
+</tr>
+<tr>
+<td></td>
+<td>Chen+ 2024</td>
+<td>55 / 54 d (~4σ) — 双 transient</td>
+</tr>
+<tr>
+<td>PKS 0402-362 (FSRQ)</td>
+<td>Ren+ 2022</td>
+<td>221±56 d, 122±42 d</td>
+</tr>
+<tr>
+<td></td>
+<td>Chen+ 2024</td>
+<td>103.9 d / 2.6σ</td>
+</tr>
+<tr>
+<td>4C +01.02 (FSRQ, z=2.099)</td>
+<td>Ren+ 2022</td>
+<td>268, 123 d / &gt;5σ</td>
+</tr>
+<tr>
+<td></td>
+<td>Chen+ 2024</td>
+<td>253 d / 2.7σ</td>
+</tr>
+<tr>
+<td>PKS 1510-089 (FSRQ)</td>
+<td>Ren+ 2022</td>
+<td>119±31, 120±36 d</td>
+</tr>
+<tr>
+<td></td>
+<td>Chen+ 2024</td>
+<td>92.3 d / 4.3σ</td>
+</tr>
+<tr>
+<td>OJ 287 (BL Lac)</td>
+<td>Kushwaha+ 2020</td>
+<td>314 d / ~3σ</td>
+</tr>
+<tr>
+<td></td>
+<td>Ren+ 2022</td>
+<td>∼300 d 量级（未在最显著 5 名内）</td>
+</tr>
+</tbody>
+</table>
+<p>观察：<br />
+- <strong>方法越严格、周期估计往往越短</strong>：Chen+ 2024 用严格 ≥5 cycles 筛选，发现的周期 (54–341 d) 比 Ren+ 2022 (含 long-period) 更窄。<br />
+- <strong>数据窗口决定主导信号</strong>：PKS 0521-36 在 5.8 yr vs 15 yr 给出不同周期组（说明 transient QPO 在不同时段切换）。</p>
+<h3 id="方法使用频率">方法使用频率<a class="headerlink" href="#方法使用频率" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>使用论文数 / 8</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LSP (Lomb-Scargle)</td>
+<td>8</td>
+</tr>
+<tr>
+<td>WWZ (Weighted Wavelet Z-transform)</td>
+<td>7</td>
+</tr>
+<tr>
+<td>REDFIT</td>
+<td>6</td>
+</tr>
+<tr>
+<td>Emmanoulopoulos PSD/PDF MC</td>
+<td>4</td>
+</tr>
+<tr>
+<td>Gaussian Process (DRW / SHO)</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Phase fold / epoch fold</td>
+<td>3</td>
+</tr>
+<tr>
+<td>CWT (Morlet, post-trial corrected)</td>
+<td>1 (Ren+ 2022)</td>
+</tr>
+<tr>
+<td>MCMC 物理参数拟合</td>
+<td>1 (Sharma+ 2025)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="物理解释优先级">物理解释优先级<a class="headerlink" href="#物理解释优先级" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>解释模型</th>
+<th>用于哪类周期</th>
+<th>出现频次</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Helical jet / plasma blob helical motion</td>
+<td>短周期 (&lt; 1 yr)</td>
+<td>5 篇</td>
+</tr>
+<tr>
+<td>SMBBH orbital / precession</td>
+<td>长周期 (&gt; 1 yr)</td>
+<td>4 篇</td>
+</tr>
+<tr>
+<td>Lense-Thirring precession</td>
+<td>长周期</td>
+<td>2 篇</td>
+</tr>
+<tr>
+<td>Accretion disk instability + lighthouse</td>
+<td>non-blazar / mildly beamed</td>
+<td>3 篇</td>
+</tr>
+<tr>
+<td>Magnetic islands / reconnection</td>
+<td>短周期 alternative</td>
+<td>1 篇 (Chen+ 2024 讨论)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="显著性-σ-分布">显著性 σ 分布<a class="headerlink" href="#显著性-σ-分布" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>σ 范围</th>
+<th>候选数（含重复源）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&gt; 5σ (post-trial)</td>
+<td>~20+（主要来自 Ren+ 2022）</td>
+</tr>
+<tr>
+<td>4–5σ</td>
+<td>~5</td>
+</tr>
+<tr>
+<td>3–4σ</td>
+<td>~10</td>
+</tr>
+<tr>
+<td>&lt; 3σ</td>
+<td>~3 (Chen+ 2024 中 4C +01.02 253-d 等)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="数据-binning-约定">数据 binning 约定<a class="headerlink" href="#数据-binning-约定" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>论文</th>
+<th>binning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Kushwaha+ 2020</td>
+<td>monthly (~30 d)</td>
+</tr>
+<tr>
+<td>Zhang+ 2021</td>
+<td>30 d</td>
+</tr>
+<tr>
+<td>Ren+ 2022</td>
+<td>7 d + 30 d 并行</td>
+</tr>
+<tr>
+<td>Gong+ 2023</td>
+<td>7 d</td>
+</tr>
+<tr>
+<td>Zhang+ 2023</td>
+<td>7 d (+ 10/30 d 验证)</td>
+</tr>
+<tr>
+<td>Sharma+ 2023</td>
+<td>weekly</td>
+</tr>
+<tr>
+<td>Chen+ 2024</td>
+<td>weekly</td>
+</tr>
+<tr>
+<td>Sharma+ 2025</td>
+<td>weekly</td>
+</tr>
+</tbody>
+</table>
+<p>7-day binned 已成 2022 年后的实际标准（短周期 &lt; 1 yr 几乎必须）。</p>
+<h2 id="参考文献">参考文献<a class="headerlink" href="#参考文献" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Kushwaha P., Sarkar A., Gupta A. C., Tripathi A., Wiita P. J.</strong>, 2020, <em>MNRAS</em>, 499, 653. <em>A Possible γ-ray Quasi-periodic Oscillation of ~314 days in the Blazar OJ 287.</em> <a href="https://arxiv.org/abs/2009.13754" target="_blank" rel="noopener">arXiv:2009.13754</a> · <a href="https://doi.org/10.1093/mnras/staa2899" target="_blank" rel="noopener">DOI 10.1093/mnras/staa2899</a></li>
+<li><strong>Zhang H., Yan D., Zhang P., Yang S., Zhang L.</strong>, 2021, <em>ApJ</em>, 919, 58. <em>A Quasi-periodic Oscillation in the γ-ray Emission from the Non-blazar Active Galactic Nucleus PKS 0521-36.</em> <a href="https://arxiv.org/abs/2106.10040" target="_blank" rel="noopener">arXiv:2106.10040</a> · <a href="https://doi.org/10.3847/1538-4357/ac0cf0" target="_blank" rel="noopener">DOI 10.3847/1538-4357/ac0cf0</a></li>
+<li><strong>Ren H. X., Cerruti M., Sahakyan N.</strong>, 2023, <em>A&amp;A</em> (submitted Feb 2023). <em>Quasi-periodic oscillations in the γ-ray light curves of bright active galactic nuclei.</em> <a href="https://arxiv.org/abs/2204.13051" target="_blank" rel="noopener">arXiv:2204.13051</a></li>
+<li><strong>Gong Y., Tian S., Zhou L., Yi T., Fang J.</strong>, 2023, <em>ApJ</em>, 949, 39. <em>Two Transient Quasi-periodic Oscillations in γ-Ray Emission from the Blazar S4 0954+658.</em> <a href="https://arxiv.org/abs/2304.03085" target="_blank" rel="noopener">arXiv:2304.03085</a> · <a href="https://doi.org/10.3847/1538-4357/acca7b" target="_blank" rel="noopener">DOI 10.3847/1538-4357/acca7b</a></li>
+<li><strong>Zhang H., Wu F., Dai B.</strong>, 2023, <em>PASP</em>, 135, 074101. <em>The detection of possible γ-ray quasi-periodic modulation with ~600 days from the blazar S2 0109+22.</em> <a href="https://arxiv.org/abs/2306.11579" target="_blank" rel="noopener">arXiv:2306.11579</a> · <a href="https://doi.org/10.1088/1538-3873/acdf1f" target="_blank" rel="noopener">DOI 10.1088/1538-3873/acdf1f</a></li>
+<li><strong>Sharma A., Prince R., Bose D.</strong>, 2023, <em>MNRAS</em> (submitted). <em>Detection of gamma-ray quasi-periodic oscillations in non-blazar AGN PKS 0521-36.</em> <a href="https://arxiv.org/abs/2312.12623" target="_blank" rel="noopener">arXiv:2312.12623</a></li>
+<li><strong>Chen J., Yu J., Huang W., Ding N.</strong>, 2024, <em>MNRAS</em>, 528, 6807. <em>Transient quasi-periodic oscillations in the gamma-ray light curves of bright blazars.</em> <a href="https://arxiv.org/abs/2401.10658" target="_blank" rel="noopener">arXiv:2401.10658</a> · <a href="https://doi.org/10.1093/mnras/stae416" target="_blank" rel="noopener">DOI 10.1093/mnras/stae416</a></li>
+<li><strong>Sharma A., Chaudhary S., Sarath A., Bose D.</strong>, 2025, preprint. <em>Exploring Year-timescale Gamma-ray Quasi-Periodic Oscillations in Blazars: Evidence for Supermassive Binary Black Holes Scenario.</em> <a href="https://arxiv.org/abs/2505.23697" target="_blank" rel="noopener">arXiv:2505.23697</a></li>
+</ol>
+<hr />
+<p><em>报告生成：2026-05-13 · 数据来源：上述 8 篇 arXiv PDF（保存在 <code>/home/server/projects/QPO/docus/</code>）· 数字与论文原表/正文对应；同一源在不同论文给出不一致周期时，原值保留 — 不在本报告中合并。</em></p>
+    </article>
+    <footer class="page-footer">
+      <span>更新于 2026-05-13</span>
+      <a href="https://github.com/Pluto235/any-reports" target="_blank" rel="noopener">View on GitHub →</a>
+    </footer>
+  </main>
+
+  <aside class="anchors" id="anchors">
+    <p class="anchors-title">本页章节</p>
+    <ul>
+      <li><a href="#tldr">TL;DR</a></li><li><a href="#主表--每篇论文一览">主表 — 每篇论文一览</a></li><li><a href="#完整-qpo-候选列表每行--一个源--一个-qpo-信号">完整 QPO 候选列表（每行 = 一个源 × 一个 QPO 信号）</a></li><li><a href="#逐篇细读">逐篇细读</a></li><li><a href="#跨论文交叉">跨论文交叉</a></li><li><a href="#显著性-σ-分布">显著性 σ 分布</a></li><li><a href="#数据-binning-约定">数据 binning 约定</a></li><li><a href="#参考文献">参考文献</a></li>
+    </ul>
+  </aside>
+
+</div>
+
+<script>
+// Scroll-spy：高亮当前可视区的章节
+(function () {
+  const navLinks = document.querySelectorAll('.sidebar-nav a, .anchors a');
+  if (!navLinks.length) return;
+
+  const idToLinks = new Map();
+  navLinks.forEach(a => {
+    const id = decodeURIComponent((a.getAttribute('href') || '').replace(/^#/, ''));
+    if (!id) return;
+    if (!idToLinks.has(id)) idToLinks.set(id, []);
+    idToLinks.get(id).push(a);
+  });
+
+  const headings = Array.from(document.querySelectorAll('.content h1, .content h2, .content h3, .content h4'))
+    .filter(h => h.id && idToLinks.has(h.id));
+  if (!headings.length) return;
+
+  let current = null;
+  function setActive(id) {
+    if (current === id) return;
+    if (current && idToLinks.has(current)) {
+      idToLinks.get(current).forEach(a => a.classList.remove('active'));
+    }
+    current = id;
+    if (id && idToLinks.has(id)) {
+      idToLinks.get(id).forEach(a => {
+        a.classList.add('active');
+        // 滚动到 nav 中可视区
+        const sb = a.closest('.sidebar, .anchors');
+        if (sb) {
+          const ar = a.getBoundingClientRect();
+          const sr = sb.getBoundingClientRect();
+          if (ar.top < sr.top || ar.bottom > sr.bottom) {
+            a.scrollIntoView({ block: 'nearest' });
+          }
+        }
+      });
+    }
+  }
+
+  function update() {
+    const offset = 80;
+    let active = headings[0].id;
+    for (const h of headings) {
+      if (h.getBoundingClientRect().top - offset <= 0) {
+        active = h.id;
+      } else {
+        break;
+      }
+    }
+    setActive(active);
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('hashchange', update);
+  update();
+
+  // 移动端：点 nav 后关掉抽屉
+  document.querySelectorAll('.sidebar-nav a').forEach(a => {
+    a.addEventListener('click', () => {
+      document.querySelector('.sidebar')?.classList.remove('open');
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
