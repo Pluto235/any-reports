@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mrk 421 Periodicity Analysis v1 Report</title>
+  <style>
+    :root {
+      --ink: #1f2933;
+      --muted: #5f6c7b;
+      --line: #d7dee8;
+      --panel: #f7f9fc;
+      --accent: #255c99;
+    }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      background: #ffffff;
+      line-height: 1.55;
+    }
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 32px 24px 56px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
+      letter-spacing: 0;
+    }
+    h2 {
+      margin-top: 34px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 6px;
+      font-size: 22px;
+    }
+    h3 { margin-top: 22px; font-size: 18px; }
+    .meta, .note { color: var(--muted); }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px 18px;
+      margin: 18px 0;
+    }
+    code { background: #eef2f7; padding: 2px 4px; border-radius: 4px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      margin: 12px 0 20px;
+    }
+    th, td {
+      border: 1px solid var(--line);
+      padding: 8px 9px;
+      text-align: right;
+      vertical-align: top;
+    }
+    th:first-child, td:first-child { text-align: left; }
+    th { background: #eef3f9; }
+    .figure-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      align-items: start;
+    }
+    figure { margin: 0; }
+    img {
+      width: 100%;
+      height: auto;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: white;
+    }
+    figcaption {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 6px;
+    }
+    .small { font-size: 13px; }
+    @media (max-width: 820px) {
+      .figure-grid { grid-template-columns: 1fr; }
+      main { padding: 22px 14px 40px; }
+      table { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Mrk 421 WCDA/Fermi Periodicity Analysis v1</h1>
+  <p class="meta">Generated from local pipeline outputs in <code>data/processed/periodicity/</code>. Current report date: 2026-05-13.</p>
+
+  <section class="panel">
+    <strong>Scope.</strong> This first version aligns LHAASO-WCDA and Fermi weekly light curves on the LHAASO time axis, runs CWT and WWZ periodicity checks, and intentionally skips simulation-based significance testing. Fermi daily analysis is deferred because no ready Fermi daily light-curve product is currently available in the project or the checked IHEP QPO directory.
+  </section>
+
+  <h2>Data Synchronization and Alignment</h2>
+  <p>The WCDA merged products were copied from IHEP into the local processed data area:</p>
+  <ul>
+    <li><code>data/processed/wcda_week/LHAASO-WCDA_Mkn421_2021-03-08_2026-03-29_week.csv</code></li>
+    <li><code>data/processed/wcda_day/LHAASO-WCDA_Mkn421_2025-03-29_2026-03-29_day.csv</code></li>
+  </ul>
+  <p>Aligned CSV outputs were written to <code>data/processed/aligned/</code>. The Fermi weekly product is mapped onto the WCDA weekly MJD axis with nearest-bin matching; WCDA bins beyond Fermi coverage remain as <code>NaN</code>. In the generated aligned Fermi table, 14 of 264 WCDA weekly bins have missing Fermi flux.</p>
+
+  <h2>Methods</h2>
+  <p>WCDA flux is represented as an excess rate, <code>sum(n_on - n_bkg) / tobs</code>, with a Poisson-style on/off error approximation propagated per hit bin. CWT uses a Morlet wavelet through <code>pycwt</code>. WWZ uses <code>libwwz</code> with the v1 quick-look grid saved by <code>src/pipeline/periodicity_v1.py</code>.</p>
+  <p class="note">No red-noise simulations, Monte Carlo thresholds, local significance contours, pre-trial significance, or post-trial significance are included in this version.</p>
+
+  <h2>Peak Summary</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Series</th><th>N</th><th>MJD min</th><th>MJD max</th><th>Median dt [d]</th><th>CWT peak [d]</th><th>CWT GWS</th><th>WWZ peak [d]</th><th>WWZ power</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>WCDA daily</td><td>360</td><td>60763.167</td><td>61128.167</td><td>1.000</td><td>104.95</td><td>19.650</td><td>109.77</td><td>29.772</td></tr><tr><td>WCDA weekly</td><td>264</td><td>59284.333</td><td>61125.167</td><td>7.000</td><td>367.33</td><td>4.486</td><td>363.22</td><td>5.177</td></tr><tr><td>Fermi weekly on WCDA weekly axis</td><td>250</td><td>59284.333</td><td>61062.167</td><td>7.000</td><td>583.10</td><td>2.828</td><td>513.37</td><td>3.260</td></tr>
+    </tbody>
+  </table>
+  <ul>
+    <li><strong>WCDA daily</strong>: CWT global peak near 104.95 d; WWZ mean-power peak near 109.77 d.</li><li><strong>WCDA weekly</strong>: CWT global peak near 367.33 d; WWZ mean-power peak near 363.22 d.</li><li><strong>Fermi weekly on WCDA weekly axis</strong>: CWT global peak near 583.10 d; WWZ mean-power peak near 513.37 d.</li>
+  </ul>
+
+  <h2>Figures</h2>
+  
+<section class="figure-block">
+  <h3>WCDA daily</h3>
+  <div class="figure-grid">
+    <figure>
+      <img src="assets/wcda_daily_cwt.png" alt="WCDA daily CWT result">
+      <figcaption>CWT quick-look map and Global Wavelet Spectrum.</figcaption>
+    </figure>
+    <figure>
+      <img src="assets/wcda_daily_wwz.png" alt="WCDA daily WWZ result">
+      <figcaption>WWZ time-period map, ridge, and mean WWZ spectrum.</figcaption>
+    </figure>
+  </div>
+</section>
+<section class="figure-block">
+  <h3>WCDA weekly</h3>
+  <div class="figure-grid">
+    <figure>
+      <img src="assets/wcda_weekly_cwt.png" alt="WCDA weekly CWT result">
+      <figcaption>CWT quick-look map and Global Wavelet Spectrum.</figcaption>
+    </figure>
+    <figure>
+      <img src="assets/wcda_weekly_wwz.png" alt="WCDA weekly WWZ result">
+      <figcaption>WWZ time-period map, ridge, and mean WWZ spectrum.</figcaption>
+    </figure>
+  </div>
+</section>
+<section class="figure-block">
+  <h3>Fermi weekly on WCDA axis</h3>
+  <div class="figure-grid">
+    <figure>
+      <img src="assets/fermi_weekly_on_wcda_axis_cwt.png" alt="Fermi weekly on WCDA axis CWT result">
+      <figcaption>CWT quick-look map and Global Wavelet Spectrum.</figcaption>
+    </figure>
+    <figure>
+      <img src="assets/fermi_weekly_on_wcda_axis_wwz.png" alt="Fermi weekly on WCDA axis WWZ result">
+      <figcaption>WWZ time-period map, ridge, and mean WWZ spectrum.</figcaption>
+    </figure>
+  </div>
+</section>
+
+  <h2>Outputs</h2>
+  <ul>
+    <li>Aligned CSVs: <code>data/processed/aligned/</code></li>
+    <li>CWT/WWZ arrays and plots: <code>data/processed/periodicity/</code></li>
+    <li>Pipeline entry point: <code>python src/pipeline/periodicity_v1.py</code></li>
+  </ul>
+</main>
+</body>
+</html>
