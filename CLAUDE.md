@@ -69,6 +69,17 @@ cp /path/to/foo-report-2026-MM-DD.html .       # 文件名按约定改
 git add -A && git commit -m "report: <主题>" && git push
 ```
 
+## QPO 报告发布约定
+
+- QPO 周期性报告使用稳定目录 `qpo-periodicity-v1/`，除非用户明确要求新 slug。
+- 多源报告的图片资产按源分目录保存，例如：
+  - `qpo-periodicity-v1/assets/mkn421/`
+  - `qpo-periodicity-v1/assets/mkn501/`
+- 如果更新了报告标题、日期、描述或 URL，必须同步更新首页 `index.html` 的报告卡片。
+- 不要发布 QPO 原始数据、private data、credential、token 或不必要的中间产物；只发布 HTML/Markdown 和网页需要的静态图片资产。
+- QPO 对比报告需要支持中文 / English 页面内切换。默认显示中文，切换状态可用 `localStorage` 记忆；实现必须是纯静态 HTML/CSS/JavaScript，适配 GitHub Pages，无需构建步骤。
+- 推送后验证 `https://pluto235.github.io/any-reports/qpo-periodicity-v1/` 和至少一个图片 URL。Pages/CDN 可能短暂缓存旧版本，可用 `?v=<commit>` 做 cache-busting 验证。
+
 ## 转换器细节（md2html.py）
 
 支持的 markdown 扩展：
