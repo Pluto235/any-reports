@@ -1,20 +1,22 @@
 # Fermi-LAT γ-ray QPO 检测调研 (2020–2025)
 
 > **范围**：2020–2025 年发表在 arXiv 上、利用 Fermi-LAT γ 射线光变曲线搜寻
-> blazar / AGN 准周期振荡 (quasi-periodic oscillation, QPO) 的 **8 篇论文**。
-> 不包含 TESS 光学和方法学性质论文。
+> blazar / AGN 准周期振荡 (quasi-periodic oscillation, QPO) 的 **11 篇论文**
+> （其中 Peñil 系列 3 篇 2022/2024/2025）。不包含 TESS 光学和方法学性质论文。
 >
-> **数据生成日期**：2026-05-13。数据来源于论文摘要、Tables 与 Section 4–5 正文。
+> **数据生成日期**：2026-05-13；**最新修订 2026-05-14**（补 Ren+22 13 源 +
+> 全 catalog 位置交叉匹配复核）；**2026-05-14b** 集成 Peñil 系列三篇
+> （Peñil+22 / Rico+24 / Peñil+25），样本从 34 → 81 unique 源。
 
 ## TL;DR
 
-- **论文数**：8（其中 3 篇大样本：Chen+24 扫 134 blazars、Ren+22 扫 35 brightest、Sharma+25 扫 7）。其余 5 篇为单源研究。
-- **覆盖源**：去重 **34 个 unique AGN**（FSRQ + BL Lac + RDG/non-blazar），其中 Ren+22 贡献 24 个、其余 7 篇贡献 10 个。
-- **周期跨度**：~35 d (PKS 2247-131 短周期) 至 ~3 yr (S5 1044+71 ~1127 d)，主体集中在 50 d–1 yr。
-- **方法演化**：LSP + REDFIT + WWZ（最常见组合）→ 加 CWT post-trial + Emmanoulopoulos PSD/PDF Monte Carlo（Ren+22 引入）→ 再加 Gaussian Process (DRW / SHO) + MCMC 物理参数拟合（Sharma+25 集成）。
+- **论文数**：11（其中 5 篇大样本：**Peñil+25 扫 1492 jetted AGN**、**Rico+24 扫 494 源**、Chen+24 扫 134 blazars、Ren+22 扫 35 brightest、**Peñil+22 扫 24 selected hint 源**；3 篇小样本：Sharma+25 7 源；其余 5 篇为单源研究）。
+- **覆盖源**：去重 **81 个 unique AGN**（Ren+22 24 + Peñil+22 18 new + Rico+24 22 new + Peñil+25 5 new hints + 其余 12）。
+- **周期跨度**：~35 d (PKS 2247-131 短周期) 至 ~5 yr (Rico+24 多个 FSRQ ~3–5 yr)，主体集中在 50 d–4 yr。
+- **方法演化**：LSP + REDFIT + WWZ → 加 CWT post-trial + Emmanoulopoulos PSD/PDF MC（Ren+22）→ 加 Gaussian Process (DRW / SHO) + MCMC 物理参数拟合（Sharma+25）→ **Singular Spectrum Analysis (SSA)** + 含 upper-limit 的 LC 处理（Peñil+22, Rico+24）→ **9-method ensemble + 全局显著性 trial-factor 修正**（Peñil+25）。
 - **物理图像**：短周期 (< 1 yr) 偏好 helical jet / plasma blob helical motion；长周期 (> 1 yr) 偏好 SMBBH 轨道进动 / Lense-Thirring；mildly beamed 与 non-blazar 系统讨论 accretion + lighthouse 效应。
-- **发生率**：Chen+24 在 134 blazars 严格筛选下给出 transient QPO 发生率 **~3%**。
-- **LHAASO follow-up 候选**：34 个 unique Fermi QPO 源中 **仅 Mrk 421 / Mrk 501 与 1LHAASO catalog 直接重合**（角距 0.04°），其余在视场内的 18 个源到任意 1LHAASO 源的最小角距 **≥ 7.95°**（远超 LHAASO 0.1–0.4° 位置不确定度）—— 详见末尾 [LHAASO catalog 比对](#lhaaso-catalog-比对vhe-follow-up-候选评估) 节及 [2026-05-14 全 catalog 位置交叉匹配复核](#2026-05-14-全-catalog-位置交叉匹配复核) 子节。
+- **发生率（最新校正）**：Chen+24 ~3% (134 源, transient, ≥5 cycles)；Rico+24 SSA 给出 46/494 ≈ 9% 本地 ≥2σ，33/494 ≈ 7% 局域 ≥4σ → 全局 ≥2.2σ；**Peñil+25 在 1492 源（排除 24 hint 源）严格 trial-factor 修正后 0% 全局显著检出** —— 三者一致指向 QPO 几乎完全集中在已识别 hint 源 + 长 baseline 才显现。
+- **LHAASO follow-up 候选**：扩样 81 源后仍**仅 Mrk 421 / Mrk 501 与 1LHAASO catalog 直接对应**（角距 0.04°）；新近 hint 中**最接近的非匹配**是 Rico+24 引入的 **3C 66A → 1LHAASO J0216+4237 = 1.22°**（仍远超 PSF，但已是 Mrk 421/501 之外最近的一对）—— 详见末尾 [LHAASO catalog 比对](#lhaaso-catalog-比对vhe-follow-up-候选评估) 节及 [2026-05-14b 81 源扩样本位置交叉匹配复核](#2026-05-14b-81-源扩样本位置交叉匹配复核) 子节。
 
 ## 主表 — 每篇论文一览
 
@@ -23,11 +25,14 @@
 | 1 | Kushwaha+ 2020 | OJ 287 | ~314 d × 1 | ~3σ | LSP, REDFIT, WWZ | 2008-08 → 2018-02 | quasi-stationary radio knots / SMBBH |
 | 2 | Zhang+ 2021 | PKS 0521-36 | ~1.1 yr × 1 | ~5σ | LSP, WWZ, REDFIT, GP | 2008-08 → 2021-03 | γ-ray outburst-driven (mildly beamed) |
 | 3 | Ren+ 2022 | 35 brightest 4LAC (19 FSRQ + 15 BL Lac + 1 RDG) | 30 d – 1127 d，**36 QPO 候选 in 24 源** | >5σ post-trial | CWT (Morlet) + global wavelet + Emmanoulopoulos MC | 2008-08 → 2021-04 | SMBBH / jet precession / helical |
-| 4 | Gong+ 2023 | S4 0954+658 | 66 d & 210 d | >5σ (66d) | LSP, WWZ, REDFIT, epoch fold | 2008 → 2022 | plasma blob helical motion |
-| 5 | Zhang+ 2023 | S2 0109+22 | ~600 d | 3.5σ | LSP, WWZ, REDFIT, phase fold | 2008-08 → 2023-01 | binary BH + lighthouse |
-| 6 | Sharma+ 2023 | PKS 0521-36 | 268 d, 295 d, 806 d | >3σ | LSP, WWZ, GP (SHO + DRW) | 2008-08 → 2023 (15 yr) | first long-term QPO in non-blazar AGN |
-| 7 | Chen+ 2024 | 134 blazars (flux-limited) → 6 源 8 QPO | 54 d – 341 d | ~4.3σ (PKS 1510-089) | WWZ + LSP + Emmanoulopoulos MC, 严格 5+ cycles | 2008-08 → ~2021-04 | helical jet (favored) |
-| 8 | Sharma+ 2025 | 7 blazars | ~225 d – ~1449 d | 4σ (PKS 0736+01) | LSP + REDFIT + DRW MC (30k LC) + MCMC SMBBH 拟合 | 2008-08 → 2025-04 (15+ yr) | SMBBH 主导 + jet precession |
+| 4 | **Peñil+ 2022** | **24 selected blazars (hint sample)** | 1.0 – 4.7 yr | PG 1553+113 **~1.8σ global** 唯一 | LSP + Phase Dispersion Min. + WWZ + ARIMA + Bayesian + 含 UL 点 | 2008-08 → 2020-08 (12 yr) | hint 重确认；trial-factor 后只 PG 1553+113 通过 |
+| 5 | Gong+ 2023 | S4 0954+658 | 66 d & 210 d | >5σ (66d) | LSP, WWZ, REDFIT, epoch fold | 2008 → 2022 | plasma blob helical motion |
+| 6 | Zhang+ 2023 | S2 0109+22 | ~600 d | 3.5σ | LSP, WWZ, REDFIT, phase fold | 2008-08 → 2023-01 | binary BH + lighthouse |
+| 7 | Sharma+ 2023 | PKS 0521-36 | 268 d, 295 d, 806 d | >3σ | LSP, WWZ, GP (SHO + DRW) | 2008-08 → 2023 (15 yr) | first long-term QPO in non-blazar AGN |
+| 8 | Chen+ 2024 | 134 blazars (flux-limited) → 6 源 8 QPO | 54 d – 341 d | ~4.3σ (PKS 1510-089) | WWZ + LSP + Emmanoulopoulos MC, 严格 5+ cycles | 2008-08 → ~2021-04 | helical jet (favored) |
+| 9 | **Rico+ 2024** | **494 Fermi-LAT 源 (4LAC)** | 1.0 – 4.7 yr，**46 候选, 33 局域 ≥4σ ⇒ 全局 ≥2.2σ, 25 新 γ-ray candidates** | 4.8σ local / 3.3σ global (top) | **Singular Spectrum Analysis (SSA)** + LSP + EM MC | 2008 → ~2020-08 (12 yr) | SSA 隔离趋势 + 噪声后筛大批长周期候选 |
+| 10 | Sharma+ 2025 | 7 blazars | ~225 d – ~1449 d | 4σ (PKS 0736+01) | LSP + REDFIT + DRW MC (30k LC) + MCMC SMBBH 拟合 | 2008-08 → 2025-04 (15+ yr) | SMBBH 主导 + jet precession |
+| 11 | **Peñil+ 2025** | **1492 jetted AGN (4FGL, 排除 24 hint 源)** | **— (null result：trial-factor 后全局 ≈0σ)** | 10 源局域 ≥2σ → 全局 0σ | **9 种方法 ensemble** (LSP + PDM + WWZ + Wavelet + ARIMA/ARFIMA + CARMA + Bayesian + z-DCF + autoregressive) | 2008-08 → 2020-08 (12 yr) | QPO 不是 jetted AGN 普适特征 |
 
 ## 完整 QPO 候选列表（每行 = 一个源 × 一个 QPO 信号）
 
@@ -88,6 +93,97 @@
 ★ = 该源在该周期/方法下的首次报告。
 注：Ren+ 2022 共给 24 源 36 候选；本表展开列入主要单候选（同源多周期保留首选/示例值），完整列表见原文 Table 2。
 
+## Peñil 系列三篇大样本扩样（2026-05-14b 加入）
+
+Peñil 课题组 2022–2025 跨度的三篇系统性扫描带来 **45 个本报告原先未列出的
+新 QPO/hint 源**（去重；与已有 34 源相加 → **81 unique 源**）。三篇在
+"候选 vs 显著" 这条轴上代表三种态度：
+
+- **Peñil+22**（24 hint 源精挑）：保守，只 PG 1553+113 一个全局 1.8σ
+- **Rico+24**（494 源 + SSA）：相对宽松的方法学（SSA），出 46 candidates，
+  33 个 local ≥4σ ↔ global ≥2.2σ，**25 个标记为「新 γ-ray candidate」**
+- **Peñil+25**（1492 源 9-method ensemble）：最严格，trial-factor 修正后
+  **0 个 globally significant** QPO；10 源 ≥2σ local 但 global ≈ 0σ
+
+### Peñil+22 新源（18 个，按 global σ 降序，最高 1.8σ）
+
+PG 1553+113 是 Peñil 系列中迄今**唯一通过全局显著性 ≥1σ 的源**。
+
+| Source | 4FGL | Type | z | 周期 (yr) | Global σ | Dec | FoV |
+|---|---|---|---|---|---|---|---|
+| **PG 1553+113** ★ | J1555.7+1111 | BL Lac | 0.433 | 2.2±0.2 | **≈1.8σ** | +11.19° | ✅ |
+| OJ 014 | J0811.3+0146 | BL Lac | 1.148 | 4.1 | ≈0σ | +1.77° | ✅ |
+| GB6 J0043+3426 | J0043.8+3425 | FSRQ | 0.966 | 1.9 | ≈0σ | +34.43° | ✅ |
+| TXS 0518+211 | J0521.7+2113 | BL Lac | 0.108 | 3.1 | ≈0σ | +21.21° | ✅ |
+| 87GB 164812.2+524023 | J1649.4+5238 | BL Lac | — | 2.8 | ≈0σ | +52.58° | ✅ |
+| PKS 0301-243 | J0303.4-2407 | BL Lac | 0.266 | 2.1 | ≈0σ | −24.12° | ❌ |
+| S4 1144+40 | J1146.8+3958 | FSRQ | 1.089 | 3.3 | ≈0σ | +39.97° | ✅ |
+| PG 1246+586 | J1248.2+5820 | BL Lac | — | 2.1 | ≈0σ | +58.35° | ✅ |
+| PKS 0250-225 | J0252.8-2218 | FSRQ | 1.419 | 1.2 | ≈0σ | −22.32° | ❌ |
+| PKS 2255-282 | J2258.0-2759 | FSRQ | 0.926 | 1.4 | ≈0σ | −27.98° | ❌ |
+| TXS 1902+556 | J1903.2+5541 | BL Lac | — | 3.3 | ≈0σ | +55.68° | ✅ |
+| S3 0458-02 | J0501.2-0157 | FSRQ | 2.291 | 3.8 | ≈0σ | −1.98° | ✅ |
+| MG2 J130304+2434 | J1303.0+2435 | BL Lac | 0.993 | 2.1 | ≈0σ | +24.57° | ✅ |
+| PKS 2052-47 | J2056.2-4714 | FSRQ | 1.489 | 1.7 | ≈0σ | −47.23° | ❌ |
+| S4 0814+42 | J0818.2+4223 | BL Lac | 0.530 | 2.2 | ≈0σ | +42.38° | ✅ |
+| MG1 J021114+1051 | J0211.2+1051 | BL Lac | 0.2 | 2.9 | ≈0σ | +10.86° | ✅ |
+| TXS 0059+581 | J0102.8+5825 | FSRQ | 0.644 | 4.0 | ≈0σ | +58.42° | ✅ |
+| TXS 1452+516 | J1454.5+5124 | BL Lac | — | 2.1 | ≈0σ | +51.41° | ✅ |
+
+★ = 唯一全局 ≥1σ。FoV = 是否在 LHAASO 视场（Dec > −20°）。
+
+### Rico+24 新源（22 个 starred「new γ-ray candidates」，去 3 个与现有重叠）
+
+按 local σ 降序排列。`*` 表 Rico+24 原表标的 "无既有 γ-ray QPO 证据"。
+
+| Source | 4FGL | Type | z | 周期 (yr) | Local σ | Global σ | Dec | FoV |
+|---|---|---|---|---|---|---|---|---|
+| OC 457 | J0137.0+4751 | FSRQ | 0.859 | 1.79±0.22 | 4.8σ | 3.3σ | +47.86° | ✅ |
+| 4C +47.44 | J1637.7+4717 | FSRQ | 0.735 | 3.17±0.58 | 4.8σ | 3.3σ | +47.29° | ✅ |
+| 4C +48.41 | J1657.7+4808 | FSRQ | 1.669 | 1.47±0.08 | 4.8σ | 3.3σ | +48.14° | ✅ |
+| **3C 66A** | J0222.6+4302 | BL Lac | 0.444 | 2.31±0.20 | 4.6σ | 3.1σ | +43.04° | ✅ |
+| PKS B1310-041 | J1312.8-0425 | FSRQ | 0.825 | 2.37±0.22 | 4.6σ | 3.1σ | −4.42° | ✅ |
+| PKS 0524-485 | J0526.2-4830 | FSRQ | 1.300 | 2.07±0.20 | 4.8σ | 3.3σ | −48.52° | ❌ |
+| PKS 1005-333 | J1007.6-3332 | FSRQ | 1.837 | 2.61±0.34 | 4.8σ | 3.3σ | −33.54° | ❌ |
+| TXS 1530-131 | J1532.7-1319 | BCU | — | 1.37±0.07 | 4.8σ | 3.3σ | −13.33° | ✅ |
+| PKS 1903-80 | J1913.0-8009 | FSRQ | 1.756 | 2.41±0.22 | 4.8σ | 3.3σ | −80.16° | ❌ |
+| PKS 2155-83 | J2201.5-8339 | FSRQ | 1.865 | 4.73±0.94 | 4.8σ | 3.3σ | −83.66° | ❌ |
+| MH 2136-428 | J2139.4-4235 | BL Lac | — | 1.81±0.18 | 4.8σ | 3.3σ | −42.59° | ❌ |
+| 7C 2010+4619 | J2012.0+4629 | BL Lac | — | 3.23±0.46 | 4.2σ | 2.5σ | +46.49° | ✅ |
+| B2 2234+28A | J2236.3+2828 | FSRQ | 0.790 | 2.19±0.15 | 4.1σ | 2.3σ | +28.48° | ✅ |
+| TXS 1318+225 | J1321.1+2216 | FSRQ | 0.943 | 1.21±0.06 | 3.8σ | 1.8σ | +22.28° | ✅ |
+| S5 1221+80 | J1223.8+8039 | BL Lac | — | 2.67±0.27 | 3.5σ | 1.2σ | +80.66° | ✅ |
+| PKS 1424-328 | J1427.6-3305 | BL Lac | — | 1.27±0.08 | 2.9σ | <1.0σ | −33.09° | ❌ |
+| 4C +04.42 | J1222.5+0414 | FSRQ | 0.964 | 2.21±0.19 | 2.7σ | <1.0σ | +4.24° | ✅ |
+| PKS 1716-771 | J1723.6-7714 | BCU | — | 2.27±0.20 | 2.9σ | <1.0σ | −77.24° | ❌ |
+| S4 1250+53 | J1253.2+5301 | BL Lac | — | 2.31±0.21 | 2.6σ | <1.0σ | +53.02° | ✅ |
+| PKS 0403-13 | J0405.6-1308 | FSRQ | 0.571 | 1.69±0.12 | 2.3σ | <1.0σ | −13.14° | ✅ |
+| B2 0716+33 | J0719.3+3307 | FSRQ | 0.779 | 2.29±0.18 | 2.2σ | <1.0σ | +33.12° | ✅ |
+| S4 1030+41 | J1033.1+4115 | FSRQ | 1.117 | 2.29±0.21 | 2.0σ | <1.0σ | +41.26° | ✅ |
+| PMN J0427-3900 | J0427.3-3900 | BCU | — | 2.79±0.31 | 3.9σ | 2.0σ | −39.01° | ❌ |
+
+注：原文 Table A.1 共 46 行，其中 25 行带 `*` (= 新 γ-ray 候选)；本表只列
+22 个不与现有 34 源重叠的（另 3 个 *-标记的 3C 66A、PKS 1424+240、S2 0109+22
+属于「之前在他文 sample 内但 Rico+24 视为首次 SSA 检出」）。
+
+### Peñil+25 新源（5 个 local ≥2σ hint，**全部 global ≈0σ**）
+
+Peñil+25 主样本 1492，扫完后没有全局显著源；下列 5 个仅作 hint（local σ 在
+trial-factor 修正后归零）。其余 5 个表 1 源（S5 1044+71, S2 0109+22, PG 1553+113,
+OJ 014, S5 0716+714, GB6 J0043+3426, TXS 0518+211, 87GB 164812.2+524023）
+已出现在 Peñil+22 / Ren+22 中，本表略。
+
+| Source | 4FGL | Type | z | 周期 (yr) | Local σ | Global σ | Dec | FoV |
+|---|---|---|---|---|---|---|---|---|
+| PKS 0215+015 | J0217.8+0144 | FSRQ | 1.715 | 3.4±0.4 | 2.2σ | ≈0σ | +1.73° | ✅ |
+| PMN J0533-5549 | J0533.3+4823 | BCU | — | — | — | ≈0σ | −55.82° | ❌ |
+| OP 313 | J1310.5+3221 | FSRQ | 0.997 | 5.7±0.8 | 2.0σ | ≈0σ | +32.35° | ✅ |
+| S4 1030+61 | J1033.9+6050 | FSRQ | 1.401 | 2.9±0.4 | 2.0σ | ≈0σ | +60.85° | ✅ |
+| S5 1039+81 | J1044.6+8053 | FSRQ | 1.254 | 3.5±0.4 | 2.0σ | ≈0σ | +80.89° | ✅ |
+
+PKS 0405-385 与 MH 2136-428 在 Peñil+25 表 1 中 local σ 最高 (2.5σ) 但
+分别已在 Sharma+25 / Rico+24 列入，故不重复。
+
 ## 逐篇细读
 
 ### 1. Kushwaha+ 2020 — OJ 287 [arXiv:2009.13754]
@@ -119,7 +215,7 @@
 - **结论**：**所有候选均为 transient**（在分析窗口内出现/消失）。S5 1044+71 ~3 yr 周期作为最长多年 QPO 首次报告。
 - **解释**：与 SMBBH 在 SMBH 演化中的存在关联，但保持开放，认为 jet 内/外多种几何机制都可解释。
 
-### 4. Gong+ 2023 — S4 0954+658 [arXiv:2304.03085]
+### 5. Gong+ 2023 — S4 0954+658 [arXiv:2304.03085]
 
 - **源**：S4 0954+658 (BL Lac, z=0.367)。
 - **检测**：两个分段 transient QPO：
@@ -128,7 +224,7 @@
 - **方法**：LSP + WWZ + REDFIT + epoch folding。
 - **解释**：plasma blob 沿 helical 路径运动 + jet 几何模型 — 与短周期一致。
 
-### 5. Zhang+ 2023 — S2 0109+22 [arXiv:2306.11579]
+### 6. Zhang+ 2023 — S2 0109+22 [arXiv:2306.11579]
 
 - **源**：S2 0109+22 (BL Lac, z~0.36)。射电、毫米波已知 ~657 d 周期。
 - **检测**：**~600 d (3.5σ)**，2013-11 至 2023-01，~9 yr / **5.6 cycles**。
@@ -136,7 +232,7 @@
 - **数据**：Fermi-LAT 2008-08-04 → 2023-01-16，7-day binned, TS>9。
 - **解释**：与已知 radio 周期一致 → binary BH 系统的 accretion + lighthouse 效应。
 
-### 6. Sharma, Prince & Bose 2023 — PKS 0521-36 [arXiv:2312.12623]
+### 7. Sharma, Prince & Bose 2023 — PKS 0521-36 [arXiv:2312.12623]
 
 - **源**：PKS 0521-36（与 Zhang+ 2021 同源）。**non-blazar AGN**，弱 beamed jet。
 - **检测**：3 个周期：**268 d, 295 d, 806 d (>3σ)**；其中 806 d 是 268 d 的 **第三谐波**。GP（SHO + DRW）模型 PSD 显示 ~283 d 和 ~886 d 两个峰。
@@ -145,7 +241,7 @@
 - **意义**：首例长周期 (>800 d) γ-ray QPO in non-blazar AGN。
 - **与 Zhang+ 2021 对比**：Zhang+ 2021 在更短窗口给出 ~1.1 yr (~400 d)；Sharma+ 2023 在 15 yr 全数据给出多个周期且都更短/更长。说明在 5.8 yr vs 15 yr 窗口内，主导信号不同。
 
-### 7. Chen+ 2024 — 134 blazars systematic search [arXiv:2401.10658]
+### 8. Chen+ 2024 — 134 blazars systematic search [arXiv:2401.10658]
 
 - **样本**：134 blazars（Monitored Source List 中 peak flux > 1×10⁻⁶ ph cm⁻²s⁻¹，7 BCU + 31 BL Lac + 95 FSRQ）。
 - **方法**：WWZ 全光变曲线扫描 → LSP 独立验证 → Emmanoulopoulos PSD/PDF MC 给出 σ。
@@ -161,7 +257,67 @@
 - **发生率估算**：~3%。
 - **解释**：helical jet motion 模型 best fit；同时讨论磁岛 / 磁重联，但 helical jet 仍最优。
 
-### 8. Sharma+ 2025 — 7 blazars + SMBBH 拟合 [arXiv:2505.23697]
+### 4. Peñil+ 2022 — 24 selected blazars hint sample [arXiv:2211.01894]
+
+> 注：按时间顺序此节应放在 §3 (Ren+22) 后、§5 (Gong+23) 前；本文档为简化
+> 编辑，把 Peñil 系列三篇 (§4/§9/§11) 集中在 §3-§8 后阅读，主表已按时间排序。
+
+- **作者**：P. Peñil, M. Ajello, S. Buson, A. Domínguez, J. R. Westernacher-Schneider, A. Rico, S. Adhikari, J. Zrake；2022-11-03。
+- **样本**：24 个 γ-ray blazars，来自 Peñil+2020 的更早期 hint 列表，扩展时长。
+- **数据**：Fermi-LAT 12 yr (≈2008-08 → 2020-08)，能段 >0.1 GeV，28 d binning。
+- **方法链条**：
+  1. **保留 upper-limit (UL) 点**：把 UL 数据作为信号下限纳入分析（>0% blazars 有 UL；过去常 discard）—— 防止 LC 出现假 gap
+  2. LSP + Phase Dispersion Min. (PDM) + WWZ + ARIMA + Bayesian periodicity 5 种独立验证
+  3. **Trial-factor 全局显著性修正**：local σ 经 ≥4σ 时配 P × B 试验 → global σ ≈ local 经验函数。这是 Peñil 系列方法学的核心创新。
+- **结果**：
+  - **PG 1553+113** 给出 2.2±0.2 yr，local 4.5σ → **global ≈1.8σ** —— 唯一通过 ≥1σ 全局门槛的
+  - 其余 23 源 global ≈ 0σ（包含 PKS 2155−304、OJ 014、PKS 0454−234、S5 0716+714 等知名 VHE 源）
+- **意义**：在 hint 重分析中只有 PG 1553+113 保留为 robust QPO 候选 —— 与 Ait Benkhali+20、HESS 等独立分析一致。
+- **后续**：直接对接 Rico+24（SSA 重测得 PG 1553+113 local 4.8σ）和 Peñil+25 全 sample 大扫描。
+
+### 9. Rico+ 2024 — SSA × 494 Fermi-LAT 源 [arXiv:2412.05812]
+
+- **作者**：A. Rico, A. Domínguez, P. Peñil, M. Ajello, S. Buson, S. Adhikari, M. Movahedifar；2024-12-08，DOI 10.1051/0004-6361/202452495。
+- **样本**：4LAC 中 494 个 Fermi-LAT 源（jetted AGN + Sy1，含 nlSy1）。
+- **数据**：Fermi-LAT ~12 yr，28 d binning，>0.1 GeV。
+- **方法**：**Singular Spectrum Analysis (SSA)** —— 把时间序列分解为 oscillatory + trend + noise 三个 component，**剥离趋势和噪声后单独做 LSP**。优势：长 baseline 下红噪声不再压死信号。
+- **统计**：
+  - Local σ：Emmanoulopoulos PSD/PDF MC + Vaughan red-noise 模型，从 4σ 到 4.8σ 离散级
+  - Global σ：用 Gross & Vitells 2010 trial-factor 公式，4.8σ local → 3.3σ global
+- **结果**：
+  - **46 candidates** with local ≥2σ；其中
+  - **33 candidates** local ≥4σ ⇒ global ≥2.2σ（**8 个 global ≥3.0σ**）
+  - **25 个 `*` 标 "new γ-ray candidates"**（无既有 γ-ray QPO 文献）—— Mass-add 到 LHAASO 比对样本
+- **代表性新源**：
+  - OC 457 (FSRQ, z=0.859, 1.79 yr, global 3.3σ)
+  - 4C +47.44, 4C +48.41（高纬 FSRQ, > 4σ local）
+  - **3C 66A** (BL Lac, z=0.444, 2.31 yr, local 4.6σ / global 3.1σ) —— 已知 VHE 源 + 长期 γ-ray hint，首次有 SSA QPO 显著性
+- **方法学贡献**：把 SSA 从原本生物/经济学时间序列工具引入 blazar 周期搜寻，**与 Ren+22 CWT 形成互补**。后续 Peñil+25 把 SSA 集成进 9-method ensemble。
+
+### 11. Peñil+ 2025 — 1492 jetted AGN, 9-method ensemble, NULL result [arXiv:2509.14013]
+
+- **作者**：P. Peñil, A. Domínguez, S. Buson, M. Ajello, S. Adhikari, A. Rico；2025-09-17 (v1) / 2025-10-22 (v2)。
+- **样本**：从 4FGL DR2 选 **1492 个 jetted AGN**（占 catalog 45.1%）；**显式排除 24 个 hint 源**（已在 Peñil+22 单独再分析）。这是迄今为止最大的 GeV blazar QPO 搜寻样本。
+- **数据**：Fermi-LAT 12 yr (2008-08 → 2020-08)，28 d binning，>0.1 GeV，含 UL 点。
+- **流水线**：四阶段
+  1. **变量性筛**：1492 → 453（30.6%）保留 <50% upper-limit
+  2. **10 established methods**（LSP, PDM, WWZ, CWT, ARIMA, ARFIMA, CARMA, Bayesian QPO, Markov Chain Monte Carlo sine fits, …），**REDFIT 已剔除**（AR(1) 不当模型）
+  3. **2 new methods** (§3.5)：z-DCF (autocorrelation) + autoregressive 模型 → 算 **9-method ensemble**
+  4. **同一 period 必须 ≥3 method 检出，最少 4 个 method ≥4σ** —— 极严标准
+- **统计**：
+  - local σ：Timmer & Koenig (TK) artificial LC + Emmanoulopoulos MC 修正
+  - global σ：**look-elsewhere** trial factor P × B = 24 × 1492 = 35,808 → 把 local 4.5σ 压到 global ≈0σ
+- **结果**：
+  - **0 sources with global σ > 0**
+  - **10 sources** 给 local ≥2σ hint（**全部 global ≈0σ**）—— Table 1：S5 1044+71 (2.5σ local, top), S2 0109+22, PKS 0215+015, PMN J0533-5549, OP 313, S4 1030+61, S5 1039+81 + 重叠的 PG 1553+113 等
+  - **PKS 0405-385** local 2.5σ 与 S5 1044+71 并列；但都被全局修正掉
+- **核心物理结论**：
+  - **QPO 不是 jetted AGN 的普适特征** —— 否则 1492 源里应至少出几十个 global ≥3σ
+  - 现有所有 robust γ-ray QPO（Mrk 421/501 周期、PG 1553+113 2.2 yr、Ren+22 CTA 102/CB2 1520+31 等）应被视为**少数特殊源的几何/动力学产物**，不能外推
+  - 把 Chen+24 ~3% 发生率上限进一步压到 < 0.5%（在排除 hint 源后）
+- **方法学意义**：这是目前最严格 trial-factor 修正后的 null result —— **后续任何 γ-ray QPO 论文必须通过这套 9-method ensemble + 全局修正才算 robust**。
+
+### 10. Sharma+ 2025 — 7 blazars + SMBBH 拟合 [arXiv:2505.23697]
 
 - **样本**：7 blazars (PKS 1424-41, PKS 0736+01, S2 0109+22, PKS 0244-470, PKS 0405-385, PKS 0208-512, PKS 0035-252)。
 - **数据**：Fermi-LAT 2008-08-05 → 2025-04-01 (MJD 54683–60766)，weekly binned，TS ≥ 9。
@@ -209,16 +365,22 @@
 
 ### 方法使用频率
 
-| 方法 | 使用论文数 / 8 |
+| 方法 | 使用论文数 / 11 |
 |---|---|
-| LSP (Lomb-Scargle) | 8 |
-| WWZ (Weighted Wavelet Z-transform) | 7 |
+| LSP (Lomb-Scargle) | 11 |
+| WWZ (Weighted Wavelet Z-transform) | 9 |
 | REDFIT | 6 |
-| Emmanoulopoulos PSD/PDF MC | 4 |
+| Emmanoulopoulos PSD/PDF MC | 5 |
 | Gaussian Process (DRW / SHO) | 3 |
 | Phase fold / epoch fold | 3 |
-| CWT (Morlet, post-trial corrected) | 1 (Ren+ 2022) |
+| CWT (Morlet, post-trial corrected) | 2 (Ren+ 2022, Peñil+ 2025) |
 | MCMC 物理参数拟合 | 1 (Sharma+ 2025) |
+| **SSA (Singular Spectrum Analysis)** | **2 (Rico+ 2024, Peñil+ 2025)** |
+| **z-DCF (autocorrelation)** | **1 (Peñil+ 2025)** |
+| **ARIMA / ARFIMA / CARMA** | **3 (Peñil+ 2022/2025, Rico+ 2024)** |
+| **Bayesian QPO / MCMC sine fits** | **2 (Peñil+ 2022, Peñil+ 2025)** |
+| **Trial-factor 全局显著性修正** | **3 (Peñil+ 2022, Rico+ 2024, Peñil+ 2025)** |
+| **保留 upper-limit (UL) 点** | **3 (Peñil 系列)** |
 
 ### 物理解释优先级
 
@@ -366,11 +528,24 @@ C 档多数为 z > 1 的 FSRQ，VHE 段会被 BLR / EBL 吸收 — 即使在视�
 
 ### 比对统计
 
+**2026-05-14（前 Peñil 系列）—— 34 源**：
+
 | 档位 | 数量 | 占比 |
 |---|---|---|
 | A 档 (in 1LHAASO catalog) | 2 / 34 | ~6% |
 | B 档 (视场内未检出) | 20 / 34 | ~59% |
 | C 档 (超出视场) | 12 / 34 | ~35% |
+
+**2026-05-14b（含 Peñil 系列扩样）—— 81 源**：
+
+| 档位 | 数量 | 占比 |
+|---|---|---|
+| A 档 (in 1LHAASO catalog) | 2 / 81 | ~2.5% |
+| B 档 (视场内未检出) | 54 / 81 | ~67% |
+| C 档 (超出视场) | 25 / 81 | ~31% |
+
+A 档**仍然只有 Mrk 421 / Mrk 501**（其余 79 个源到任何 1LHAASO 源的最近角距均 > 1.2°）。
+B 档扩到 54 主要源于 Rico+24 22 新源 + Peñil+22 14 in-FoV 源 + Peñil+25 4 in-FoV 源。
 
 注：1LHAASO catalog 数据截至 2022-09；本节赤纬比对采用 4FGL DR4 J2000 坐标。
 
@@ -464,6 +639,66 @@ C 档多数为 z > 1 的 FSRQ，VHE 段会被 BLR / EBL 吸收 — 即使在视�
 > **可复算**：该交叉匹配的具体脚本逻辑写在 plan 文档里；catalog 提取自
 > `data/papers/lhaaso_cao2024_1lhaaso_catalog.pdf` Table 1。
 
+### 2026-05-14b 81 源扩样本位置交叉匹配复核
+
+> **复核动机**：Peñil 系列 3 篇加 45 个新 hint/candidate 源进来。重新跑
+> 全 81 × 90 great-circle 角距，验证 A 档是否仍是 Mrk 421/501 二件套。
+
+#### 方法
+
+- Fermi QPO 源 **81 个**：34 (原列) + 18 (Peñil+22 new) + 22 (Rico+24 ★ new) +
+  5 (Peñil+25 hint new) + 2 (Rico+24 ★ 3C 66A、PKS 1424+240 视为新探测，但
+  4FGL 名已在 Ren+22 表中)。位置全部用 4FGL DR4 / Peñil+22 Table 1 / Rico+24
+  Table A.1 的 J2000 直接表列。
+- 1LHAASO 仍 90 源，与 2026-05-14 节同。
+
+#### 表 — 81 源扩样本 forward match 角距分布
+
+| 角距区间 (°) | Fermi QPO 源数 | 标志源 |
+|---|---|---|
+| **< 0.1°** | **2** | Mrk 421, Mrk 501 |
+| 0.1 – 2.0° | 1 | 3C 66A → J0216+4237 (1.22°) |
+| 2.0 – 5.0° | 1 | TXS 0518+211 → J0534+2200 (3.06° Crab 区) |
+| 5.0 – 10.0° | 9 | 4C +48.41, TXS 0059+581, 7C 2010+4619, 87GB 164812.2+524023, S4 1030+41, OC 457, 4C +21.35, 4C +47.44, S4 1144+40 |
+| 10.0 – 20.0° | 9 | MG2 J130304+2434, OP 313, NGC 1275, B2 0716+33, 1H 1013+498, 4C +28.07, TXS 1902+556, PKS 0736+01, TXS 1318+225 |
+| > 20.0° | 34 | 其余 |
+| **总计 FoV 内** | **56** | (Dec > −20°) |
+
+#### 「最接近 Mrk 421/501 以外」的近邻候选简评
+
+##### 3C 66A → 1LHAASO J0216+4237 = 1.22°
+
+**最有趣的"近邻但不匹配"案例**：
+
+- 3C 66A：BL Lac, z=0.444, RA 35.67°, Dec +43.04°
+- 1LHAASO J0216+4237：UNID, RA 34.10°, Dec +42.63°, KM2A 检出，位置不确定度 0.10°
+- 角距 1.22° **远超 PSF (0.10°)**，因此**不是位置匹配**
+- 但 3C 66A 是 known VERITAS VHE BL Lac + 长期 γ-ray hint，Rico+24 SSA 给 2.31 yr local 4.6σ / global 3.1σ —— 在所有 79 个非 Mrk421/501 源中**离 1LHAASO 最近**
+- Perseus cluster 周围有 3 个相关 1LHAASO UNID (J0206+4302, J0212+4254, J0216+4237)，归因更可能是该区域的 KM2A 系统效应或未知 Galactic 起源，与 3C 66A 高纬位置不直接关联
+
+结论：**仍不存在 < PSF 的 Fermi QPO × 1LHAASO 新对应**；3C 66A 作为「最接近 LHAASO 视野的非配对源」值得在 LHAASO 后续 catalog 公开时优先复核。
+
+##### 5–10° 近邻：9 个源全部是 Galactic 1LHAASO 邻居
+
+落在 5–10° 的 9 对绝大多数来自高 |b| Fermi QPO 源 × 银道面附近 1LHAASO Galactic
+UNID（Crab、Cygnus 区、Galactic anticenter）—— 不是物理关联，只是角度限制。
+
+#### 结论
+
+1. **A 档仍是 2 源**（Mrk 421 / Mrk 501）—— 81 源样本下保持不变
+2. **没有任何 < PSF 的新对应**；最近的非配对 (3C 66A → J0216+4237 = 1.22°)
+   是 PSF 的 12 倍
+3. Peñil+25 1492 → 0 全局显著的 null result 与 LHAASO 位置 null 一致暗示：
+   **GeV QPO × VHE QPO 关联在现有数据下极稀缺，Mrk 421 / Mrk 501 是仅有的
+   两个 robust 标的**
+4. 未来扩展候选必须等：
+   - LHAASO post-2022-09 公开数据
+   - LHAASO 对 PG 1553+113 / 3C 66A 等的专项搜寻（这些 BL Lac 在视场内且
+     是 Peñil/Rico 系列的最佳候选）
+
+> **可复算**：cross-match 脚本同 2026-05-14 节，sample 列表参见上节
+> "Peñil 系列三篇大样本扩样" 三张表。
+
 ## 参考文献
 
 1. **Kushwaha P., Sarkar A., Gupta A. C., Tripathi A., Wiita P. J.**, 2020, *MNRAS*, 499, 653. *A Possible γ-ray Quasi-periodic Oscillation of ~314 days in the Blazar OJ 287.* [arXiv:2009.13754](https://arxiv.org/abs/2009.13754) · [DOI 10.1093/mnras/staa2899](https://doi.org/10.1093/mnras/staa2899)
@@ -474,8 +709,11 @@ C 档多数为 z > 1 的 FSRQ，VHE 段会被 BLR / EBL 吸收 — 即使在视�
 6. **Sharma A., Prince R., Bose D.**, 2023, *MNRAS* (submitted). *Detection of gamma-ray quasi-periodic oscillations in non-blazar AGN PKS 0521-36.* [arXiv:2312.12623](https://arxiv.org/abs/2312.12623)
 7. **Chen J., Yu J., Huang W., Ding N.**, 2024, *MNRAS*, 528, 6807. *Transient quasi-periodic oscillations in the gamma-ray light curves of bright blazars.* [arXiv:2401.10658](https://arxiv.org/abs/2401.10658) · [DOI 10.1093/mnras/stae416](https://doi.org/10.1093/mnras/stae416)
 8. **Sharma A., Chaudhary S., Sarath A., Bose D.**, 2025, preprint. *Exploring Year-timescale Gamma-ray Quasi-Periodic Oscillations in Blazars: Evidence for Supermassive Binary Black Holes Scenario.* [arXiv:2505.23697](https://arxiv.org/abs/2505.23697)
-9. **Cao Z. et al.** (LHAASO Collaboration), 2024, *ApJS*, 271, 25. *The First LHAASO Catalog of Gamma-Ray Sources.* [arXiv:2305.17030](https://arxiv.org/abs/2305.17030) · [DOI 10.3847/1538-4365/acfd29](https://doi.org/10.3847/1538-4365/acfd29) — LHAASO catalog 比对节的数据源
+9. **Peñil P., Ajello M., Buson S., Domínguez A., Westernacher-Schneider J. R., Rico A., Adhikari S., Zrake J.**, 2022, preprint. *Search for Periodic Variability in γ-ray Blazars Using Fermi-LAT.* [arXiv:2211.01894](https://arxiv.org/abs/2211.01894) — 24 hint blazars, 12 yr; PG 1553+113 global ≈1.8σ 唯一通过
+10. **Rico A., Domínguez A., Peñil P., Ajello M., Buson S., Adhikari S., Movahedifar M.**, 2024, *A&A* (in press). *Singular Spectrum Analysis of Fermi-LAT Blazar Light Curves: A Systematic Search for Periodicity and Trends in the Time Domain.* [arXiv:2412.05812](https://arxiv.org/abs/2412.05812) · [DOI 10.1051/0004-6361/202452495](https://doi.org/10.1051/0004-6361/202452495) — 494 源 SSA，46 candidates (25 new γ-ray)
+11. **Peñil P., Domínguez A., Buson S., Ajello M., Adhikari S., Rico A.**, 2025, preprint (v2). *Extensive Analysis of γ-Ray Periodicity in Jetted AGN from the 4FGL Catalog Using Fermi-LAT Observations.* [arXiv:2509.14013](https://arxiv.org/abs/2509.14013) — 1492 jetted AGN (排除 24 hint 源)，9-method ensemble，**0 global-significant QPO**
+12. **Cao Z. et al.** (LHAASO Collaboration), 2024, *ApJS*, 271, 25. *The First LHAASO Catalog of Gamma-Ray Sources.* [arXiv:2305.17030](https://arxiv.org/abs/2305.17030) · [DOI 10.3847/1538-4365/acfd29](https://doi.org/10.3847/1538-4365/acfd29) — LHAASO catalog 比对节的数据源
 
 ---
 
-*报告生成：2026-05-13 · 修订：2026-05-13 加入 LHAASO catalog 比对节 · 2026-05-14 补 Ren+22 13 源 + 全 catalog 位置交叉匹配复核 · 数据来源：上述 8 篇 Fermi 论文 + 1LHAASO catalog（保存在 `/mnt/mydisk/server/projects/QPO/data/papers/`）· 数字与论文原表/正文对应；同一源在不同论文给出不一致周期时，原值保留 — 不在本报告中合并。*
+*报告生成：2026-05-13 · 修订：2026-05-13 加入 LHAASO catalog 比对节 · 2026-05-14 补 Ren+22 13 源 + 全 catalog 位置交叉匹配复核 · **2026-05-14b 集成 Peñil 系列三篇（Peñil+22 + Rico+24 + Peñil+25），样本从 34 扩到 81 unique 源** · 数据来源：上述 11 篇 Fermi 论文 + 1LHAASO catalog（保存在 `/mnt/mydisk/server/projects/QPO/data/papers/`）· 数字与论文原表/正文对应；同一源在不同论文给出不一致周期时，原值保留 — 不在本报告中合并。*
