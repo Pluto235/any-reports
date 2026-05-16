@@ -31,270 +31,270 @@ window.MathJax = {
   <aside class="sidebar" id="sidebar">
     <p class="sidebar-title">📑 目录</p>
     <nav class="sidebar-nav">
-<ol><li><a href="#1-why-2-d-binning-instead-of-nhit-only">1. Why 2-D binning instead of Nhit only</a></li><li><a href="#2-what-we-have">2. What we have</a></li><li><a href="#3-forward-folding-formalism-generalised-to-2-d">3. Forward-folding formalism, generalised to 2-D</a></li><li><a href="#4-pipeline">4. Pipeline</a><ol><li><a href="#stage-a-detector-response-on-the-2-d-grid">Stage A — Detector response on the 2-D grid</a></li><li><a href="#stage-b-psf-per-cell-on-the-crab-dec-band">Stage B — PSF per cell on the Crab dec band</a></li><li><a href="#stage-c-observation-reduction">Stage C — Observation reduction</a></li><li><a href="#stage-d-background-estimation">Stage D — Background estimation</a></li><li><a href="#stage-e-signal-extraction">Stage E — Signal extraction</a></li><li><a href="#stage-f-forward-folding-fit">Stage F — Forward-folding fit</a></li><li><a href="#stage-g-sed-points">Stage G — SED points</a></li></ol></li><li><a href="#5-systematic-checks">5. Systematic checks</a></li><li><a href="#6-deliverables">6. Deliverables</a></li><li><a href="#7-open-decisions">7. Open decisions</a></li></ol>
+<ol><li><a href="#1-为什么用二维分箱而不是只用-nhit">1. 为什么用二维分箱而不是只用 Nhit</a></li><li><a href="#2-现有原料">2. 现有原料</a></li><li><a href="#3-forward-folding-形式推广到二维">3. Forward folding 形式（推广到二维）</a></li><li><a href="#4-流水线">4. 流水线</a><ol><li><a href="#stage-a-二维网格上的探测器响应">Stage A — 二维网格上的探测器响应</a></li><li><a href="#stage-b-crab-赤纬带上各单元的-psf">Stage B — Crab 赤纬带上各单元的 PSF</a></li><li><a href="#stage-c-观测数据规约">Stage C — 观测数据规约</a></li><li><a href="#stage-d-背景估计">Stage D — 背景估计</a></li><li><a href="#stage-e-信号提取">Stage E — 信号提取</a></li><li><a href="#stage-f-forward-folding-拟合">Stage F — Forward folding 拟合</a></li><li><a href="#stage-g-sed-点">Stage G — SED 点</a></li></ol></li><li><a href="#5-系统检验">5. 系统检验</a></li><li><a href="#6-交付物">6. 交付物</a></li><li><a href="#7-待你拍板">7. 待你拍板</a></li></ol>
     </nav>
   </aside>
 
   <main class="content">
     <article>
-<h1 id="crab-sed-roadmap-ml-energy-nhit-2d-binning">Crab SED Roadmap (ML-energy × Nhit 2D binning)<a class="headerlink" href="#crab-sed-roadmap-ml-energy-nhit-2d-binning" title="Permanent link">&para;</a></h1>
-<p><strong>Goal.</strong> Validate the ParticleNet-based per-event energy reconstruction by reproducing the Crab Nebula SED on two months of WCDA observation data (2022-01-01 to 2022-02-28), using a <strong>2-D (Nhit, log10 E_pred)</strong> binning scheme on top of the standard WCDA forward-folding analysis.</p>
-<p>Reference: 胡世聪博士论文 <em>LHAASO-WCDA 伽马源分析与源表</em> (2023), Ch. 6 + Appendix on GRB 221009A.</p>
+<h1 id="crab-sed-技术路线ml-能量-nhit-二维分箱">Crab SED 技术路线（ML 能量 × Nhit 二维分箱）<a class="headerlink" href="#crab-sed-技术路线ml-能量-nhit-二维分箱" title="Permanent link">&para;</a></h1>
+<p><strong>目标。</strong> 在 WCDA 两个月（2022-01-01 至 2022-02-28）Crab 观测数据上复现 Crab Nebula 的 SED，用以验证基于 ParticleNet 的单事例能量重建。分箱方案在标准 WCDA forward folding 之上扩展为 <strong>(Nhit, log₁₀ E_pred) 二维网格</strong>。</p>
+<p>参考：胡世聪博士论文 <em>LHAASO-WCDA 伽马源分析与源表</em>（2023），第 6 章 + GRB 221009A 附录。</p>
 <hr />
-<h2 id="1-why-2-d-binning-instead-of-nhit-only">1. Why 2-D binning instead of Nhit only<a class="headerlink" href="#1-why-2-d-binning-instead-of-nhit-only" title="Permanent link">&para;</a></h2>
-<p>The traditional WCDA pipeline (Hu 2023, §6.2) bins events along a single axis — <code>Nq05t30</code> — and forward-folds the assumed source spectrum through the detector response η(θ, E) to get an expected count per Nhit bin. The reason it does <em>not</em> bin in reconstructed energy is that per-event energy resolution from pool-only reconstruction is too poor to be useful.</p>
-<p>With the ML regressor (<code>runs/theta_recoxy_position_embed_midenergy_8666</code>) we now have a per-event <code>log10(E_pred / GeV)</code> whose resolution is good enough to be a useful second axis. Adding it as a second binning dimension does two independent things:</p>
+<h2 id="1-为什么用二维分箱而不是只用-nhit">1. 为什么用二维分箱而不是只用 Nhit<a class="headerlink" href="#1-为什么用二维分箱而不是只用-nhit" title="Permanent link">&para;</a></h2>
+<p>WCDA 传统流水线（胡 2023, §6.2）只沿一个轴 <code>Nq05t30</code> 分箱，把假设的源能谱通过探测器响应 η(θ, E) 前向折叠成每个 Nhit 段的预期事例数。它不直接按重建能量分箱，<strong>根本原因是只靠水池重建出来的单事例能量分辨率太差，没有实际价值</strong>。</p>
+<p>现在 ML 回归器（<code>runs/theta_recoxy_position_embed_midenergy_8666</code>）给出每个事例一个 <code>log10(E_pred / GeV)</code>，它的分辨率足够好，可以作为有用的第二条分箱轴。把它作为第二维度加进去做了两件事：</p>
 <ol>
-<li><strong>Inside a fixed Nhit bin</strong>, splitting on log E_pred separates events with different true energies that previously got averaged together. This sharpens the response matrix and gives the fit more leverage on the spectral shape.</li>
-<li><strong>The Nhit axis is preserved</strong> so the analysis remains directly comparable to the published WCDA-1 catalog result (Hu 2023, Fig. 6-32) — the 1-D Nhit-only fit is recovered by marginalising the 2-D response over the log E_pred axis.</li>
+<li><strong>在固定的 Nhit 段内</strong>，按 log E_pred 再切一刀，把原本混在一起、真能量不同的事例分开。这让响应矩阵更&quot;陡&quot;，给拟合提供了额外的谱形信息。</li>
+<li><strong>Nhit 轴依然保留</strong>，因此分析仍然能直接和已发表的 WCDA 一期星表结果（胡 2023, 图 6-32）对比 — 把二维响应沿 log E_pred 轴 marginalise 回去就能恢复一维 Nhit-only 拟合。</li>
 </ol>
-<p>This is structurally the same idea as IACTs using both reconstructed energy and reconstructed gamma/hadron score as separate axes — the second axis is allowed to be noisy, the fit takes care of it through the response matrix.</p>
-<p>The 2-D bin grid was already prototyped in <code>apply/simulation_all_bin.py</code>, producing <code>apply/summary_selectedcuts/bin_counts.md</code>:</p>
+<p>这种思路结构上和 IACT 把&quot;重建能量&quot;和&quot;重建 gamma/hadron 判别值&quot;分别作为独立分箱轴是一样的：第二条轴允许有噪声，响应矩阵会把它处理掉。</p>
+<p>二维网格已经在 <code>apply/simulation_all_bin.py</code> 里做过原型，输出在 <code>apply/summary_selectedcuts/bin_counts.md</code>：</p>
 <ul>
-<li><strong>Nhit bins (8):</strong> <code>[30,60), [60,100), [100,200), [200,300), [300,500), [500,800), [800,1100), [1100,2000)</code></li>
-<li><strong>log10 E_pred bins (11):</strong> <code>&lt;2, [2,3), [3,3.25), [3.25,3.5), [3.5,3.75), [3.75,4.0), [4.0,4.25), [4.25,4.5), [4.5,4.75), [4.75,5.0), &gt;=5</code></li>
-<li>60 of 88 inner cells are labelled <code>acceptable</code> (≥ ~1000 MC events after cuts) — these will be the only cells used in the fit. The rest are dropped to avoid empty / under-sampled bins driving the χ².</li>
+<li><strong>Nhit 分箱（8 段）：</strong> <code>[30,60), [60,100), [100,200), [200,300), [300,500), [500,800), [800,1100), [1100,2000)</code></li>
+<li><strong>log₁₀ E_pred 分箱（11 段）：</strong> <code>&lt;2, [2,3), [3,3.25), [3.25,3.5), [3.5,3.75), [3.75,4.0), [4.0,4.25), [4.25,4.5), [4.5,4.75), [4.75,5.0), &gt;=5</code></li>
+<li>88 个正式内部单元里有 60 个标为 <code>acceptable</code>（cut 后 MC 事例数 ≥ ~1000）— 进入拟合的就只有这 60 个。其余统计量太低，避免空箱拖坏 χ²，直接丢弃。</li>
 </ul>
-<p>Nhit on the observation side is the <code>nv</code> branch in the apply-time output ROOT (same proxy as used in <code>simulation_all_bin.py:get_nhit_value</code>).</p>
+<p>观测端的 Nhit 用 ROOT 文件里的 <code>nv</code> 分支（和 <code>simulation_all_bin.py:get_nhit_value</code> 用的代理变量一致）。</p>
 <hr />
-<h2 id="2-what-we-have">2. What we have<a class="headerlink" href="#2-what-we-have" title="Permanent link">&para;</a></h2>
+<h2 id="2-现有原料">2. 现有原料<a class="headerlink" href="#2-现有原料" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>Asset</th>
-<th>Path</th>
-<th>Purpose</th>
+<th>资源</th>
+<th>路径</th>
+<th>用途</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Observation eval ROOTs</td>
+<td>观测 eval ROOT</td>
 <td><code>/mnt/mydisk/WCDA_observation_eval/&lt;MMDD&gt;/Esg*.root</code></td>
-<td>Per-event <code>ml_logE_pred</code>, <code>nv</code>, <code>theta</code>, <code>xc</code>, <code>yc</code>, <code>pincness</code>, <code>fitstat</code>, <code>irun/ies/iseq/ievent</code></td>
+<td>逐事例 <code>ml_logE_pred</code>, <code>nv</code>, <code>theta</code>, <code>xc</code>, <code>yc</code>, <code>pincness</code>, <code>fitstat</code>, <code>irun/ies/iseq/ievent</code></td>
 </tr>
 <tr>
-<td>Recovered time friend tree</td>
+<td>时间恢复 friend tree</td>
 <td><code>/mnt/mydisk/WCDA_observation_eval/recovered_time/&lt;MMDD&gt;/*.time.root</code></td>
 <td><code>mjd</code>, <code>ra_mean_deg</code>, <code>dec_mean_deg</code>, <code>match_status</code></td>
 </tr>
 <tr>
-<td>Trained model</td>
+<td>训好的模型</td>
 <td><code>runs/theta_recoxy_position_embed_midenergy_8666</code></td>
-<td>Same checkpoint used to produce the eval ROOTs</td>
+<td>和 eval ROOT 用的是同一个 checkpoint</td>
 </tr>
 <tr>
-<td>MC simulation</td>
-<td><code>/home/server/mydisk/WCDA_simulation</code> + model preds</td>
-<td>For building A_eff and the migration matrix</td>
+<td>MC 模拟</td>
+<td><code>/home/server/mydisk/WCDA_simulation</code> + 模型预测</td>
+<td>构建 A_eff 和迁移矩阵</td>
 </tr>
 <tr>
-<td>2-D bin definitions</td>
+<td>二维分箱定义</td>
 <td><code>apply/simulation_all_bin.py</code></td>
-<td>Authoritative grid</td>
+<td>权威网格</td>
 </tr>
 <tr>
-<td>Stats per cell</td>
+<td>每个单元的统计量</td>
 <td><code>apply/summary_selectedcuts/bin_counts.md</code></td>
-<td>Decides which cells enter the fit</td>
+<td>决定哪些单元进拟合</td>
 </tr>
 </tbody>
 </table>
-<p>Two-month live time gives an expected Crab significance of ~270σ × √(59 / 508) ≈ 92σ — more than enough for a method-validation SED.</p>
+<p>两个月 live time 预估 Crab 显著性 ~270σ × √(59 / 508) ≈ 92σ — 做方法验证 SED 完全够。</p>
 <hr />
-<h2 id="3-forward-folding-formalism-generalised-to-2-d">3. Forward-folding formalism, generalised to 2-D<a class="headerlink" href="#3-forward-folding-formalism-generalised-to-2-d" title="Permanent link">&para;</a></h2>
-<p>Let <code>b = (i_N, i_E)</code> index a 2-D cell with i_N ∈ Nhit bins and i_E ∈ log E_pred bins. For a source with assumed differential spectrum I(E; Θ_S):</p>
+<h2 id="3-forward-folding-形式推广到二维">3. Forward folding 形式（推广到二维）<a class="headerlink" href="#3-forward-folding-形式推广到二维" title="Permanent link">&para;</a></h2>
+<p>设 <code>b = (i_N, i_E)</code> 是二维单元的索引，i_N 是 Nhit 段编号，i_E 是 log E_pred 段编号。源的微分能谱 I(E; Θ_S)（参数为 Θ_S）下，单元 b 内的预期信号数为：</p>
 <p>\[N_b^{\text{exp}}(\Theta_S) \;=\; \iint I(E;\Theta_S)\,\cos\theta\,\eta_b(\theta, E)\,S_0\,T_0\,f(\theta)\,d\theta\,dE\]</p>
-<p>where</p>
+<p>其中：</p>
 <ul>
-<li><code>η_b(θ, E_true) = (events in cell b after all cuts) / (thrown events)</code> is the <strong>2-D detector response</strong>, computed once from MC under exactly the cuts used on the observation.</li>
-<li><code>S_0</code> is the simulation throwing area.</li>
-<li><code>f(θ)</code> is the source-specific normalized zenith distribution over the observing window.</li>
-<li><code>T_0</code> is live time.</li>
+<li><code>η_b(θ, E_true) = (通过所有 cut 后落入单元 b 的事例数) / (投放事例数)</code>，即<strong>二维探测器响应</strong>，从 MC 在和观测严格一致的 cut 条件下计算得到。</li>
+<li><code>S_0</code> 是模拟中的投点面积。</li>
+<li><code>f(θ)</code> 是源在观测窗口内归一化的天顶角分布。</li>
+<li><code>T_0</code> 是 live time。</li>
 </ul>
-<p>This is identical in form to Hu 2023 eq. (6-6); the only change is that <code>η_b</code> is now indexed by a (Nhit, log E_pred) cell instead of a Nhit segment.</p>
-<p>The 1-D Nhit forward folding is recovered by <code>η_{i_N}(θ, E) = Σ_{i_E} η_{(i_N,i_E)}(θ, E)</code>.</p>
+<p>形式上和胡 2023 公式 (6-6) 完全一样，唯一改的是 <code>η_b</code> 由 Nhit 段单一编号变成了 (Nhit, log E_pred) 二维单元编号。</p>
+<p>一维 Nhit-only 的 forward folding 通过 <code>η_{i_N}(θ, E) = Σ_{i_E} η_{(i_N, i_E)}(θ, E)</code> 直接恢复。</p>
 <hr />
-<h2 id="4-pipeline">4. Pipeline<a class="headerlink" href="#4-pipeline" title="Permanent link">&para;</a></h2>
+<h2 id="4-流水线">4. 流水线<a class="headerlink" href="#4-流水线" title="Permanent link">&para;</a></h2>
 <pre><code>┌─────────────────────────────────────────────────────────┐
-│ Stage A — Detector response on the 2-D grid (MC)        │
+│ Stage A — 二维网格上的探测器响应（MC）                  │
 └─────────────────────────────────────────────────────────┘
         │
         ▼
 ┌─────────────────────────────────────────────────────────┐
-│ Stage B — PSF table per cell, on Crab dec band (MC)     │
+│ Stage B — Crab 赤纬带上、各单元的 PSF 表（MC）          │
 └─────────────────────────────────────────────────────────┘
         │
         ▼
 ┌─────────────────────────────────────────────────────────┐
-│ Stage C — Observation reduction: cuts, time, RA/Dec     │
+│ Stage C — 观测数据规约：事例选择、时间、RA/Dec          │
 └─────────────────────────────────────────────────────────┘
         │
         ▼
 ┌─────────────────────────────────────────────────────────┐
-│ Stage D — Background estimation (direct integration)    │
+│ Stage D — 背景估计（直接积分法）                        │
 └─────────────────────────────────────────────────────────┘
         │
         ▼
 ┌─────────────────────────────────────────────────────────┐
-│ Stage E — Per-cell N_on, N_off, α, excess, Li-Ma σ      │
+│ Stage E — 各单元 N_on, N_off, α, excess, Li-Ma σ        │
 └─────────────────────────────────────────────────────────┘
         │
         ▼
 ┌─────────────────────────────────────────────────────────┐
-│ Stage F — Forward-folding χ² fit (PL, then LogPar)      │
+│ Stage F — Forward folding χ² 拟合（先 PL，再 LogPar）   │
 └─────────────────────────────────────────────────────────┘
         │
         ▼
 ┌─────────────────────────────────────────────────────────┐
-│ Stage G — SED points + comparison vs WCDA-1 / HAWC / HESS│
+│ Stage G — SED 点 + 与 WCDA-1 / HAWC / HESS 对比         │
 └─────────────────────────────────────────────────────────┘
 </code></pre>
-<h3 id="stage-a-detector-response-on-the-2-d-grid">Stage A — Detector response on the 2-D grid<a class="headerlink" href="#stage-a-detector-response-on-the-2-d-grid" title="Permanent link">&para;</a></h3>
+<h3 id="stage-a-二维网格上的探测器响应">Stage A — 二维网格上的探测器响应<a class="headerlink" href="#stage-a-二维网格上的探测器响应" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Run the <strong>same checkpoint</strong> that produced the eval ROOTs across the full MC sample (not just test split) and dump per-event <code>(E_true, θ_true, nv, log10 E_pred, passed_cuts)</code>. <code>apply/simulation_all_bin.py</code> already does the heavy lifting; extend it to also retain <code>E_true</code> and <code>θ_true</code>.</li>
-<li>Apply the same event-level cuts as the observation reduction (Stage C). Critically: <code>pincness &lt; 1.1</code>, <code>fitstat == 0</code>, <code>θ &lt; 50°</code>, plus the <code>dcedge</code> / <code>core_box</code> cuts present in the model's <code>config.json</code>.</li>
-<li>For each cell b = (i_N, i_E) and each (log10 E_true, θ_true) bin (Δlog10 E = 0.1, Δθ = 1° — same as Hu 2023):
+<li>用<strong>和 eval ROOT 同一个 checkpoint</strong>对全 MC 样本（不仅是 test split）跑一遍 inference，导出每个事例的 <code>(E_true, θ_true, nv, log10 E_pred, passed_cuts)</code>。<code>apply/simulation_all_bin.py</code> 已经做了重活，需要扩一下让它同时保留 <code>E_true</code> 和 <code>θ_true</code>。</li>
+<li>事例 cut 必须和 Stage C 观测端<strong>完全一致</strong>：<code>pincness &lt; 1.1</code>、<code>fitstat == 0</code>、<code>θ &lt; 50°</code>，以及模型 <code>config.json</code> 里训练时用的 <code>dcedge</code> / <code>core_box</code> 等条件。</li>
+<li>对每个单元 b = (i_N, i_E) 和每个 (log₁₀ E_true, θ_true) 网格（Δlog₁₀ E = 0.1, Δθ = 1°，和胡 2023 一致）：
 <ul>
 <li><code>η_b(θ_k, E_j) = N_pass(b, E_j, θ_k) / N_thrown(E_j, θ_k)</code></li>
-<li>Multiply by <code>S_0</code> (simulation thrown area) to get effective area when needed.</li>
+<li>需要有效面积时再乘上 <code>S_0</code>。</li>
 </ul>
 </li>
-<li>Output: <code>response_2d.npz</code> with shape <code>(N_cells, N_E_true, N_theta)</code> for both η and A_eff. Only cells flagged <code>acceptable</code> in <code>bin_counts.md</code> are kept; the rest are dropped from b.</li>
+<li>输出 <code>response_2d.npz</code>，shape 为 <code>(N_cells, N_E_true, N_theta)</code>，η 和 A_eff 都存。只保留 <code>bin_counts.md</code> 中标 <code>acceptable</code> 的单元，其余从 b 列表里直接剔除。</li>
 </ul>
-<h3 id="stage-b-psf-per-cell-on-the-crab-dec-band">Stage B — PSF per cell on the Crab dec band<a class="headerlink" href="#stage-b-psf-per-cell-on-the-crab-dec-band" title="Permanent link">&para;</a></h3>
+<h3 id="stage-b-crab-赤纬带上各单元的-psf">Stage B — Crab 赤纬带上各单元的 PSF<a class="headerlink" href="#stage-b-crab-赤纬带上各单元的-psf" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Crab dec = 22.01°, LHAASO lat = 29.45° → θ_min ≈ 7.4°. Build PSF only at this dec band initially.</li>
-<li>For each cell b, weight MC events by the Crab zenith distribution <code>f_Crab(θ)</code> over the analysis window, fit a single Gaussian to the radial offset (reco − true) → σ_b. Two-Gaussian fits are optional; single Gaussian is enough for a first pass.</li>
-<li>Use the optimal aperture from Hu 2023 (Δθ_opt ≈ 1.58 σ_b) per cell. Containment fractions per cell are saved alongside σ_b.</li>
+<li>Crab 赤纬 = 22.01°，LHAASO 纬度 = 29.45° → θ_min ≈ 7.4°。先只在 Crab 这条赤纬带上建 PSF 表。</li>
+<li>对每个单元 b，用 Crab 在观测窗口内的天顶角分布 <code>f_Crab(θ)</code> 给 MC 事例加权，对径向偏差（reco − true）做单高斯拟合得到 σ_b。双高斯先不做，单高斯足够 v1 用。</li>
+<li>积分半径用胡 2023 的最优值 Δθ_opt ≈ 1.58 σ_b，逐单元算。各单元的 containment fraction 一并存下来。</li>
 </ul>
-<h3 id="stage-c-observation-reduction">Stage C — Observation reduction<a class="headerlink" href="#stage-c-observation-reduction" title="Permanent link">&para;</a></h3>
-<p>For each <code>Esg*.root</code> + friend <code>.time.root</code>:</p>
+<h3 id="stage-c-观测数据规约">Stage C — 观测数据规约<a class="headerlink" href="#stage-c-观测数据规约" title="Permanent link">&para;</a></h3>
+<p>每个 <code>Esg*.root</code> + friend <code>.time.root</code>：</p>
 <ol>
-<li>Keep events with <code>match_status == 0</code>, <code>pincness &lt; 1.1</code>, <code>fitstat == 0</code>, <code>theta &lt; 50°</code>.</li>
-<li>Compute the cell <code>b = (i_N, i_E)</code> from <code>nv</code> and <code>ml_logE_pred</code>. Drop events whose cell is not in the <code>acceptable</code> list.</li>
-<li>Carry forward <code>(ra_mean_deg, dec_mean_deg, mjd, theta, b)</code> per event.</li>
+<li>保留 <code>match_status == 0</code>、<code>pincness &lt; 1.1</code>、<code>fitstat == 0</code>、<code>theta &lt; 50°</code> 的事例。</li>
+<li>从 <code>nv</code> 和 <code>ml_logE_pred</code> 算出单元 <code>b = (i_N, i_E)</code>。不在 <code>acceptable</code> 列表里的单元直接丢弃。</li>
+<li>每个事例携带 <code>(ra_mean_deg, dec_mean_deg, mjd, theta, b)</code> 往下传。</li>
 </ol>
-<p>Output: a single per-month parquet <code>obs_events.parquet</code> (column-store; ~100M events × ~6 columns is fine on disk and fast to scan). One file per month keeps it manageable.</p>
-<p>Compute the <strong>live time</strong> from MJD coverage minus the duty-cycle gaps. The handoff confirms 1258 input files, 127.69M total events recovered; this is the universe for the live-time count.</p>
-<h3 id="stage-d-background-estimation">Stage D — Background estimation<a class="headerlink" href="#stage-d-background-estimation" title="Permanent link">&para;</a></h3>
-<p>Use <strong>direct integration</strong> (Hu 2023, §6.1.5 — the method chosen for the WCDA-1 catalog, α ≈ 0.01, robust against acceptance time-variation). Concretely:</p>
+<p>输出按月汇成单一 parquet <code>obs_events.parquet</code>（列存；~100M 事例 × ~6 列在磁盘和扫描速度上都很舒服）。每月一个文件，方便管理。</p>
+<p><strong>Live time</strong> 从 MJD 覆盖减掉 duty-cycle 空档算出。Handoff 给出 1258 个输入文件、共 127.69M 事例匹配成功 — 这是 live time 计数的母体。</p>
+<h3 id="stage-d-背景估计">Stage D — 背景估计<a class="headerlink" href="#stage-d-背景估计" title="Permanent link">&para;</a></h3>
+<p>用<strong>直接积分法</strong>（胡 2023, §6.1.5 — 一期星表选定的方法，α ≈ 0.01，对接收度时间变化稳健）。具体：</p>
 <ul>
-<li>Build the time-integrated all-sky acceptance map <code>G(x, y)</code> from the same cleaned event sample, masking a 2° radius around Crab (and around Mrk 421 / Mrk 501 / Geminga / Cygnus region to be safe — they're well outside the Crab analysis ROI but cheap to mask).</li>
-<li>For each cell b, build <code>G_b(x, y)</code> independently — the acceptance shape is cell-dependent.</li>
-<li>Background prediction in any (RA, Dec) bin: <code>N_off · α = G_b(x,y) · R_b(t)</code> integrated over the live-time window, where <code>R_b(t)</code> is the cell-b all-sky event rate as a function of time.</li>
+<li>用同一份清洗后的事例样本做时间积分得到全天接收度图 <code>G(x, y)</code>，把 Crab 周围 2° 半径 mask 掉（保险起见 Mrk 421 / Mrk 501 / Geminga / Cygnus 区一并 mask；它们离 Crab 分析 ROI 很远但 mask 起来零成本）。</li>
+<li>每个单元 b 都独立建 <code>G_b(x, y)</code> — 接收度形状是单元相关的。</li>
+<li>任意 (RA, Dec) 格子里的背景预测：<code>N_off · α = G_b(x,y) · R_b(t)</code> 在 live-time 窗口内积分，其中 <code>R_b(t)</code> 是单元 b 的全天事例率随时间变化。</li>
 </ul>
-<p>If the catalog program from Hu Shicong is accessible, <strong>reuse it</strong> — re-implementing the full direct-integration with mask handling correctly is the most error-prone part of the analysis. If not available, fall back to the simpler 等赤纬法 (equal-declination band background) for the initial Crab cross-check; α is larger (~0.01 vs 0.012 at dec=39°) but the method is much simpler and Crab is bright enough that it does not matter for SED shape, only for absolute normalisation systematics.</p>
-<h3 id="stage-e-signal-extraction">Stage E — Signal extraction<a class="headerlink" href="#stage-e-signal-extraction" title="Permanent link">&para;</a></h3>
-<p>For each cell b:</p>
+<p><strong>如果能拿到师兄的星表程序，强烈建议直接复用</strong>。完整带 mask 的直接积分法重写一遍是整条流水线里最容易出错的部分。如果一时拿不到，<strong>先用更简单的等赤纬法</strong>把流程跑通做 v1 — α 稍大一点（dec=22° 处 ~0.01 vs dec=39° 处 0.012），但实现简单，Crab 这么亮的源做谱形验证根本不在乎，只影响绝对 normalisation 的系统。</p>
+<h3 id="stage-e-信号提取">Stage E — 信号提取<a class="headerlink" href="#stage-e-信号提取" title="Permanent link">&para;</a></h3>
+<p>对每个单元 b：</p>
 <ul>
-<li>Aperture radius <code>r_b = 1.58 σ_b</code> from Stage B.</li>
-<li><code>N_on,b</code> = events in the Crab on-region (aperture around RA=83.63°, Dec=22.01° in cell b).</li>
-<li><code>N_off,b · α_b</code> = direct-integration background prediction summed over the same aperture, same cell.</li>
-<li><code>excess_b = N_on,b − α_b N_off,b</code>,  <code>σ_b^stat = √(N_on,b + α_b² N_off,b)</code>.</li>
-<li>Li-Ma significance per cell (Hu 2023 eq. 6-26) for diagnostics.</li>
+<li>积分半径 <code>r_b = 1.58 σ_b</code>，来自 Stage B。</li>
+<li><code>N_on,b</code> = Crab on-region（圆心 RA=83.63°, Dec=22.01°，半径 r_b）落在单元 b 的事例数。</li>
+<li><code>N_off,b · α_b</code> = 同样积分孔径、同单元的直接积分法背景预测。</li>
+<li><code>excess_b = N_on,b − α_b N_off,b</code>，统计误差 <code>σ_b^stat = √(N_on,b + α_b² N_off,b)</code>。</li>
+<li>Li-Ma 显著性（胡 2023 公式 6-26）逐单元算，存下来用作诊断。</li>
 </ul>
-<p>Diagnostics expected at this stage:</p>
+<p>诊断产出预期：</p>
 <ul>
-<li>A 2-D significance map (Nhit × log E_pred) — should show a positive diagonal correlation (high Nhit ↔ high log E_pred), and the off-diagonal &quot;wings&quot; tell you how much the ML axis is adding <em>over</em> Nhit.</li>
-<li>Total Crab significance summed over all acceptable cells; sanity target ~90σ.</li>
+<li>二维显著性图（Nhit × log E_pred）— 应该看到一条正相关的对角带（高 Nhit ↔ 高 log E_pred），偏离对角线的&quot;翼&quot;告诉你 ML 这条轴在 Nhit 之外加了多少信息。</li>
+<li>所有 acceptable 单元加起来的 Crab 总显著性；目标 ~90σ。</li>
 </ul>
-<h3 id="stage-f-forward-folding-fit">Stage F — Forward-folding fit<a class="headerlink" href="#stage-f-forward-folding-fit" title="Permanent link">&para;</a></h3>
-<p>Minimise</p>
+<h3 id="stage-f-forward-folding-拟合">Stage F — Forward folding 拟合<a class="headerlink" href="#stage-f-forward-folding-拟合" title="Permanent link">&para;</a></h3>
+<p>用 <code>iminuit</code> 最小化</p>
 <p>\[\chi^2(\Theta_S) \;=\; \sum_{b \in \text{acceptable}} \frac{\big(\text{excess}_b - N_b^{\text{exp}}(\Theta_S)\big)^2}{(\sigma_b^{\text{stat}})^2}\]</p>
-<p>with <code>iminuit</code>. Spectral models, tried in order:</p>
+<p>谱模型按顺序试：</p>
 <ol>
-<li>Power law <code>I(E) = N_0 (E/E_0)^{-Γ}</code>, <code>E_0 = 3 TeV</code> (matches WCDA-1 catalog pivot).</li>
-<li>Log-parabola <code>I(E) = N_0 (E/E_0)^{-α − β log(E/E_0)}</code> — Crab is known to curve slightly.</li>
-<li>Power law with exponential cutoff (only if (2) residuals demand it).</li>
+<li>幂律 <code>I(E) = N_0 (E/E_0)^{-Γ}</code>，<code>E_0 = 3 TeV</code>（和 WCDA 一期星表的 pivot 一致）。</li>
+<li>Log-parabola <code>I(E) = N_0 (E/E_0)^{-α − β log(E/E_0)}</code> — Crab 已知有轻微弯曲。</li>
+<li>带 e 指数截断的幂律（只在 (2) 残差仍有结构时上）。</li>
 </ol>
-<p>The simulated Crab response in Hu 2023 was generated with index −2.62 across 10 GeV–1 PeV. We can use the same response for forward folding because the response is the migration matrix, not the assumed spectrum — but it is good practice to iterate once with the best-fit spectrum to re-weight A_eff.</p>
-<h3 id="stage-g-sed-points">Stage G — SED points<a class="headerlink" href="#stage-g-sed-points" title="Permanent link">&para;</a></h3>
-<p>Following Hu 2023's standard practice:</p>
+<p>胡 2023 里模拟 Crab 用的注入谱是 −2.62、10 GeV–1 PeV。可以直接用同一套响应做前向折叠 — 响应是迁移矩阵，不是假设谱 — 但好的习惯是把拟合得到的最佳谱回代一次，给 A_eff 重新加权迭代一轮。</p>
+<h3 id="stage-g-sed-点">Stage G — SED 点<a class="headerlink" href="#stage-g-sed-点" title="Permanent link">&para;</a></h3>
+<p>按胡 2023 的标准做法：</p>
 <ul>
-<li>Fix the best-fit global Γ (or α, β) from Stage F.</li>
-<li>For each Nhit bin (or each i_E bin — present both views) re-fit only the normalisation N_0,bin with all other parameters frozen.</li>
-<li>Convert to differential <code>E² dN/dE</code> at the bin's median true energy (computed by weighting the response by the best-fit spectrum).</li>
-<li>Compare directly against:
+<li>固定 Stage F 拟出来的全局 Γ（或 α, β）。</li>
+<li>对每个 Nhit 段（或每个 i_E 段 — 两套都给）只重新拟归一化 N_0,bin，其他参数全部冻结。</li>
+<li>转换为微分通量 <code>E² dN/dE</code>，能量取该单元中位 true 能量（用最佳谱给响应加权算出）。</li>
+<li>直接对比：
 <ul>
-<li>WCDA-1 catalog Crab (Hu 2023 Fig. 6-32): N_0 = 2.114 × 10⁻¹³ cm⁻² s⁻¹ TeV⁻¹ at 3 TeV, Γ = 2.69 ± 0.01.</li>
-<li>HAWC and HESS Crab SEDs as external sanity references.</li>
+<li>WCDA 一期 Crab（胡 2023 图 6-32）：N_0 = 2.114 × 10⁻¹³ cm⁻² s⁻¹ TeV⁻¹ @ 3 TeV，Γ = 2.69 ± 0.01。</li>
+<li>HAWC、HESS 已发表的 Crab SED 作为外部 sanity 参考。</li>
 </ul>
 </li>
 </ul>
-<p>The 1-D-Nhit-only SED is produced as a by-product by marginalising the response over i_E and refitting — this is the apples-to-apples comparison to the catalog.</p>
+<p>一维 Nhit-only 的 SED 作为副产物：把响应沿 i_E marginalise，重新拟一遍 — <strong>这是和星表 apples-to-apples 的直接对比</strong>。</p>
 <hr />
-<h2 id="5-systematic-checks">5. Systematic checks<a class="headerlink" href="#5-systematic-checks" title="Permanent link">&para;</a></h2>
-<p>Run all four as separate sanity outputs, not just as paragraphs in a summary:</p>
+<h2 id="5-系统检验">5. 系统检验<a class="headerlink" href="#5-系统检验" title="Permanent link">&para;</a></h2>
+<p>下面五项作为独立 sanity 产出运行，每项有独立图表，不要只在总结里随手提一句：</p>
 <ol>
-<li><strong>1-D vs 2-D consistency.</strong> Marginalise the 2-D response to recover the 1-D Nhit-only fit. The two SEDs must agree within statistical errors; large disagreement means the 2-D η matrix is mis-normalised somewhere.</li>
-<li><strong>Response self-consistency.</strong> Forward-fold the input MC spectrum (Γ = −2.62) through the response and confirm the predicted per-cell counts match the MC-passed counts in <code>bin_counts.md</code> to ≲ 1%.</li>
-<li><strong>Cell-drop sensitivity.</strong> Re-fit with the threshold for &quot;acceptable&quot; raised by 2× (drop more low-stats cells) and lowered by 2× (include more). The Crab Γ and N_0 should drift by less than the statistical error.</li>
-<li><strong>Cut sensitivity.</strong> Tighten <code>pincness &lt; 0.9</code> and re-run the full pipeline (response and observation must use the <em>same</em> tighter cut). The fitted SED should be statistically consistent.</li>
-<li><strong>Background-method sensitivity.</strong> If both direct-integration and equal-declination-band backgrounds are implemented, fit with each and quote the spread as a background-method systematic.</li>
+<li><strong>1D vs 2D 自洽性。</strong> 把二维响应 marginalise 回一维 Nhit-only 拟合，两条 SED 应该在统计误差以内一致。差太多说明二维 η 矩阵在某处归一化错了。</li>
+<li><strong>响应自检。</strong> 把模拟注入谱（Γ = −2.62）通过响应前向折叠，得到的各单元预期数应该和 <code>bin_counts.md</code> 里 cut 后实测 MC 数符合到 ≲ 1%。</li>
+<li><strong>Cell-drop 灵敏度。</strong> 把&quot;acceptable&quot;阈值放大 2×（更多低统计量单元被丢弃）和缩小 2×（更多单元被纳入）重做拟合。Crab 的 Γ 和 N_0 漂移应小于统计误差。</li>
+<li><strong>Cut 灵敏度。</strong> 收紧到 <code>pincness &lt; 0.9</code> 重跑全套（响应和观测必须用<strong>同一个</strong>更紧的 cut）。拟出的 SED 应该在统计上一致。</li>
+<li><strong>背景方法灵敏度。</strong> 如果直接积分法和等赤纬法都实现了，分别拟一次，把差异作为背景方法系统列出来。</li>
 </ol>
-<p>The end-of-pipeline systematic-error budget mirrors Hu 2023 §6.8.1: the ML-vs-WCDA-1 ratio band, expected within ±10% from 1 to 20 TeV if the ML reconstruction is unbiased.</p>
+<p>最终系统误差预算按胡 2023 §6.8.1 思路给：ML 结果相对 WCDA 一期星表的 ratio band，理想情况下 1–20 TeV 偏差应在 ±10% 以内。</p>
 <hr />
-<h2 id="6-deliverables">6. Deliverables<a class="headerlink" href="#6-deliverables" title="Permanent link">&para;</a></h2>
+<h2 id="6-交付物">6. 交付物<a class="headerlink" href="#6-交付物" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>File</th>
-<th>What</th>
+<th>文件</th>
+<th>内容</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>SED/stages/01_build_response.py</code></td>
-<td>Stage A — extends <code>apply/simulation_all_bin.py</code> to dump η, A_eff</td>
+<td>Stage A — 扩 <code>apply/simulation_all_bin.py</code> 输出 η、A_eff</td>
 </tr>
 <tr>
 <td><code>SED/stages/02_build_psf.py</code></td>
-<td>Stage B — per-cell PSF on Crab dec band</td>
+<td>Stage B — Crab 赤纬带上各单元 PSF</td>
 </tr>
 <tr>
 <td><code>SED/stages/03_reduce_obs.py</code></td>
-<td>Stage C — merge eval ROOTs + friend trees → <code>obs_events.parquet</code></td>
+<td>Stage C — 合并 eval ROOT + friend tree → <code>obs_events.parquet</code></td>
 </tr>
 <tr>
 <td><code>SED/stages/04_background.py</code></td>
-<td>Stage D — direct-integration acceptance + background prediction</td>
+<td>Stage D — 直接积分法接收度 + 背景预测</td>
 </tr>
 <tr>
 <td><code>SED/stages/05_signal.py</code></td>
-<td>Stage E — per-cell N_on, N_off, excess, Li-Ma</td>
+<td>Stage E — 各单元 N_on, N_off, excess, Li-Ma</td>
 </tr>
 <tr>
 <td><code>SED/stages/06_fit.py</code></td>
-<td>Stage F — <code>iminuit</code> forward-folding fit</td>
+<td>Stage F — <code>iminuit</code> forward folding 拟合器</td>
 </tr>
 <tr>
 <td><code>SED/stages/07_sed_points.py</code></td>
-<td>Stage G — per-bin SED points + figures</td>
+<td>Stage G — 各段 SED 点 + 出图</td>
 </tr>
 <tr>
 <td><code>SED/output/crab_sed.json</code></td>
-<td>Final fit parameters + SED points</td>
+<td>最终拟合参数 + SED 点</td>
 </tr>
 <tr>
 <td><code>SED/output/figures/</code></td>
-<td>2-D significance map, SED comparison plot, residuals, response slices</td>
+<td>二维显著性图、SED 对比图、残差、响应切片</td>
 </tr>
 <tr>
 <td><code>SED/roadmap.md</code></td>
-<td>This document</td>
+<td>本文档</td>
 </tr>
 </tbody>
 </table>
-<p>Each stage script reads its inputs from disk and writes a single artifact — no in-memory chaining — so the pipeline can be restarted from any intermediate step.</p>
+<p>每个 stage 脚本从磁盘读输入、写一个 artifact —— 不做内存里串联 —— 这样任何一步都可以独立重启。</p>
 <hr />
-<h2 id="7-open-decisions">7. Open decisions<a class="headerlink" href="#7-open-decisions" title="Permanent link">&para;</a></h2>
+<h2 id="7-待你拍板">7. 待你拍板<a class="headerlink" href="#7-待你拍板" title="Permanent link">&para;</a></h2>
 <ol>
-<li><strong>Background method for v1</strong>: direct integration (matches WCDA-1) vs equal-declination (simpler, ~10× faster to implement). Recommendation: start with equal-declination to get end-to-end through Stage G, then swap in direct integration.</li>
-<li><strong>Whether to reuse Hu Shicong's catalog fitter</strong> as the Stage F backend, or write a minimal <code>iminuit</code> fitter from scratch. Recommendation: write from scratch — 2-D response indexing is custom anyway, and the χ² is ~50 lines.</li>
-<li><strong>PSF parameterisation</strong> — single Gaussian (fast, good enough for Crab) vs double Gaussian (closer to the catalog's choice). Recommendation: single for v1, revisit only if Stage E containment looks off.</li>
-<li><strong>Cell selection</strong> — start with the 60 <code>acceptable</code> cells from <code>bin_counts.md</code> and iterate.</li>
+<li><strong>v1 用哪种背景方法</strong>：直接积分法（和 WCDA 一期对得上）vs 等赤纬法（简单，实现快 ~10×）。建议：先用等赤纬法走通 Stage A–G，再换上直接积分法。</li>
+<li><strong>Stage F 拟合后端</strong>：套用师兄星表程序 vs 自写最小 <code>iminuit</code> 拟合器。建议：自写 — 二维响应索引本来就要改，χ² 也就 ~50 行。</li>
+<li><strong>PSF 参数化</strong>：单高斯（快、Crab 够用）vs 双高斯（更接近星表的选择）。建议：v1 单高斯，Stage E containment 看起来不对再回头改。</li>
+<li><strong>单元选择</strong>：先用 <code>bin_counts.md</code> 里 60 个 <code>acceptable</code> 单元起步，看情况再调阈值。</li>
 </ol>
-<p>These do not block starting Stage A.</p>
+<p>这四个都不是 Stage A 开工的阻塞项。</p>
 
     </article>
   </main>
