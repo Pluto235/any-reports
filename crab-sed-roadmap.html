@@ -198,6 +198,15 @@ footer.page-foot {
 <li>88 个正式内部单元里有 60 个标为 <code>acceptable</code>（cut 后 MC 事例数 ≥ ~1000），它们作为候选池。v1 拟合进一步收束到 <code>apply/config/cell_selection_v1.csv</code> 里的 18 个 physical-band 单元，避免过多低贡献格点拖大 χ² 自由度。</li>
 </ul>
 <p>观测端的 Nhit 用 ROOT 文件里的 <code>nv</code> 分支（和 <code>simulation_all_bin.py:get_nhit_value</code> 用的代理变量一致）。</p>
+<h3>v1 cell 选择依据</h3>
+<p>18 个 v1 单元不是按单一 count 阈值机械截出来的，而是从 60 个 <code>acceptable</code> 候选单元里手动收束出的 baseline physical band。选择规则记录在 <code>apply/config/cell_selection_v1.csv</code> 的 <code>selection_reason</code> 列里，核心依据是：</p>
+<ol>
+<li><strong>先保留 formal Nhit 范围。</strong> v1 只在 <code>[30,2000)</code> 的 8 个正式 Nhit bin 内选单元。<code>&lt;30</code> 和 <code>&gt;=2000</code> 作为 overflow/out-of-range 诊断，不进 baseline。已有 MC 统计里 <code>&gt;=2000</code> 共有 20,599 个 cut 后事例，只占 formal <code>[30,2000)</code> 的 0.61%；加入会多出 5 个 acceptable cell，但对 v1 统计增益不到 1%，反而增加最高能端响应和背景的不稳定性。</li>
+<li><strong>每个 Nhit 行至少保留一个主带单元。</strong> 这样响应矩阵覆盖完整的 Nhit 动态范围，不会让某一段 shower size 在拟合中完全缺席。</li>
+<li><strong>沿高 Nhit ↔ 高 <code>log₁₀ E_pred</code> 的 physical ridge 取点。</strong> 低 Nhit 行选低 <code>logE_pred</code>，高 Nhit 行逐步右移到高 <code>logE_pred</code>。这避免把低 Nhit/高预测能量或高 Nhit/低预测能量的长尾误分单元放进 baseline。</li>
+<li><strong>按行控制自由度。</strong> 低统计或能量分布重叠严重的行只取 top-1/top-2；高 Nhit 端为了保留高能 shoulder 取 top-3。最终 18 个 cell 比 60 个候选 cell 更适合 v1 χ² 拟合，避免自由度被低贡献格点撑大。</li>
+<li><strong>MC 统计仍然充足。</strong> 18 个 cell 合计 cut 后 MC 事例数为 2,700,244，占 formal <code>[30,2000)</code> 统计的约 79.5%。也就是说，v1 删除了大量边缘 cell，但保留了主物理带的大部分 MC 统计。</li>
+</ol>
 <p>v1 的 18 个拟合单元为：</p>
 <table>
 <thead>
