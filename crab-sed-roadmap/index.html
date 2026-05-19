@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Crab SED Roadmap (ML-energy × Nhit 2D binning)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+:root {
+  --bg: #0f1117;
+  --bg-elev: #161922;
+  --fg: #e6e8eb;
+  --fg-dim: #9aa3ad;
+  --accent: #4fb6ff;
+  --accent-soft: #2a3a4d;
+  --border: #232733;
+  --code-bg: #11141b;
+  --table-row: #141821;
+  --table-row-alt: #161a24;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #fafbfc;
+    --bg-elev: #ffffff;
+    --fg: #1a1d24;
+    --fg-dim: #5a6470;
+    --accent: #0969da;
+    --accent-soft: #ddf4ff;
+    --border: #d8dee4;
+    --code-bg: #f3f4f6;
+    --table-row: #ffffff;
+    --table-row-alt: #f6f8fa;
+  }
+}
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+main {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 64px 32px 96px;
+}
+header.page-head {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 24px;
+  margin-bottom: 40px;
+}
+header.page-head .eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  margin-bottom: 8px;
+}
+header.page-head h1 {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+h1, h2, h3, h4 {
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+}
+h2 {
+  font-size: 26px;
+  margin: 56px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+h3 {
+  font-size: 19px;
+  margin: 32px 0 12px;
+  color: var(--accent);
+}
+h4 { font-size: 16px; margin: 24px 0 8px; }
+p { margin: 12px 0; }
+a { color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color .15s; }
+a:hover { border-bottom-color: var(--accent); }
+strong { color: var(--fg); font-weight: 600; }
+em { color: var(--fg-dim); font-style: italic; }
+ul, ol { padding-left: 28px; margin: 12px 0; }
+li { margin: 6px 0; }
+li > p { margin: 4px 0; }
+code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  background: var(--code-bg);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 18px;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  line-height: 1.5;
+  margin: 16px 0;
+}
+pre code { background: none; border: none; padding: 0; font-size: inherit; }
+blockquote {
+  border-left: 3px solid var(--accent);
+  background: var(--accent-soft);
+  margin: 16px 0;
+  padding: 12px 18px;
+  border-radius: 0 8px 8px 0;
+  color: var(--fg);
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 20px 0;
+  font-size: 14px;
+  background: var(--bg-elev);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+thead { background: var(--bg-elev); }
+th {
+  text-align: left;
+  font-weight: 600;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--fg);
+}
+td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+tbody tr:nth-child(odd) td { background: var(--table-row); }
+tbody tr:nth-child(even) td { background: var(--table-row-alt); }
+tbody tr:last-child td { border-bottom: none; }
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 48px 0;
+}
+mjx-container[display="true"] { margin: 18px 0 !important; }
+footer.page-foot {
+  margin-top: 80px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--fg-dim);
+  text-align: center;
+}
+</style>
+</head>
+<body>
+<main>
+<header class="page-head">
+  <div class="eyebrow">LHAASO-WCDA · ML energy validation</div>
+  <h1>Crab SED Roadmap</h1>
+  <p style="color:var(--fg-dim);margin-top:8px;">2-D (Nhit × log<sub>10</sub> E<sub>pred</sub>) forward-folding analysis on two months of WCDA observation data.</p>
+</header>
+<h1>Crab SED 技术路线（ML 能量 × Nhit 二维分箱）</h1>
+<p><strong>目标。</strong> 在 WCDA 两个月（2022-01-01 至 2022-02-28）Crab 观测数据上复现 Crab Nebula 的 SED，用以验证基于 ParticleNet 的单事例能量重建。分箱方案在标准 WCDA forward folding 之上扩展为 <strong>(Nhit, log₁₀ E_pred) 二维网格</strong>。</p>
+<p>参考：胡世聪博士论文 <em>LHAASO-WCDA 伽马源分析与源表</em>（2023），第 6 章 + GRB 221009A 附录。</p>
+<hr />
+<h2>1. 为什么用二维分箱而不是只用 Nhit</h2>
+<p>WCDA 传统流水线（胡 2023, §6.2）只沿一个轴 <code>Nq05t30</code> 分箱，把假设的源能谱通过探测器响应 η(θ, E) 前向折叠成每个 Nhit 段的预期事例数。它不直接按重建能量分箱，<strong>根本原因是只靠水池重建出来的单事例能量分辨率太差，没有实际价值</strong>。</p>
+<p>现在 ML 回归器（<code>runs/theta_recoxy_position_embed_midenergy_8666</code>）给出每个事例一个 <code>log10(E_pred / GeV)</code>，它的分辨率足够好，可以作为有用的第二条分箱轴。把它作为第二维度加进去做了两件事：</p>
+<ol>
+<li><strong>在固定的 Nhit 段内</strong>，按 log E_pred 再切一刀，把原本混在一起、真能量不同的事例分开。这让响应矩阵更&quot;陡&quot;，给拟合提供了额外的谱形信息。</li>
+<li><strong>Nhit 轴依然保留</strong>，因此分析仍然能直接和已发表的 WCDA 一期星表结果（胡 2023, 图 6-32）对比 — 把二维响应沿 log E_pred 轴 marginalise 回去就能恢复一维 Nhit-only 拟合。</li>
+</ol>
+<p>这种思路结构上和 IACT 把&quot;重建能量&quot;和&quot;重建 gamma/hadron 判别值&quot;分别作为独立分箱轴是一样的：第二条轴允许有噪声，响应矩阵会把它处理掉。</p>
+<p>二维网格已经在 <code>apply/simulation_all_bin.py</code> 里做过原型，输出在 <code>apply/summary_selectedcuts/bin_counts.md</code>：</p>
+<ul>
+<li><strong>Nhit 分箱（8 段）：</strong> <code>[30,60), [60,100), [100,200), [200,300), [300,500), [500,800), [800,1100), [1100,2000)</code></li>
+<li><strong>log₁₀ E_pred 分箱（11 段）：</strong> <code>&lt;2, [2,3), [3,3.25), [3.25,3.5), [3.5,3.75), [3.75,4.0), [4.0,4.25), [4.25,4.5), [4.5,4.75), [4.75,5.0), &gt;=5</code></li>
+<li>88 个正式内部单元里有 60 个标为 <code>acceptable</code>（cut 后 MC 事例数 ≥ ~1000），它们作为候选池。v1 拟合进一步收束到 <code>apply/config/cell_selection_v1.csv</code> 里的 18 个 physical-band 单元，避免过多低贡献格点拖大 χ² 自由度。</li>
+</ul>
+<p>观测端的 Nhit 用 ROOT 文件里的 <code>nv</code> 分支（和 <code>simulation_all_bin.py:get_nhit_value</code> 用的代理变量一致）。</p>
+<p>v1 的 18 个拟合单元为：</p>
+<table>
+<thead>
+<tr>
+<th>Nhit bin</th>
+<th>log₁₀ E_pred bins</th>
+</tr>
+</thead>
+<tbody>
+<tr><td><code>[30,60)</code></td><td><code>[2,3)</code></td></tr>
+<tr><td><code>[60,100)</code></td><td><code>[2,3)</code>, <code>[3,3.25)</code></td></tr>
+<tr><td><code>[100,200)</code></td><td><code>[2,3)</code>, <code>[3,3.25)</code></td></tr>
+<tr><td><code>[200,300)</code></td><td><code>[2,3)</code>, <code>[3,3.25)</code></td></tr>
+<tr><td><code>[300,500)</code></td><td><code>[3,3.25)</code>, <code>[3.25,3.5)</code></td></tr>
+<tr><td><code>[500,800)</code></td><td><code>[3.25,3.5)</code>, <code>[3.5,3.75)</code>, <code>[3.75,4.0)</code></td></tr>
+<tr><td><code>[800,1100)</code></td><td><code>[3.5,3.75)</code>, <code>[3.75,4.0)</code>, <code>[4.0,4.25)</code></td></tr>
+<tr><td><code>[1100,2000)</code></td><td><code>[3.75,4.0)</code>, <code>[4.0,4.25)</code>, <code>[4.25,4.5)</code></td></tr>
+</tbody>
+</table>
+<hr />
+<h2>2. 现有原料</h2>
+<table>
+<thead>
+<tr>
+<th>资源</th>
+<th>路径</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>观测 eval ROOT</td>
+<td><code>/mnt/mydisk/WCDA_observation_eval/&lt;MMDD&gt;/Esg*.root</code></td>
+<td>逐事例 <code>ml_logE_pred</code>, <code>nv</code>, <code>theta</code>, <code>xc</code>, <code>yc</code>, <code>pincness</code>, <code>fitstat</code>, <code>irun/ies/iseq/ievent</code></td>
+</tr>
+<tr>
+<td>时间恢复 friend tree</td>
+<td><code>/mnt/mydisk/WCDA_observation_eval/recovered_time/&lt;MMDD&gt;/*.time.root</code></td>
+<td><code>mjd</code>, <code>ra_mean_deg</code>, <code>dec_mean_deg</code>, <code>match_status</code></td>
+</tr>
+<tr>
+<td>训好的模型</td>
+<td><code>runs/theta_recoxy_position_embed_midenergy_8666</code></td>
+<td>和 eval ROOT 用的是同一个 checkpoint</td>
+</tr>
+<tr>
+<td>MC 模拟</td>
+<td><code>/home/server/mydisk/WCDA_simulation</code> + 模型预测</td>
+<td>构建 A_eff 和迁移矩阵</td>
+</tr>
+<tr>
+<td>二维分箱定义</td>
+<td><code>apply/simulation_all_bin.py</code></td>
+<td>权威网格</td>
+</tr>
+<tr>
+<td>每个单元的统计量</td>
+<td><code>apply/summary_selectedcuts/bin_counts.md</code></td>
+<td>决定 60 个 acceptable 候选单元</td>
+</tr>
+<tr>
+<td>v1 拟合单元</td>
+<td><code>apply/config/cell_selection_v1.csv</code></td>
+<td>18 个进入响应、观测规约和 χ² 拟合的单元</td>
+</tr>
+</tbody>
+</table>
+<p>两个月 live time 预估 Crab 显著性 ~270σ × √(59 / 508) ≈ 92σ — 做方法验证 SED 完全够。</p>
+<hr />
+<h2>3. Forward folding 形式（推广到二维）</h2>
+<p>设 <code>b = (i_N, i_E)</code> 是二维单元的索引，i_N 是 Nhit 段编号，i_E 是 log E_pred 段编号。源的微分能谱 I(E; Θ_S)（参数为 Θ_S）下，单元 b 内的预期信号数为：</p>
+<p>\[N_b^{\text{exp}}(\Theta_S) \;=\; \iint I(E;\Theta_S)\,\cos\theta\,\eta_b(\theta, E)\,S_0\,T_0\,f(\theta)\,d\theta\,dE\]</p>
+<p>其中：</p>
+<ul>
+<li><code>η_b(θ, E_true) = (通过所有 cut 后落入单元 b 的事例数) / (投放事例数)</code>，即<strong>二维探测器响应</strong>，从 MC 在和观测严格一致的 cut 条件下计算得到。</li>
+<li><code>S_0</code> 是模拟中的投点面积。</li>
+<li><code>f(θ)</code> 是源在观测窗口内归一化的天顶角分布。</li>
+<li><code>T_0</code> 是 live time。</li>
+</ul>
+<p>形式上和胡 2023 公式 (6-6) 完全一样，唯一改的是 <code>η_b</code> 由 Nhit 段单一编号变成了 (Nhit, log E_pred) 二维单元编号。</p>
+<p>一维 Nhit-only 的 forward folding 通过 <code>η_{i_N}(θ, E) = Σ_{i_E} η_{(i_N, i_E)}(θ, E)</code> 直接恢复。</p>
+<hr />
+<h2>4. 流水线</h2>
+<pre><code>┌─────────────────────────────────────────────────────────┐
+│ Stage A — 二维网格上的探测器响应（MC）                  │
+└─────────────────────────────────────────────────────────┘
+        │
+        ▼
+┌─────────────────────────────────────────────────────────┐
+│ Stage B — Crab 赤纬带上、各单元的 PSF 表（MC）          │
+└─────────────────────────────────────────────────────────┘
+        │
+        ▼
+┌─────────────────────────────────────────────────────────┐
+│ Stage C — 观测数据规约：事例选择、时间、RA/Dec          │
+└─────────────────────────────────────────────────────────┘
+        │
+        ▼
+┌─────────────────────────────────────────────────────────┐
+│ Stage D — 背景估计（直接积分法）                        │
+└─────────────────────────────────────────────────────────┘
+        │
+        ▼
+┌─────────────────────────────────────────────────────────┐
+│ Stage E — 各单元 N_on, N_off, α, excess, Li-Ma σ        │
+└─────────────────────────────────────────────────────────┘
+        │
+        ▼
+┌─────────────────────────────────────────────────────────┐
+│ Stage F — Forward folding χ² 拟合（先 PL，再 LogPar）   │
+└─────────────────────────────────────────────────────────┘
+        │
+        ▼
+┌─────────────────────────────────────────────────────────┐
+│ Stage G — SED 点 + 与 WCDA-1 / HAWC / HESS 对比         │
+└─────────────────────────────────────────────────────────┘
+</code></pre>
+<h3>Stage A — 二维网格上的探测器响应</h3>
+<ul>
+<li>用<strong>和 eval ROOT 同一个 checkpoint</strong>对全 MC 样本（不仅是 test split）跑一遍 inference，导出每个事例的 <code>(E_true, θ_true, nv, log10 E_pred, passed_cuts)</code>。<code>apply/simulation_all_bin.py</code> 已经做了重活，需要扩一下让它同时保留 <code>E_true</code> 和 <code>θ_true</code>。</li>
+<li>事例 cut 必须和 Stage C 观测端<strong>完全一致</strong>：<code>pincness &lt; 1.1</code>、<code>fitstat == 0</code>、<code>θ &lt; 50°</code>，以及模型 <code>config.json</code> 里训练时用的 <code>dcedge</code> / <code>core_box</code> 等条件。</li>
+<li>对每个单元 b = (i_N, i_E) 和每个 (log₁₀ E_true, θ_true) 网格（Δlog₁₀ E = 0.1, Δθ = 1°，和胡 2023 一致）：
+<ul>
+<li><code>η_b(θ_k, E_j) = N_pass(b, E_j, θ_k) / N_thrown(E_j, θ_k)</code></li>
+<li>需要有效面积时再乘上 <code>S_0</code>。</li>
+</ul>
+</li>
+<li>输出 <code>response_2d.npz</code>，shape 为 <code>(N_cells, N_E_true, N_theta)</code>，η 和 A_eff 都存。默认只保留 <code>apply/config/cell_selection_v1.csv</code> 中的 18 个 v1 单元；60 个 <code>acceptable</code> 单元只作为候选池和敏感性检查输入。</li>
+</ul>
+<h3>Stage B — Crab 赤纬带上各单元的 PSF</h3>
+<ul>
+<li>Crab 赤纬 = 22.01°，LHAASO 纬度 = 29.45° → θ_min ≈ 7.4°。先只在 Crab 这条赤纬带上建 PSF 表。</li>
+<li>对每个单元 b，用 Crab 在观测窗口内的天顶角分布 <code>f_Crab(θ)</code> 给 MC 事例加权，对径向偏差（reco − true）做单高斯拟合得到 σ_b。双高斯先不做，单高斯足够 v1 用。</li>
+<li>积分半径用胡 2023 的最优值 Δθ_opt ≈ 1.58 σ_b，逐单元算。各单元的 containment fraction 一并存下来。</li>
+</ul>
+<h3>Stage C — 观测数据规约</h3>
+<p>每个 <code>Esg*.root</code> + friend <code>.time.root</code>：</p>
+<ol>
+<li>保留 <code>match_status == 0</code>、<code>pincness &lt; 1.1</code>、<code>fitstat == 0</code>、<code>theta &lt; 50°</code> 的事例。</li>
+<li>从 <code>nv</code> 和 <code>ml_logE_pred</code> 算出单元 <code>b = (i_N, i_E)</code>。不在 <code>apply/config/cell_selection_v1.csv</code> 里的单元直接丢弃。</li>
+<li>每个事例携带 <code>(ra_mean_deg, dec_mean_deg, mjd, theta, b)</code> 往下传。</li>
+</ol>
+<p>输出按月汇成单一 parquet <code>obs_events.parquet</code>（列存；~100M 事例 × ~6 列在磁盘和扫描速度上都很舒服）。每月一个文件，方便管理。</p>
+<p><strong>Live time</strong> 从 MJD 覆盖减掉 duty-cycle 空档算出。Handoff 给出 1258 个输入文件、共 127.69M 事例匹配成功 — 这是 live time 计数的母体。</p>
+<h3>Stage D — 背景估计</h3>
+<p>用<strong>直接积分法</strong>（胡 2023, §6.1.5 — 一期星表选定的方法，α ≈ 0.01，对接收度时间变化稳健）。具体：</p>
+<ul>
+<li>用同一份清洗后的事例样本做时间积分得到全天接收度图 <code>G(x, y)</code>，把 Crab 周围 2° 半径 mask 掉（保险起见 Mrk 421 / Mrk 501 / Geminga / Cygnus 区一并 mask；它们离 Crab 分析 ROI 很远但 mask 起来零成本）。</li>
+<li>每个单元 b 都独立建 <code>G_b(x, y)</code> — 接收度形状是单元相关的。</li>
+<li>任意 (RA, Dec) 格子里的背景预测：<code>N_off · α = G_b(x,y) · R_b(t)</code> 在 live-time 窗口内积分，其中 <code>R_b(t)</code> 是单元 b 的全天事例率随时间变化。</li>
+</ul>
+<p><strong>如果能拿到师兄的星表程序，强烈建议直接复用</strong>。完整带 mask 的直接积分法重写一遍是整条流水线里最容易出错的部分。如果一时拿不到，<strong>先用更简单的等赤纬法</strong>把流程跑通做 v1 — α 稍大一点（dec=22° 处 ~0.01 vs dec=39° 处 0.012），但实现简单，Crab 这么亮的源做谱形验证根本不在乎，只影响绝对 normalisation 的系统。</p>
+<h3>Stage E — 信号提取</h3>
+<p>对每个单元 b：</p>
+<ul>
+<li>积分半径 <code>r_b = 1.58 σ_b</code>，来自 Stage B。</li>
+<li><code>N_on,b</code> = Crab on-region（圆心 RA=83.63°, Dec=22.01°，半径 r_b）落在单元 b 的事例数。</li>
+<li><code>N_off,b · α_b</code> = 同样积分孔径、同单元的直接积分法背景预测。</li>
+<li><code>excess_b = N_on,b − α_b N_off,b</code>，统计误差 <code>σ_b^stat = √(N_on,b + α_b² N_off,b)</code>。</li>
+<li>Li-Ma 显著性（胡 2023 公式 6-26）逐单元算，存下来用作诊断。</li>
+</ul>
+<p>诊断产出预期：</p>
+<ul>
+<li>二维显著性图（Nhit × log E_pred）— 应该看到一条正相关的对角带（高 Nhit ↔ 高 log E_pred），偏离对角线的&quot;翼&quot;告诉你 ML 这条轴在 Nhit 之外加了多少信息。</li>
+<li>v1 18 个拟合单元加起来的 Crab 总显著性；同时输出 60 个 acceptable 候选单元的总显著性作为诊断对照。</li>
+</ul>
+<h3>Stage F — Forward folding 拟合</h3>
+<p>用 <code>iminuit</code> 最小化</p>
+<p>\[\chi^2(\Theta_S) \;=\; \sum_{b \in \text{v1 cells}} \frac{\big(\text{excess}_b - N_b^{\text{exp}}(\Theta_S)\big)^2}{(\sigma_b^{\text{stat}})^2}\]</p>
+<p>其中 <code>v1 cells</code> 是 <code>apply/config/cell_selection_v1.csv</code> 中的 18 个单元。拟合输出 metadata 必须记录 <code>cell_selection_version = v1_physical_18</code> 和完整 cell 列表，方便和后续 selector 对照。</p>
+<p>谱模型按顺序试：</p>
+<ol>
+<li>幂律 <code>I(E) = N_0 (E/E_0)^{-Γ}</code>，<code>E_0 = 3 TeV</code>（和 WCDA 一期星表的 pivot 一致）。</li>
+<li>Log-parabola <code>I(E) = N_0 (E/E_0)^{-α − β log(E/E_0)}</code> — Crab 已知有轻微弯曲。</li>
+<li>带 e 指数截断的幂律（只在 (2) 残差仍有结构时上）。</li>
+</ol>
+<p>胡 2023 里模拟 Crab 用的注入谱是 −2.62、10 GeV–1 PeV。可以直接用同一套响应做前向折叠 — 响应是迁移矩阵，不是假设谱 — 但好的习惯是把拟合得到的最佳谱回代一次，给 A_eff 重新加权迭代一轮。</p>
+<h3>Stage G — SED 点</h3>
+<p>按胡 2023 的标准做法：</p>
+<ul>
+<li>固定 Stage F 拟出来的全局 Γ（或 α, β）。</li>
+<li>对每个 Nhit 段（或每个 i_E 段 — 两套都给）只重新拟归一化 N_0,bin，其他参数全部冻结。</li>
+<li>转换为微分通量 <code>E² dN/dE</code>，能量取该单元中位 true 能量（用最佳谱给响应加权算出）。</li>
+<li>直接对比：
+<ul>
+<li>WCDA 一期 Crab（胡 2023 图 6-32）：N_0 = 2.114 × 10⁻¹³ cm⁻² s⁻¹ TeV⁻¹ @ 3 TeV，Γ = 2.69 ± 0.01。</li>
+<li>HAWC、HESS 已发表的 Crab SED 作为外部 sanity 参考。</li>
+</ul>
+</li>
+</ul>
+<p>一维 Nhit-only 的 SED 作为副产物：把响应沿 i_E marginalise，重新拟一遍 — <strong>这是和星表 apples-to-apples 的直接对比</strong>。</p>
+<hr />
+<h2>5. 系统检验</h2>
+<p>下面五项作为独立 sanity 产出运行，每项有独立图表，不要只在总结里随手提一句：</p>
+<ol>
+<li><strong>1D vs 2D 自洽性。</strong> 把二维响应 marginalise 回一维 Nhit-only 拟合，两条 SED 应该在统计误差以内一致。差太多说明二维 η 矩阵在某处归一化错了。</li>
+<li><strong>响应自检。</strong> 把模拟注入谱（Γ = −2.62）通过响应前向折叠，得到的各单元预期数应该和 <code>bin_counts.md</code> 里 cut 后实测 MC 数符合到 ≲ 1%。</li>
+<li><strong>Cell-drop 灵敏度。</strong> 默认拟合用 <code>v1_physical_18</code>。对照重跑 <code>top2_per_nhit_15</code> 和 <code>count_ge30000_19</code> 两套 selector；Crab 的 Γ 和 N_0 漂移应小于统计误差，且高 Nhit 端残差不能出现系统偏移。</li>
+<li><strong>Cut 灵敏度。</strong> 收紧到 <code>pincness &lt; 0.9</code> 重跑全套（响应和观测必须用<strong>同一个</strong>更紧的 cut）。拟出的 SED 应该在统计上一致。</li>
+<li><strong>背景方法灵敏度。</strong> 如果直接积分法和等赤纬法都实现了，分别拟一次，把差异作为背景方法系统列出来。</li>
+</ol>
+<p>最终系统误差预算按胡 2023 §6.8.1 思路给：ML 结果相对 WCDA 一期星表的 ratio band，理想情况下 1–20 TeV 偏差应在 ±10% 以内。</p>
+<hr />
+<h2>6. 交付物</h2>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>apply/stages/01_build_response.py</code></td>
+<td>Stage A — 扩 <code>apply/simulation_all_bin.py</code> 输出 η、A_eff</td>
+</tr>
+<tr>
+<td><code>apply/stages/02_build_psf.py</code></td>
+<td>Stage B — Crab 赤纬带上各单元 PSF</td>
+</tr>
+<tr>
+<td><code>apply/stages/03_reduce_obs.py</code></td>
+<td>Stage C — 合并 eval ROOT + friend tree → <code>obs_events.parquet</code></td>
+</tr>
+<tr>
+<td><code>apply/stages/04_background.py</code></td>
+<td>Stage D — 直接积分法接收度 + 背景预测</td>
+</tr>
+<tr>
+<td><code>apply/stages/05_signal.py</code></td>
+<td>Stage E — 各单元 N_on, N_off, excess, Li-Ma</td>
+</tr>
+<tr>
+<td><code>apply/stages/06_fit.py</code></td>
+<td>Stage F — <code>iminuit</code> forward folding 拟合器</td>
+</tr>
+<tr>
+<td><code>apply/stages/07_sed_points.py</code></td>
+<td>Stage G — 各段 SED 点 + 出图</td>
+</tr>
+<tr>
+<td><code>apply/config/cell_selection_v1.csv</code></td>
+<td>v1 的 18 个 physical-band 拟合单元</td>
+</tr>
+<tr>
+<td><code>apply/output/crab_sed.json</code></td>
+<td>最终拟合参数 + SED 点</td>
+</tr>
+<tr>
+<td><code>apply/output/figures/</code></td>
+<td>二维显著性图、SED 对比图、残差、响应切片</td>
+</tr>
+<tr>
+<td><code>apply/report/roadmap.md</code></td>
+<td>本文档</td>
+</tr>
+</tbody>
+</table>
+<p>每个 stage 脚本从磁盘读输入、写一个 artifact —— 不做内存里串联 —— 这样任何一步都可以独立重启。</p>
+<hr />
+<h2>7. 待你拍板</h2>
+<ol>
+<li><strong>v1 用哪种背景方法</strong>：直接积分法（和 WCDA 一期对得上）vs 等赤纬法（简单，实现快 ~10×）。建议：先用等赤纬法走通 Stage A–G，再换上直接积分法。</li>
+<li><strong>Stage F 拟合后端</strong>：套用师兄星表程序 vs 自写最小 <code>iminuit</code> 拟合器。建议：自写 — 二维响应索引本来就要改，χ² 也就 ~50 行。</li>
+<li><strong>PSF 参数化</strong>：单高斯（快、Crab 够用）vs 双高斯（更接近星表的选择）。建议：v1 单高斯，Stage E containment 看起来不对再回头改。</li>
+<li><strong>单元选择</strong>：v1 先用 <code>apply/config/cell_selection_v1.csv</code> 里的 18 个 physical-band 单元；60 个 <code>acceptable</code> 单元保留为候选池和系统检查。</li>
+</ol>
+<p>这四个都不是 Stage A 开工的阻塞项。</p>
+
+<footer class="page-foot">
+  Generated from <code>roadmap.md</code> · Pluto235/any-reports
+</footer>
+</main>
+</body>
+</html>
