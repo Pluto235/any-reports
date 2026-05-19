@@ -58,18 +58,17 @@
   <ul class="report-list">
 
     <li>
-      <a class="report-card" href="crab-sed-roadmap.html">
+      <a class="report-card" href="crab-sed-roadmap/">
         <span class="title">Crab SED Roadmap — ML 能量 × Nhit 2D 分箱</span>
         <p class="desc">
           LHAASO-WCDA 两个月 Crab 观测数据 (2022-01 ~ 02) 上验证 ParticleNet 能量重建
           的技术路线。把传统 WCDA forward-folding 的单一 Nhit 维度扩展为
           (Nhit, log10 E_pred) 二维分箱：用同一个模型在 MC 上构建二维响应矩阵 η_b(θ, E)，
-          直接积分法估计背景，iminuit χ² 拟合 power-law / log-parabola，
-          产出 SED 点并对比 WCDA-1 catalog (Hu 2023) 的 Crab 谱。
-          基于 60 个 acceptable 2D 单元，预估总显著性 ~92σ。
+          v1 固定采用直接积分法背景、自写最小 iminuit χ² 拟合器、单高斯 PSF，
+          并只使用 cell_selection_v1.csv 中的 18 个 physical-band 单元进入 baseline 拟合。
         </p>
         <span class="meta">
-          <time datetime="2026-05-16">2026-05-16</time>
+          <time datetime="2026-05-19">2026-05-19</time>
           <span class="tag">SED</span>
           <span class="tag">WCDA</span>
           <span class="tag">Crab</span>
