@@ -348,13 +348,17 @@ footer.page-foot {
 <p>输出按月汇成单一 parquet <code>obs_events.parquet</code>（列存；~100M 事例 × ~6 列在磁盘和扫描速度上都很舒服）。每月一个文件，方便管理。</p>
 <p><strong>Live time</strong> 从 MJD 覆盖减掉 duty-cycle 空档算出。Handoff 给出 1258 个输入文件、共 127.69M 事例匹配成功 — 这是 live time 计数的母体。</p>
 <h3>Stage D — 背景估计</h3>
-<p>用<strong>直接积分法</strong>（胡 2023, §6.1.5 — 一期星表选定的方法，α ≈ 0.01，对接收度时间变化稳健）。具体：</p>
+<p>v1 baseline 直接用<strong>直接积分法</strong>（胡 2023, §6.1.5 — 一期星表选定的方法）。这里不再把等赤纬法作为先跑通方案；等赤纬法只保留为后续背景系统误差交叉检查。直接积分法的核心是用同一份观测数据在局部坐标中重建探测器接收度，再随地球自转把该接收度投影回赤道坐标，因此能自然吸收全天事例率和接收度随时间的慢变化。</p>
+<p>具体实现按单元 b 独立做：</p>
 <ul>
-<li>用同一份清洗后的事例样本做时间积分得到全天接收度图 <code>G(x, y)</code>，把 Crab 周围 2° 半径 mask 掉（保险起见 Mrk 421 / Mrk 501 / Geminga / Cygnus 区一并 mask；它们离 Crab 分析 ROI 很远但 mask 起来零成本）。</li>
-<li>每个单元 b 都独立建 <code>G_b(x, y)</code> — 接收度形状是单元相关的。</li>
-<li>任意 (RA, Dec) 格子里的背景预测：<code>N_off · α = G_b(x,y) · R_b(t)</code> 在 live-time 窗口内积分，其中 <code>R_b(t)</code> 是单元 b 的全天事例率随时间变化。</li>
+<li>输入只使用 Stage C 清洗后的事件，且先按 <code>b = (Nhit bin, logE_pred bin)</code> 分组。不同单元的 zenith/azimuth 接收度、事例率和死时间响应都不同，不能共用一张接收度图。</li>
+<li>在本地坐标或等价的 hour-angle/declination 参数空间中累计接收度图 <code>G_b(x, y)</code>。构图时 mask 掉 Crab 周围 2° 半径；为避免强源泄漏，Mrk 421、Mrk 501、Geminga、Cygnus 区也一并 mask。mask 只影响接收度训练样本，不影响之后对 Crab on-region 的计数。</li>
+<li>同时记录单元 b 的全天事件率 <code>R_b(t)</code>，时间粒度先取能稳定覆盖 rate 漂移的窗口（例如 10-30 min；最终由 rate 曲线诊断决定）。<code>R_b(t)</code> 用来描述阵列运行状态、天气和筛选后事件率的慢变化。</li>
+<li>对 Crab 位置的每个观测时刻，把目标赤经赤纬转换到局部坐标 <code>(x(t), y(t))</code>，从 <code>G_b</code> 读出该方向的相对接收度，并乘以 <code>R_b(t)</code>、live-time 权重和像素/孔径几何因子后积分：<code>B_b(ra, dec) = ∫ G_b(x(t), y(t)) R_b(t) dt</code>。</li>
+<li>对 Stage E 的圆形 on-region，在同一积分半径 <code>r_b = 1.58 σ_b</code> 内把 <code>B_b(ra, dec)</code> 积起来，得到该单元的背景预测 <code>α_b N_off,b</code>。实现上可以直接输出背景期望 <code>B_on,b</code>，不强制保存传统 off 计数；但为了和 Li-Ma 诊断兼容，metadata 里要同时保存等效的 <code>alpha_b</code>、<code>N_off,b</code> 或清楚标记采用的是直接背景期望形式。</li>
+<li>每个单元输出接收度图、rate 曲线、mask 配置、live-time、<code>B_on,b</code> 和诊断图。诊断至少包括 masked/unmasked 接收度、rate vs time、Crab 轨迹覆盖、以及 18 个 v1 单元的背景预测表。</li>
 </ul>
-<p><strong>如果能拿到师兄的星表程序，强烈建议直接复用</strong>。完整带 mask 的直接积分法重写一遍是整条流水线里最容易出错的部分。如果一时拿不到，<strong>先用更简单的等赤纬法</strong>把流程跑通做 v1 — α 稍大一点（dec=22° 处 ~0.01 vs dec=39° 处 0.012），但实现简单，Crab 这么亮的源做谱形验证根本不在乎，只影响绝对 normalisation 的系统。</p>
+<p>如果能拿到师兄的星表程序，可以复用其直接积分法实现；但路线记录为“直接积分法 baseline”，不是“先等赤纬再替换”。</p>
 <h3>Stage E — 信号提取</h3>
 <p>对每个单元 b：</p>
 <ul>
@@ -463,14 +467,14 @@ footer.page-foot {
 </table>
 <p>每个 stage 脚本从磁盘读输入、写一个 artifact —— 不做内存里串联 —— 这样任何一步都可以独立重启。</p>
 <hr />
-<h2>7. 待你拍板</h2>
+<h2>7. v1 已定技术选择</h2>
 <ol>
-<li><strong>v1 用哪种背景方法</strong>：直接积分法（和 WCDA 一期对得上）vs 等赤纬法（简单，实现快 ~10×）。建议：先用等赤纬法走通 Stage A–G，再换上直接积分法。</li>
-<li><strong>Stage F 拟合后端</strong>：套用师兄星表程序 vs 自写最小 <code>iminuit</code> 拟合器。建议：自写 — 二维响应索引本来就要改，χ² 也就 ~50 行。</li>
-<li><strong>PSF 参数化</strong>：单高斯（快、Crab 够用）vs 双高斯（更接近星表的选择）。建议：v1 单高斯，Stage E containment 看起来不对再回头改。</li>
-<li><strong>单元选择</strong>：v1 先用 <code>apply/config/cell_selection_v1.csv</code> 里的 18 个 physical-band 单元；60 个 <code>acceptable</code> 单元保留为候选池和系统检查。</li>
+<li><strong>背景方法：直接积分法。</strong> v1 baseline 直接上直接积分法，和 WCDA 一期星表路线对齐。等赤纬法不作为主线 fallback，只作为后续背景方法系统误差检查。</li>
+<li><strong>Stage F 拟合后端：自写最小 <code>iminuit</code> 拟合器。</strong> 二维响应索引、18 个 cell 的选择、metadata 和诊断输出都需要按本项目组织；直接写一个小的 forward-folding χ² 拟合器更可控。师兄星表程序可参考背景和系统误差处理，但不作为拟合主框架。</li>
+<li><strong>PSF 参数化：v1 单高斯。</strong> 每个 cell 用 Crab 赤纬带的 MC 角分辨分布拟合一个 σ_b，并用 <code>1.58 σ_b</code> 定义积分半径。双高斯留到 containment 或残差诊断显示单高斯明显不够时再升级。</li>
+<li><strong>单元选择：18 个 physical-band cell。</strong> v1 只使用 <code>apply/config/cell_selection_v1.csv</code> 里的 18 个单元进入响应、背景、excess 和 χ² 拟合；60 个 <code>acceptable</code> 单元保留为候选池、显著性对照和系统检查，不进入 baseline 拟合。</li>
 </ol>
-<p>这四个都不是 Stage A 开工的阻塞项。</p>
+<p>这四项是当前 v1 路线的固定选择，后续实现和报告 metadata 都应显式记录。</p>
 
 <footer class="page-foot">
   Generated from <code>roadmap.md</code> · Pluto235/any-reports
