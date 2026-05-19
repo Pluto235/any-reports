@@ -217,6 +217,11 @@ footer.page-foot {
 <tr><td><code>[1100,2000)</code></td><td><code>[3.75,4.0)</code>, <code>[4.0,4.25)</code>, <code>[4.25,4.5)</code></td></tr>
 </tbody>
 </table>
+<p>下图把这 18 个 v1 单元放回原来的二维网格中。每个非灰色小面板显示对应 <code>(Nhit, log₁₀ E_pred)</code> 单元内 MC 真实能量 <code>log₁₀(E_true / GeV)</code> 的归一化分布，面板左上角的 <code>n</code> 是 <code>bin_counts.csv</code> 中该单元的 cut 后 MC 事例数。灰色 <code>N/A</code> 面板是 60 个 acceptable 候选池里没有进入 v1 拟合的单元。可以看到 v1 基本沿着高 Nhit ↔ 高预测能量的 physical band 取点，同时保留了最高 Nhit 端。</p>
+<figure>
+  <img src="assets/cell_selection_v1_true_energy_distribution_grid.png" alt="v1 physical-band cells: normalized true-energy distributions" style="width:100%;height:auto;border:1px solid var(--border);border-radius:8px;background:var(--bg-elev);">
+  <figcaption>v1 physical-band cells selected from the Nhit × log₁₀ E_pred grid. Non-selected cells are marked N/A.</figcaption>
+</figure>
 <hr />
 <h2>2. 现有原料</h2>
 <table>
