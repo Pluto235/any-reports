@@ -1,10 +1,10 @@
 # Mrk 421 / Mrk 501 WCDA Periodicity Analysis v1
 
-Published on GitHub Pages. Report date: 2026-05-14.
+Published on GitHub Pages. Report date: 2026-05-20.
 
 This report keeps the existing Mrk 421 WCDA/Fermi quick-look periodicity analysis and adds the newly generated Mrk 501 LHAASO-WCDA weekly light curve. It runs CWT and WWZ checks and intentionally excludes simulation-based significance testing.
 
-The updated figures use a clearer layout: the light curve is shown across the first row, while CWT and WWZ maps are separated on the second row.
+The updated figures use a clearer layout: the light curve is shown across the first row, while CWT and WWZ maps are separated on the second row. WWZ heatmaps now use log color normalization and a log-scaled period axis for better visual contrast across the searched period range.
 
 ## Peak Summary
 

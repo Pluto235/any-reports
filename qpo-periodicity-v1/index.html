@@ -130,7 +130,7 @@
   <div class="topline">
     <div>
       <h1>Mrk 421 / Mrk 501 WCDA Periodicity Analysis v1</h1>
-      <p class="meta">Published on GitHub Pages. Report date: 2026-05-14.</p>
+      <p class="meta">Published on GitHub Pages. Report date: 2026-05-20.</p>
     </div>
     <div class="language-toggle" aria-label="Language switch">
       <button type="button" data-lang-button="zh" class="active">中文</button>
@@ -154,6 +154,7 @@
 
     <h2>方法</h2>
     <p>WCDA flux 使用 excess rate 表示：<code>sum(n_on - n_bkg) / tobs</code>，误差使用逐 hit bin 传播的 Poisson-style on/off 近似。CWT 使用 <code>pycwt</code> 的 Morlet wavelet，WWZ 使用 <code>libwwz</code>，入口脚本为 <code>src/pipeline/periodicity_v1.py</code>。</p>
+    <p>WWZ 热图采用对数颜色归一化，周期轴也使用对数刻度，以提高整个搜索周期范围内的可视化对比度。该修改只影响显示方式；WWZ 峰值搜索仍使用保存的线性 power 数值。</p>
     <p class="note">当前 v1 不包含 red-noise simulations、Monte Carlo thresholds、local significance contours、pre-trial significance 或 post-trial significance。</p>
 
     <h2>峰值摘要</h2>
@@ -212,6 +213,7 @@
 
     <h2>Methods</h2>
     <p>WCDA flux is represented as an excess rate, <code>sum(n_on - n_bkg) / tobs</code>, with a Poisson-style on/off error approximation propagated per hit bin. CWT uses a Morlet wavelet through <code>pycwt</code>. WWZ uses <code>libwwz</code>, with the v1 quick-look grid saved by <code>src/pipeline/periodicity_v1.py</code>.</p>
+    <p>WWZ heatmaps use log color normalization and a log-scaled period axis to improve visual contrast across the searched period range. This changes the display only; the WWZ peak search still uses the saved linear power values.</p>
     <p class="note">This v1 report includes no red-noise simulations, Monte Carlo thresholds, local significance contours, pre-trial significance, or post-trial significance.</p>
 
     <h2>Peak Summary</h2>
