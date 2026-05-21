@@ -31,7 +31,7 @@ No red-noise simulations, Monte Carlo thresholds, local significance contours, p
 
 ## Regular WWZ Color-Scale Comparison
 
-Main regular figures now use linear WWZ heatmap color normalization. The Mrk 421 and Mrk 501 WCDA weekly summary figures additionally show CWT and WWZ global spectra below the 2D maps.
+Main regular figures now use linear WWZ heatmap color normalization. The Mrk 421 and Mrk 501 WCDA weekly summary figures additionally show CWT and WWZ global spectra below the 2D maps. Red dashed lines mark algorithmic candidate peaks in those global spectra; they are not significance-vetted detections.
 
 ![Mrk 421 WCDA daily linear-color WWZ](assets/mkn421/wcda_daily_periodicity.png)
 
