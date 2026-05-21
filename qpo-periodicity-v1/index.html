@@ -205,10 +205,23 @@
         <tr><td>MJD 61020-61098</td><td>2.54, 5.2, 16.6 d</td><td>Global peak 位于 50.00 d 搜索上边界；16.96 d 排第 3，5.12 d 排第 10，2.52 d 不突出。</td><td>16.6 d 有较清楚对应；两个更短周期在本次运行中较弱。</td></tr>
       </tbody>
     </table>
-    <p class="note">95%/99% 显著性线、red-noise simulations 和 trial corrections 本轮没有复现，因此这里只比较 WWZ 结构和峰值位置。</p>
+    <p class="note">xgm poster 周期是 poster 中的参考标注。下面的 local FAP 是我自己的 AR(1) surrogate WWZ 检查，不是复现 poster 作者的显著性定义；这里只给 local-window FAP，没有 global look-elsewhere correction。</p>
+    <table>
+      <thead><tr><th>窗口</th><th>目标来源</th><th>目标 [d]</th><th>最近网格 [d]</th><th>Local peak [d]</th><th>WWZ power</th><th>Rank</th><th>Cycles</th><th>我的 local FAP</th><th>解读</th></tr></thead>
+      <tbody>
+        <tr><td>60200-60700</td><td>xgm poster reference</td><td>51.05</td><td>49.92</td><td>49.92</td><td>12.330</td><td>3</td><td>9.77</td><td>0.0619</td><td>接近 local 95%，但在我的 AR(1) surrogate 检验中没有过 5% 阈值。</td></tr>
+        <tr><td>60200-60700</td><td>my reproduction peak</td><td>111.01</td><td>111.01</td><td>111.01</td><td>13.612</td><td>1</td><td>4.49</td><td>0.0779</td><td>我的 global peak 比 xgm 51.05 d 网格点更强，但这里没有达到 5% local significance。</td></tr>
+        <tr><td>61020-61098</td><td>xgm poster reference</td><td>2.54</td><td>2.52</td><td>2.30</td><td>0.671</td><td>24</td><td>30.31</td><td>0.0340</td><td>通过我的 local 95% surrogate check，但绝对 WWZ power 很低，且未做 trial correction。</td></tr>
+        <tr><td>61020-61098</td><td>xgm poster reference</td><td>5.20</td><td>5.12</td><td>5.12</td><td>0.909</td><td>10</td><td>14.81</td><td>0.5095</td><td>在我的 AR(1) surrogate 检验中不显得局部异常。</td></tr>
+        <tr><td>61020-61098</td><td>xgm poster reference</td><td>16.60</td><td>16.96</td><td>15.28</td><td>2.767</td><td>2</td><td>4.64</td><td>0.6024</td><td>在我的复现中可见，但这个 surrogate 检验下不显著。</td></tr>
+        <tr><td>61020-61098</td><td>my reproduction boundary peak</td><td>50.00</td><td>50.00</td><td>50.00</td><td>18.573</td><td>1</td><td>1.54</td><td>0.0360</td><td>位于搜索上边界且只有 1.54 cycles，不能当作稳健 QPO。</td></tr>
+      </tbody>
+    </table>
     <figure><img src="assets/xgm_poster_repro/mkn421/mkn421_daily_60200_60700_wwz_poster_style.png" alt="xgm poster comparison for Mrk 421 WCDA daily MJD 60200-60700"><figcaption>MJD 60200-60700 对比图。红色 51.05 d 标记来自 xgm poster；右侧 global spectrum 显示我当前运行中更长周期的全局 power 更强。</figcaption></figure>
+    <figure><img src="assets/xgm_poster_repro/mkn421/mkn421_daily_60200_60700_wwz_local_significance.png?v=xgm-local-sig-20260521" alt="My WWZ local significance check for xgm poster window MJD 60200-60700"><figcaption>我对 MJD 60200-60700 的 local-significance 检查。红色是 xgm poster reference，蓝色是 my reproduction peak。</figcaption></figure>
     <p class="result-note">我的结果：N=493，MJD 60200.167-60699.167，median cadence 1.000 d，max gap 4.351 d。Global mean-power peak 为 111.01 d（power=13.612）；最接近 51.05 d 的网格点为 49.93 d（power=12.330），rank 3。</p>
     <figure><img src="assets/xgm_poster_repro/mkn421/mkn421_daily_61020_61098_wwz_poster_style.png" alt="xgm poster comparison for Mrk 421 WCDA daily MJD 61020-61098"><figcaption>MJD 61020-61098 对比图。标出的 2.54、5.2、16.6 d 是 xgm poster 的候选周期；该窗口按 poster 图中的实际 x 轴，而不是标题中的 60120 起点。</figcaption></figure>
+    <figure><img src="assets/xgm_poster_repro/mkn421/mkn421_daily_61020_61098_wwz_local_significance.png?v=xgm-local-sig-20260521" alt="My WWZ local significance check for xgm poster window MJD 61020-61098"><figcaption>我对 MJD 61020-61098 的 local-significance 检查。红色是 xgm poster reference，蓝色是 my reproduction boundary peak。</figcaption></figure>
     <p class="result-note">我的结果：N=78，MJD 61020.167-61097.167，median cadence 1.000 d，max gap 1.000 d。Global peak 位于 50.00 d 搜索上边界（power=18.573）。Poster 周期附近，16.96 d 为第 3 强 global-WWZ 网格点，5.12 d 排第 10，2.52 d 不突出。</p>
 
     <h2>Mrk 421 图像</h2>
@@ -319,10 +332,23 @@
         <tr><td>MJD 61020-61098</td><td>2.54, 5.2, 16.6 d</td><td>Global peak at the 50.00 d upper search boundary; 16.96 d ranks 3, 5.12 d ranks 10, and 2.52 d is not prominent.</td><td>16.6 d has a visible counterpart; the shorter candidates are weaker here.</td></tr>
       </tbody>
     </table>
-    <p class="note">95%/99% significance curves, red-noise simulations, and trial corrections are not reproduced in this pass, so this is limited to WWZ structure and peak-location comparison.</p>
+    <p class="note">The xgm poster periods are reference labels from the poster. The local FAP values below are my own AR(1) surrogate WWZ checks, not a reproduction of the poster author's significance calculation. They are local-window FAPs only, with no global look-elsewhere correction.</p>
+    <table>
+      <thead><tr><th>Window</th><th>Target source</th><th>Target [d]</th><th>Nearest grid [d]</th><th>Local peak [d]</th><th>WWZ power</th><th>Rank</th><th>Cycles</th><th>My local FAP</th><th>Reading</th></tr></thead>
+      <tbody>
+        <tr><td>60200-60700</td><td>xgm poster reference</td><td>51.05</td><td>49.92</td><td>49.92</td><td>12.330</td><td>3</td><td>9.77</td><td>0.0619</td><td>Near local 95%, but does not pass the 5% threshold in my AR(1) surrogate test.</td></tr>
+        <tr><td>60200-60700</td><td>my reproduction peak</td><td>111.01</td><td>111.01</td><td>111.01</td><td>13.612</td><td>1</td><td>4.49</td><td>0.0779</td><td>My global peak is stronger than the xgm 51.05 d grid point, but is not locally significant at 5% here.</td></tr>
+        <tr><td>61020-61098</td><td>xgm poster reference</td><td>2.54</td><td>2.52</td><td>2.30</td><td>0.671</td><td>24</td><td>30.31</td><td>0.0340</td><td>Passes my local 95% surrogate check, but the absolute WWZ power is low and this is not trial corrected.</td></tr>
+        <tr><td>61020-61098</td><td>xgm poster reference</td><td>5.20</td><td>5.12</td><td>5.12</td><td>0.909</td><td>10</td><td>14.81</td><td>0.5095</td><td>Not locally unusual in my AR(1) surrogate test.</td></tr>
+        <tr><td>61020-61098</td><td>xgm poster reference</td><td>16.60</td><td>16.96</td><td>15.28</td><td>2.767</td><td>2</td><td>4.64</td><td>0.6024</td><td>Visible in my reproduction but not locally significant in this surrogate test.</td></tr>
+        <tr><td>61020-61098</td><td>my reproduction boundary peak</td><td>50.00</td><td>50.00</td><td>50.00</td><td>18.573</td><td>1</td><td>1.54</td><td>0.0360</td><td>At the search upper boundary with only 1.54 cycles; do not treat as a robust QPO.</td></tr>
+      </tbody>
+    </table>
     <figure><img src="assets/xgm_poster_repro/mkn421/mkn421_daily_60200_60700_wwz_poster_style.png" alt="xgm poster comparison for Mrk 421 WCDA daily MJD 60200-60700"><figcaption>MJD 60200-60700 comparison. The red 51.05 d marker is the xgm poster period; the side spectrum shows stronger global power at longer periods in my current run.</figcaption></figure>
+    <figure><img src="assets/xgm_poster_repro/mkn421/mkn421_daily_60200_60700_wwz_local_significance.png?v=xgm-local-sig-20260521" alt="My WWZ local significance check for xgm poster window MJD 60200-60700"><figcaption>My local-significance check for MJD 60200-60700. Red marks the xgm poster reference period; blue marks my reproduction peak.</figcaption></figure>
     <p class="result-note">My result: N=493, MJD 60200.167-60699.167, median cadence 1.000 d, max gap 4.351 d. The global mean-power peak is 111.01 d (power 13.612), while the nearest 51.05 d grid point is 49.93 d (power 12.330), rank 3.</p>
     <figure><img src="assets/xgm_poster_repro/mkn421/mkn421_daily_61020_61098_wwz_poster_style.png" alt="xgm poster comparison for Mrk 421 WCDA daily MJD 61020-61098"><figcaption>MJD 61020-61098 comparison. The marked 2.54, 5.2, and 16.6 d lines are the xgm poster candidate periods; this window follows the poster figure axis rather than the page title.</figcaption></figure>
+    <figure><img src="assets/xgm_poster_repro/mkn421/mkn421_daily_61020_61098_wwz_local_significance.png?v=xgm-local-sig-20260521" alt="My WWZ local significance check for xgm poster window MJD 61020-61098"><figcaption>My local-significance check for MJD 61020-61098. Red marks the xgm poster reference periods; blue marks my reproduction boundary peak.</figcaption></figure>
     <p class="result-note">My result: N=78, MJD 61020.167-61097.167, median cadence 1.000 d, max gap 1.000 d. The global peak sits at the 50.00 d upper search boundary (power 18.573). Around the poster periods, 16.96 d is the third strongest global-WWZ grid point, 5.12 d ranks tenth, and 2.52 d is not prominent.</p>
 
     <h2>Mrk 421 Figures</h2>
