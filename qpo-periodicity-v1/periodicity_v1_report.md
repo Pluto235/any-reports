@@ -31,7 +31,7 @@ No red-noise simulations, Monte Carlo thresholds, local significance contours, p
 
 ## Regular WWZ Color-Scale Comparison
 
-Main regular figures now use linear WWZ heatmap color normalization:
+Main regular figures now use linear WWZ heatmap color normalization. The Mrk 421 and Mrk 501 WCDA weekly summary figures additionally show CWT and WWZ global spectra below the 2D maps.
 
 ![Mrk 421 WCDA daily linear-color WWZ](assets/mkn421/wcda_daily_periodicity.png)
 
@@ -39,11 +39,11 @@ Log-color reference kept for comparison:
 
 ![Mrk 421 WCDA daily log-color WWZ](assets/mkn421/wcda_daily_periodicity_logcolor.png)
 
-![Mrk 421 WCDA weekly linear-color WWZ](assets/mkn421/wcda_weekly_periodicity.png)
+![Mrk 421 WCDA weekly linear-color WWZ with global spectra](assets/mkn421/wcda_weekly_periodicity.png)
 
 Log-color reference kept for comparison:
 
-![Mrk 421 WCDA weekly log-color WWZ](assets/mkn421/wcda_weekly_periodicity_logcolor.png)
+![Mrk 421 WCDA weekly log-color WWZ with global spectra](assets/mkn421/wcda_weekly_periodicity_logcolor.png)
 
 ![Mrk 421 Fermi weekly on WCDA axis linear-color WWZ](assets/mkn421/fermi_weekly_on_wcda_axis_periodicity.png)
 
@@ -51,11 +51,11 @@ Log-color reference kept for comparison:
 
 ![Mrk 421 Fermi weekly on WCDA axis log-color WWZ](assets/mkn421/fermi_weekly_on_wcda_axis_periodicity_logcolor.png)
 
-![Mrk 501 WCDA weekly linear-color WWZ](assets/mkn501/wcda_weekly_periodicity.png)
+![Mrk 501 WCDA weekly linear-color WWZ with global spectra](assets/mkn501/wcda_weekly_periodicity.png)
 
 Log-color reference kept for comparison:
 
-![Mrk 501 WCDA weekly log-color WWZ](assets/mkn501/wcda_weekly_periodicity_logcolor.png)
+![Mrk 501 WCDA weekly log-color WWZ with global spectra](assets/mkn501/wcda_weekly_periodicity_logcolor.png)
 
 ## xgm poster 复现检查
 
