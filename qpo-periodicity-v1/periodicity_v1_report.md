@@ -1,10 +1,10 @@
 # Mrk 421 / Mrk 501 WCDA Periodicity Analysis v1
 
-Published on GitHub Pages. Report date: 2026-05-21.
+Generated from local pipeline outputs in `data/processed/periodicity/{mkn421,mkn501}/`. Current report date: 2026-05-20.
 
-This report keeps the existing Mrk 421 WCDA/Fermi quick-look periodicity analysis, adds the newly generated Mrk 501 LHAASO-WCDA weekly light curve, and includes an xgm-poster-style Mrk 421 daily WWZ reproduction check. It runs CWT and WWZ checks and intentionally excludes simulation-based significance testing.
+This version keeps the existing Mrk 421 WCDA/Fermi quick-look analysis and adds the newly generated Mrk 501 LHAASO-WCDA weekly light curve. It runs CWT and WWZ checks and intentionally skips simulation-based significance testing.
 
-The updated figures use a clearer layout: the light curve is shown across the first row, while CWT and WWZ maps are separated on the second row. The WCDA weekly main displays now use linear WWZ heatmap color normalization; previous log-color versions are retained as visual references. The period axis remains log-scaled.
+The updated figures use a clearer layout: the light curve is shown across the first row, while CWT and WWZ maps are separated on the second row. In the regular periodicity section after the xgm poster comparison, WWZ main displays now use linear heatmap color normalization; previous log-color versions are retained as visual references. The period axis remains log-scaled.
 
 ## Peak Summary
 
@@ -14,8 +14,6 @@ The updated figures use a clearer layout: the light curve is shown across the fi
 | Mrk 421 | WCDA weekly | 264 | 59284.333 | 61125.167 | 7.000 | 367.33 | 4.486 | 363.22 | 5.177 |
 | Mrk 421 | Fermi weekly on WCDA axis | 250 | 59284.333 | 61062.167 | 7.000 | 583.10 | 2.828 | 513.37 | 3.260 |
 | Mrk 501 | WCDA weekly | 264 | 59284.333 | 61125.167 | 7.000 | 389.17 | 4.407 | 402.98 | 6.385 |
-
-The published HTML page includes Chinese and English views with an in-page language switch.
 
 ## Figure Notes
 
@@ -28,17 +26,30 @@ The published HTML page includes Chinese and English views with an in-page langu
 - Mrk 501 WCDA weekly covers 2021-03-11 07:59 UTC to 2026-03-26 04:00 UTC.
 - Mrk 501 WCDA weekly: CWT peak 389.17 d (GWS 4.407); WWZ peak 402.98 d (power 6.385).
 
+No red-noise simulations, Monte Carlo thresholds, local significance contours, pre-trial significance, or post-trial significance are included in this version.
 
 
-## WCDA Weekly WWZ Color-Scale Comparison
+## Regular WWZ Color-Scale Comparison
 
-Main WCDA weekly figures now use linear WWZ heatmap color normalization:
+Main regular figures now use linear WWZ heatmap color normalization:
+
+![Mrk 421 WCDA daily linear-color WWZ](assets/mkn421/wcda_daily_periodicity.png)
+
+Log-color reference kept for comparison:
+
+![Mrk 421 WCDA daily log-color WWZ](assets/mkn421/wcda_daily_periodicity_logcolor.png)
 
 ![Mrk 421 WCDA weekly linear-color WWZ](assets/mkn421/wcda_weekly_periodicity.png)
 
 Log-color reference kept for comparison:
 
 ![Mrk 421 WCDA weekly log-color WWZ](assets/mkn421/wcda_weekly_periodicity_logcolor.png)
+
+![Mrk 421 Fermi weekly on WCDA axis linear-color WWZ](assets/mkn421/fermi_weekly_on_wcda_axis_periodicity.png)
+
+Log-color reference kept for comparison:
+
+![Mrk 421 Fermi weekly on WCDA axis log-color WWZ](assets/mkn421/fermi_weekly_on_wcda_axis_periodicity_logcolor.png)
 
 ![Mrk 501 WCDA weekly linear-color WWZ](assets/mkn501/wcda_weekly_periodicity.png)
 
