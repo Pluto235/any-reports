@@ -177,12 +177,20 @@
     </ul>
 
 
-    <h2>xgm poster 复现检查</h2>
-    <p class="meta">输入文件：<code>data/processed/wcda_day/LHAASO-WCDA_Mkn421_2023-06-25_2026-03-29_day.csv</code>。这里使用 <code>excess_counts = sum(n_on - n_bkg)</code> 作为 photon-count flux proxy，并不是标定后的物理 flux。</p>
-    <figure><img src="assets/xgm_poster_repro/mkn421/mkn421_daily_60200_60700_wwz_poster_style.png" alt="xgm poster reproduction for Mrk 421 WCDA daily MJD 60200-60700"><figcaption>MJD 60200-60700 的 poster-style WWZ 复现。图中固定标出 51.05 d；95%/99% 显著性线未复现。</figcaption></figure>
-    <p class="result-note">结果：N=493，MJD 60200.167-60699.167，median cadence 1.000 d，max gap 4.351 d。当前 WWZ 网格下 global mean-power peak 为 111.01 d（power=13.612）；最接近 51.05 d 的网格点为 49.93 d（power=12.330），在 global WWZ spectrum 中排名第 3。也就是说 50 d 结构可见且较强，但不是本次运行中的主峰。</p>
-    <figure><img src="assets/xgm_poster_repro/mkn421/mkn421_daily_61020_61098_wwz_poster_style.png" alt="xgm poster reproduction for Mrk 421 WCDA daily MJD 61020-61098"><figcaption>MJD 61020-61098 的 poster-style WWZ 复现。该窗口按 poster 图中实际 x 轴设置；候选周期 2.54、5.2、16.6 d 已标出。</figcaption></figure>
-    <p class="result-note">结果：N=78，MJD 61020.167-61097.167，median cadence 1.000 d，max gap 1.000 d。global peak 位于搜索上边界 50.00 d（power=18.573）。poster 候选周期附近，16.96 d 为第 3 强 global-WWZ 网格点，5.12 d 排第 10，2.52 d 不突出。本节只做视觉与 WWZ 结构对比，不构成显著性复现。</p>
+    <h2>xgm poster 复现对比</h2>
+    <p class="meta">输入文件：<code>data/processed/wcda_day/LHAASO-WCDA_Mkn421_2023-06-25_2026-03-29_day.csv</code>。这里使用 <code>excess_counts = sum(n_on - n_bkg)</code> 作为 photon-count flux proxy，不是标定后的物理 flux，也不保证与 xgm poster 的 flux 定义完全相同。本节是在比较 xgm poster 标注结果和我当前复现结果，不是调参去贴合他的结论。</p>
+    <table>
+      <thead><tr><th>窗口</th><th>xgm poster 标注</th><th>我的复现结果</th><th>解读</th></tr></thead>
+      <tbody>
+        <tr><td>MJD 60200-60700</td><td>51.05 d</td><td>Global WWZ peak 为 111.01 d；最接近 51.05 d 的网格点为 49.93 d，power=12.330，rank 3。</td><td>50 d 是局部强结构，但不是本次运行的主峰。</td></tr>
+        <tr><td>MJD 61020-61098</td><td>2.54, 5.2, 16.6 d</td><td>Global peak 位于 50.00 d 搜索上边界；16.96 d 排第 3，5.12 d 排第 10，2.52 d 不突出。</td><td>16.6 d 有较清楚对应；两个更短周期在本次运行中较弱。</td></tr>
+      </tbody>
+    </table>
+    <p class="note">95%/99% 显著性线、red-noise simulations 和 trial corrections 本轮没有复现，因此这里只比较 WWZ 结构和峰值位置。</p>
+    <figure><img src="assets/xgm_poster_repro/mkn421/mkn421_daily_60200_60700_wwz_poster_style.png" alt="xgm poster comparison for Mrk 421 WCDA daily MJD 60200-60700"><figcaption>MJD 60200-60700 对比图。红色 51.05 d 标记来自 xgm poster；右侧 global spectrum 显示我当前运行中更长周期的全局 power 更强。</figcaption></figure>
+    <p class="result-note">我的结果：N=493，MJD 60200.167-60699.167，median cadence 1.000 d，max gap 4.351 d。Global mean-power peak 为 111.01 d（power=13.612）；最接近 51.05 d 的网格点为 49.93 d（power=12.330），rank 3。</p>
+    <figure><img src="assets/xgm_poster_repro/mkn421/mkn421_daily_61020_61098_wwz_poster_style.png" alt="xgm poster comparison for Mrk 421 WCDA daily MJD 61020-61098"><figcaption>MJD 61020-61098 对比图。标出的 2.54、5.2、16.6 d 是 xgm poster 的候选周期；该窗口按 poster 图中的实际 x 轴，而不是标题中的 60120 起点。</figcaption></figure>
+    <p class="result-note">我的结果：N=78，MJD 61020.167-61097.167，median cadence 1.000 d，max gap 1.000 d。Global peak 位于 50.00 d 搜索上边界（power=18.573）。Poster 周期附近，16.96 d 为第 3 强 global-WWZ 网格点，5.12 d 排第 10，2.52 d 不突出。</p>
 
     <h2>Mrk 421 图像</h2>
     <h3>WCDA daily</h3>
@@ -244,12 +252,20 @@
     </ul>
 
 
-    <h2>xgm Poster Reproduction Check</h2>
-    <p class="meta">Input file: <code>data/processed/wcda_day/LHAASO-WCDA_Mkn421_2023-06-25_2026-03-29_day.csv</code>. The plotted series is <code>excess_counts = sum(n_on - n_bkg)</code>, used as a photon-count flux proxy rather than a calibrated physical flux.</p>
-    <figure><img src="assets/xgm_poster_repro/mkn421/mkn421_daily_60200_60700_wwz_poster_style.png" alt="xgm poster reproduction for Mrk 421 WCDA daily MJD 60200-60700"><figcaption>Poster-style WWZ reproduction for MJD 60200-60700. The 51.05 d marker is shown for comparison; 95%/99% significance curves are not reproduced.</figcaption></figure>
-    <p class="result-note">Result: N=493, MJD 60200.167-60699.167, median cadence 1.000 d, max gap 4.351 d. With the current WWZ grid, the global mean-power peak is 111.01 d (power 13.612). The nearest 51.05 d grid point is 49.93 d (power 12.330), ranked third in the global WWZ spectrum. The 50 d structure is visible and strong, but it is not the dominant peak in this run.</p>
-    <figure><img src="assets/xgm_poster_repro/mkn421/mkn421_daily_61020_61098_wwz_poster_style.png" alt="xgm poster reproduction for Mrk 421 WCDA daily MJD 61020-61098"><figcaption>Poster-style WWZ reproduction for MJD 61020-61098. This follows the x-axis shown in the poster figure; candidate periods 2.54, 5.2, and 16.6 d are marked.</figcaption></figure>
-    <p class="result-note">Result: N=78, MJD 61020.167-61097.167, median cadence 1.000 d, max gap 1.000 d. The global peak sits at the 50.00 d upper search boundary (power 18.573). Around the poster candidate periods, 16.96 d is the third strongest global-WWZ grid point, 5.12 d ranks tenth, and 2.52 d is not prominent. This section is a visual/WWZ-structure comparison, not a significance reproduction.</p>
+    <h2>xgm Poster Comparison</h2>
+    <p class="meta">Input file: <code>data/processed/wcda_day/LHAASO-WCDA_Mkn421_2023-06-25_2026-03-29_day.csv</code>. The plotted series is <code>excess_counts = sum(n_on - n_bkg)</code>, used as a photon-count flux proxy rather than a calibrated physical flux. This section compares the xgm poster labels with my current reproduction; it is not tuned to force agreement.</p>
+    <table>
+      <thead><tr><th>Window</th><th>xgm poster reported</th><th>My reproduction</th><th>Reading</th></tr></thead>
+      <tbody>
+        <tr><td>MJD 60200-60700</td><td>51.05 d</td><td>Global WWZ peak 111.01 d; nearest 51.05 d grid point is 49.93 d, power 12.330, rank 3.</td><td>50 d is a strong local feature, but not the dominant peak in this run.</td></tr>
+        <tr><td>MJD 61020-61098</td><td>2.54, 5.2, 16.6 d</td><td>Global peak at the 50.00 d upper search boundary; 16.96 d ranks 3, 5.12 d ranks 10, and 2.52 d is not prominent.</td><td>16.6 d has a visible counterpart; the shorter candidates are weaker here.</td></tr>
+      </tbody>
+    </table>
+    <p class="note">95%/99% significance curves, red-noise simulations, and trial corrections are not reproduced in this pass, so this is limited to WWZ structure and peak-location comparison.</p>
+    <figure><img src="assets/xgm_poster_repro/mkn421/mkn421_daily_60200_60700_wwz_poster_style.png" alt="xgm poster comparison for Mrk 421 WCDA daily MJD 60200-60700"><figcaption>MJD 60200-60700 comparison. The red 51.05 d marker is the xgm poster period; the side spectrum shows stronger global power at longer periods in my current run.</figcaption></figure>
+    <p class="result-note">My result: N=493, MJD 60200.167-60699.167, median cadence 1.000 d, max gap 4.351 d. The global mean-power peak is 111.01 d (power 13.612), while the nearest 51.05 d grid point is 49.93 d (power 12.330), rank 3.</p>
+    <figure><img src="assets/xgm_poster_repro/mkn421/mkn421_daily_61020_61098_wwz_poster_style.png" alt="xgm poster comparison for Mrk 421 WCDA daily MJD 61020-61098"><figcaption>MJD 61020-61098 comparison. The marked 2.54, 5.2, and 16.6 d lines are the xgm poster candidate periods; this window follows the poster figure axis rather than the page title.</figcaption></figure>
+    <p class="result-note">My result: N=78, MJD 61020.167-61097.167, median cadence 1.000 d, max gap 1.000 d. The global peak sits at the 50.00 d upper search boundary (power 18.573). Around the poster periods, 16.96 d is the third strongest global-WWZ grid point, 5.12 d ranks tenth, and 2.52 d is not prominent.</p>
 
     <h2>Mrk 421 Figures</h2>
     <h3>WCDA daily</h3>

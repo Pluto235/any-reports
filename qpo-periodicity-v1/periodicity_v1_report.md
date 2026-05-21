@@ -33,15 +33,15 @@ The published HTML page includes Chinese and English views with an in-page langu
 
 Input file: `data/processed/wcda_day/LHAASO-WCDA_Mkn421_2023-06-25_2026-03-29_day.csv`.
 
-This reproduction uses `excess_counts = sum(n_on - n_bkg)` as a photon-count flux proxy. It is not a calibrated physical flux. WWZ is computed with the project helper in `src/methods/periodicity.py`; 95%/99% significance curves are not reproduced in this pass.
+This comparison uses `excess_counts = sum(n_on - n_bkg)` as a photon-count flux proxy. It is not a calibrated physical flux, and it is not guaranteed to be the exact same flux definition used in the xgm poster. WWZ is computed with the project helper in `src/methods/periodicity.py`; 95%/99% significance curves, red-noise simulations, and trial corrections are not reproduced in this pass.
 
-| Window | N | MJD used | Median dt [d] | Max gap [d] | Global WWZ peak [d] | Peak power | Poster-period check |
-| --- | ---: | --- | ---: | ---: | ---: | ---: | --- |
-| 60200-60700 | 493 | 60200.167-60699.167 | 1.000 | 4.351 | 111.01 | 13.612 | Nearest 51.05 d grid point is 49.93 d, power 12.330, rank 3 |
-| 61020-61098 | 78 | 61020.167-61097.167 | 1.000 | 1.000 | 50.00 | 18.573 | 16.96 d ranks 3, 5.12 d ranks 10, 2.52 d is not prominent |
+| Window | xgm poster reported | My reproduction | Reading |
+| --- | --- | --- | --- |
+| 60200-60700 | 51.05 d | Global WWZ peak 111.01 d; nearest 51.05 d grid point is 49.93 d, power 12.330, rank 3 | 50 d is a strong local feature, but not the dominant peak in this run |
+| 61020-61098 | 2.54, 5.2, 16.6 d | Global peak at 50.00 d upper boundary; 16.96 d ranks 3, 5.12 d ranks 10, 2.52 d is not prominent | 16.6 d has a visible counterpart; the shorter candidates are weaker here |
 
-![xgm poster reproduction, MJD 60200-60700](assets/xgm_poster_repro/mkn421/mkn421_daily_60200_60700_wwz_poster_style.png)
+![xgm poster comparison, MJD 60200-60700](assets/xgm_poster_repro/mkn421/mkn421_daily_60200_60700_wwz_poster_style.png)
 
-![xgm poster reproduction, MJD 61020-61098](assets/xgm_poster_repro/mkn421/mkn421_daily_61020_61098_wwz_poster_style.png)
+![xgm poster comparison, MJD 61020-61098](assets/xgm_poster_repro/mkn421/mkn421_daily_61020_61098_wwz_poster_style.png)
 
-Interpretation: the 50 d structure is visible as a strong local feature in the 60200-60700 window, but the current `excess_counts` WWZ run finds stronger global mean-power peaks around 111 d and 125 d. The short-window page shows a local feature near 16.6 d, while the strongest peak sits at the 50 d upper boundary. These are visual/WWZ-structure comparisons, not significance reproductions.
+Interpretation: this is a comparison between the xgm poster labels and my current reproduction using the available daily `excess_counts` series. The 50 d feature appears locally in the 60200-60700 window, but my global WWZ peak is at longer periods. The short-window page shows the clearest counterpart near 16.6 d, while 2.54 d and 5.2 d are weaker in this run.
