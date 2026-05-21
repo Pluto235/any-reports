@@ -154,7 +154,7 @@
 
     <h2>方法</h2>
     <p>WCDA flux 使用 excess rate 表示：<code>sum(n_on - n_bkg) / tobs</code>，误差使用逐 hit bin 传播的 Poisson-style on/off 近似。CWT 使用 <code>pycwt</code> 的 Morlet wavelet，WWZ 使用 <code>libwwz</code>，入口脚本为 <code>src/pipeline/periodicity_v1.py</code>。</p>
-    <p>WWZ 热图采用对数颜色归一化，周期轴也使用对数刻度，以提高整个搜索周期范围内的可视化对比度。该修改只影响显示方式；WWZ 峰值搜索仍使用保存的线性 power 数值。</p>
+    <p>双源 WCDA weekly 主图现在使用线性 WWZ heatmap 色标；之前的 log-color 版本保留在折叠对照图中。周期轴仍保持 log scale，WWZ 峰值搜索仍使用保存的线性 power 数值。</p>
     <p class="note">当前 v1 不包含 red-noise simulations、Monte Carlo thresholds、local significance contours、pre-trial significance 或 post-trial significance。</p>
 
     <h2>峰值摘要</h2>
@@ -199,7 +199,11 @@
     <p class="result-note">Quick-look peaks：N=360，MJD 60763.167-61128.167，median cadence 1.000 d。CWT peak 为 104.95 d，GWS=19.650；WWZ mean-power peak 为 109.77 d，power=29.772。</p>
     <h3>WCDA weekly</h3>
     <p class="meta">时间覆盖：2021-03-11 07:59 UTC 至 2026-03-26 04:00 UTC。</p>
-    <figure><img src="assets/mkn421/wcda_weekly_periodicity.png" alt="Mrk 421 WCDA weekly light curve, CWT, and WWZ"><figcaption>第一行单独显示光变曲线，第二行左侧为 CWT，右侧为 WWZ。</figcaption></figure>
+    <figure><img src="assets/mkn421/wcda_weekly_periodicity.png" alt="Mrk 421 WCDA weekly light curve, CWT, and linear-color WWZ"><figcaption>主图使用线性 WWZ heatmap 色标；周期轴仍保持 log scale。</figcaption></figure>
+    <details>
+      <summary>展开 Mrk 421 WCDA weekly 的 log-color WWZ 对照图</summary>
+      <figure><img src="assets/mkn421/wcda_weekly_periodicity_logcolor.png" alt="Mrk 421 WCDA weekly log-color WWZ comparison"><figcaption>之前的 log-color WWZ 渲染，仅用于视觉对照。</figcaption></figure>
+    </details>
     <p class="result-note">Quick-look peaks：N=264，MJD 59284.333-61125.167，median cadence 7.000 d。CWT peak 为 367.33 d，GWS=4.486；WWZ mean-power peak 为 363.22 d，power=5.177。</p>
     <h3>Fermi weekly on WCDA axis</h3>
     <p class="meta">时间覆盖：2021-03-11 07:59 UTC 至 2026-01-22 04:00 UTC。</p>
@@ -209,7 +213,11 @@
     <h2>Mrk 501 图像</h2>
     <h3>WCDA weekly</h3>
     <p class="meta">时间覆盖：2021-03-11 07:59 UTC 至 2026-03-26 04:00 UTC。</p>
-    <figure><img src="assets/mkn501/wcda_weekly_periodicity.png" alt="Mrk 501 WCDA weekly light curve, CWT, and WWZ"><figcaption>第一行单独显示光变曲线，第二行左侧为 CWT，右侧为 WWZ。</figcaption></figure>
+    <figure><img src="assets/mkn501/wcda_weekly_periodicity.png" alt="Mrk 501 WCDA weekly light curve, CWT, and linear-color WWZ"><figcaption>主图使用线性 WWZ heatmap 色标；周期轴仍保持 log scale。</figcaption></figure>
+    <details>
+      <summary>展开 Mrk 501 WCDA weekly 的 log-color WWZ 对照图</summary>
+      <figure><img src="assets/mkn501/wcda_weekly_periodicity_logcolor.png" alt="Mrk 501 WCDA weekly log-color WWZ comparison"><figcaption>之前的 log-color WWZ 渲染，仅用于视觉对照。</figcaption></figure>
+    </details>
     <p class="result-note">Quick-look peaks：N=264，MJD 59284.333-61125.167，median cadence 7.000 d。CWT peak 为 389.17 d，GWS=4.407；WWZ mean-power peak 为 402.98 d，power=6.385。</p>
   </section>
 
@@ -229,7 +237,7 @@
 
     <h2>Methods</h2>
     <p>WCDA flux is represented as an excess rate, <code>sum(n_on - n_bkg) / tobs</code>, with a Poisson-style on/off error approximation propagated per hit bin. CWT uses a Morlet wavelet through <code>pycwt</code>. WWZ uses <code>libwwz</code>, with the v1 quick-look grid saved by <code>src/pipeline/periodicity_v1.py</code>.</p>
-    <p>WWZ heatmaps use log color normalization and a log-scaled period axis to improve visual contrast across the searched period range. This changes the display only; the WWZ peak search still uses the saved linear power values.</p>
+    <p>The two-source WCDA weekly main figures now use linear WWZ heatmap color normalization. The previous log-color versions are retained in folded comparison panels. The period axis remains log-scaled, and the WWZ peak search still uses the saved linear power values.</p>
     <p class="note">This v1 report includes no red-noise simulations, Monte Carlo thresholds, local significance contours, pre-trial significance, or post-trial significance.</p>
 
     <h2>Peak Summary</h2>
@@ -274,7 +282,11 @@
     <p class="result-note">Quick-look peaks: N=360, MJD 60763.167-61128.167, median cadence 1.000 d. CWT peak is 104.95 d with GWS 19.650; WWZ mean-power peak is 109.77 d with power 29.772.</p>
     <h3>WCDA weekly</h3>
     <p class="meta">Time coverage: 2021-03-11 07:59 UTC to 2026-03-26 04:00 UTC.</p>
-    <figure><img src="assets/mkn421/wcda_weekly_periodicity.png" alt="Mrk 421 WCDA weekly light curve, CWT, and WWZ"><figcaption>The first row shows only the light curve; the second row separates CWT on the left and WWZ on the right.</figcaption></figure>
+    <figure><img src="assets/mkn421/wcda_weekly_periodicity.png" alt="Mrk 421 WCDA weekly light curve, CWT, and linear-color WWZ"><figcaption>Main display uses linear WWZ heatmap color normalization; the period axis remains log-scaled.</figcaption></figure>
+    <details>
+      <summary>Show log-color WWZ comparison for Mrk 421 WCDA weekly</summary>
+      <figure><img src="assets/mkn421/wcda_weekly_periodicity_logcolor.png" alt="Mrk 421 WCDA weekly log-color WWZ comparison"><figcaption>Previous log-color WWZ rendering kept for visual comparison only.</figcaption></figure>
+    </details>
     <p class="result-note">Quick-look peaks: N=264, MJD 59284.333-61125.167, median cadence 7.000 d. CWT peak is 367.33 d with GWS 4.486; WWZ mean-power peak is 363.22 d with power 5.177.</p>
     <h3>Fermi weekly on WCDA axis</h3>
     <p class="meta">Time coverage: 2021-03-11 07:59 UTC to 2026-01-22 04:00 UTC.</p>
@@ -284,7 +296,11 @@
     <h2>Mrk 501 Figures</h2>
     <h3>WCDA weekly</h3>
     <p class="meta">Time coverage: 2021-03-11 07:59 UTC to 2026-03-26 04:00 UTC.</p>
-    <figure><img src="assets/mkn501/wcda_weekly_periodicity.png" alt="Mrk 501 WCDA weekly light curve, CWT, and WWZ"><figcaption>The first row shows only the light curve; the second row separates CWT on the left and WWZ on the right.</figcaption></figure>
+    <figure><img src="assets/mkn501/wcda_weekly_periodicity.png" alt="Mrk 501 WCDA weekly light curve, CWT, and linear-color WWZ"><figcaption>Main display uses linear WWZ heatmap color normalization; the period axis remains log-scaled.</figcaption></figure>
+    <details>
+      <summary>Show log-color WWZ comparison for Mrk 501 WCDA weekly</summary>
+      <figure><img src="assets/mkn501/wcda_weekly_periodicity_logcolor.png" alt="Mrk 501 WCDA weekly log-color WWZ comparison"><figcaption>Previous log-color WWZ rendering kept for visual comparison only.</figcaption></figure>
+    </details>
     <p class="result-note">Quick-look peaks: N=264, MJD 59284.333-61125.167, median cadence 7.000 d. CWT peak is 389.17 d with GWS 4.407; WWZ mean-power peak is 402.98 d with power 6.385.</p>
   </section>
 </main>

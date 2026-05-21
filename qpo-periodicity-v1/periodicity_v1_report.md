@@ -4,7 +4,7 @@ Published on GitHub Pages. Report date: 2026-05-21.
 
 This report keeps the existing Mrk 421 WCDA/Fermi quick-look periodicity analysis, adds the newly generated Mrk 501 LHAASO-WCDA weekly light curve, and includes an xgm-poster-style Mrk 421 daily WWZ reproduction check. It runs CWT and WWZ checks and intentionally excludes simulation-based significance testing.
 
-The updated figures use a clearer layout: the light curve is shown across the first row, while CWT and WWZ maps are separated on the second row. WWZ heatmaps now use log color normalization and a log-scaled period axis for better visual contrast across the searched period range.
+The updated figures use a clearer layout: the light curve is shown across the first row, while CWT and WWZ maps are separated on the second row. The WCDA weekly main displays now use linear WWZ heatmap color normalization; previous log-color versions are retained as visual references. The period axis remains log-scaled.
 
 ## Peak Summary
 
@@ -28,6 +28,23 @@ The published HTML page includes Chinese and English views with an in-page langu
 - Mrk 501 WCDA weekly covers 2021-03-11 07:59 UTC to 2026-03-26 04:00 UTC.
 - Mrk 501 WCDA weekly: CWT peak 389.17 d (GWS 4.407); WWZ peak 402.98 d (power 6.385).
 
+
+
+## WCDA Weekly WWZ Color-Scale Comparison
+
+Main WCDA weekly figures now use linear WWZ heatmap color normalization:
+
+![Mrk 421 WCDA weekly linear-color WWZ](assets/mkn421/wcda_weekly_periodicity.png)
+
+Log-color reference kept for comparison:
+
+![Mrk 421 WCDA weekly log-color WWZ](assets/mkn421/wcda_weekly_periodicity_logcolor.png)
+
+![Mrk 501 WCDA weekly linear-color WWZ](assets/mkn501/wcda_weekly_periodicity.png)
+
+Log-color reference kept for comparison:
+
+![Mrk 501 WCDA weekly log-color WWZ](assets/mkn501/wcda_weekly_periodicity_logcolor.png)
 
 ## xgm poster 复现检查
 
