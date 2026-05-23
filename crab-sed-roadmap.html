@@ -339,6 +339,7 @@ footer.page-foot {
 <li>需要有效面积时再乘上 <code>S_0</code>。</li>
 </ul>
 </li>
+<li>这里的 <code>b</code> 是观测空间里的二维单元 <code>b = (Nhit bin, log₁₀ E_pred bin)</code>；<code>E_j</code> 和 <code>θ_k</code> 是 MC 真值空间里的条件。也就是说，<code>η_b(E_true, θ)</code> 表示：一个真实能量为 <code>E_true</code>、天顶角为 <code>θ</code> 的 gamma，经过探测器、cuts、AI 能量预测和二维分箱以后，最后落进观测单元 <code>b = (Nhit, E_pred)</code> 的概率。</li>
 <li>输出 <code>response_2d.npz</code>，shape 为 <code>(N_cells, N_E_true, N_theta)</code>，η 和 A_eff 都存。默认只保留 <code>apply/config/cell_selection_v1.csv</code> 中的 18 个 v1 单元；60 个 <code>acceptable</code> 单元只作为候选池和敏感性检查输入。</li>
 </ul>
 <h3>Stage B — Crab 赤纬带上各单元的 PSF</h3>
@@ -383,6 +384,7 @@ footer.page-foot {
 <li>v1 18 个拟合单元加起来的 Crab 总显著性；同时输出 60 个 acceptable 候选单元的总显著性作为诊断对照。</li>
 </ul>
 <h3>Stage F — Forward folding 拟合</h3>
+<p>这里的 <code>N_b^{exp}</code> 不是按 <code>E_pred</code> 反推真实能量，而是把假设的真实 Crab 能谱 <code>I(E; Θ_S)</code> 通过 Stage A 的 <code>η_b(E_true, θ)</code> 响应折叠到观测单元 <code>b = (Nhit, E_pred)</code> 后得到的预期信号数。</p>
 <p>用 <code>iminuit</code> 最小化</p>
 <p>\[\chi^2(\Theta_S) \;=\; \sum_{b \in \text{v1 cells}} \frac{\big(\text{excess}_b - N_b^{\text{exp}}(\Theta_S)\big)^2}{(\sigma_b^{\text{stat}})^2}\]</p>
 <p>其中 <code>v1 cells</code> 是 <code>apply/config/cell_selection_v1.csv</code> 中的 18 个单元。拟合输出 metadata 必须记录 <code>cell_selection_version = v1_physical_18</code> 和完整 cell 列表，方便和后续 selector 对照。</p>
