@@ -340,6 +340,14 @@ footer.page-foot {
 </ul>
 </li>
 <li>这里的 <code>b</code> 是观测空间里的二维单元 <code>b = (Nhit bin, log₁₀ E_pred bin)</code>；<code>E_j</code> 和 <code>θ_k</code> 是 MC 真值空间里的条件。也就是说，<code>η_b(E_true, θ)</code> 表示：一个真实能量为 <code>E_true</code>、天顶角为 <code>θ</code> 的 gamma，经过探测器、cuts、AI 能量预测和二维分箱以后，最后落进观测单元 <code>b = (Nhit, E_pred)</code> 的概率。</li>
+<li>现有数据上的计算逻辑：
+<ul>
+<li>分子 <code>N_pass(b, E_j, θ_k)</code> 从 <code>/mnt/mydisk/WCDA_simulation_binned_selectedcuts/nhit_*/predE_*/*.root</code> 来数。每个文件已经按 <code>nv × ml_logE_pred</code> 落进某个观测 cell，并保留 <code>mc_energy</code>、<code>mc_theta</code>、<code>mc_weight</code>；只需按 <code>log₁₀(mc_energy)</code> 和 <code>mc_theta</code> 再填二维真值直方图。</li>
+<li>分母 <code>N_thrown(E_j, θ_k)</code> 从 <code>/mnt/mydisk/WCDA_simulation/*.root</code> 的原始 MC 来数，使用同一套真值 bin。若确认 <code>t_eventout</code> 已经是触发/重建后的 eventout 而不是完整 thrown 样本，则先把结果标记为 conditional response：<code>P(b | eventout, E_true, θ)</code>。</li>
+<li>如果 <code>mc_weight</code> 代表生成谱或投掷归一化权重，分子和分母都用 <code>Σ mc_weight</code> 而不是裸 count；否则先用裸 count，并在 metadata 里记录 <code>weighting = unweighted_counts</code>。</li>
+<li>绝对有效面积需要额外的投掷面积/投掷总数归一化：<code>A_eff,b(E,θ) = S_0 cosθ η_b(E,θ)</code>。如果暂时拿不到完整 thrown normalization，v1 先输出 <code>eta_conditional</code> 和所有原始计数，等生成配置确认后再升级到绝对 <code>A_eff</code>。</li>
+</ul>
+</li>
 <li>输出 <code>response_2d.npz</code>，shape 为 <code>(N_cells, N_E_true, N_theta)</code>，η 和 A_eff 都存。默认只保留 <code>apply/config/cell_selection_v1.csv</code> 中的 18 个 v1 单元；60 个 <code>acceptable</code> 单元只作为候选池和敏感性检查输入。</li>
 </ul>
 <h3>Stage B — Crab 赤纬带上各单元的 PSF</h3>
