@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Crab v1 Cell Sky Maps — 18 个 ML 能量 × Nhit 单元天图诊断 · any-reports</title>
+<meta name="description" content="LHAASO-WCDA Crab 观测数据中 18 个 v1 (Nhit, log10 E_pred) cell 的 counts、smoothed counts 和 quicklook significance 天图诊断。">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='14' font-size='14'%3E%F0%9F%93%A6%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+
+<header class="topbar">
+  <button class="topbar-toggle" aria-label="目录" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ 目录</button>
+  <a class="topbar-brand" href="index.html">any-reports</a>
+  <nav class="topbar-nav">
+    <a href="index.html">Home</a>
+    <a href="https://github.com/Pluto235/any-reports" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <p class="sidebar-title">📑 目录</p>
+    <nav class="sidebar-nav">
+      <ol><li><a href="#1-输入与选择">1. 输入与选择</a></li><li><a href="#2-投影与图像参数">2. 投影与图像参数</a></li><li><a href="#3-全量运行统计">3. 全量运行统计</a></li><li><a href="#4-counts-map">4. Counts Map</a></li><li><a href="#5-smoothed-counts-map">5. Smoothed Counts Map</a></li><li><a href="#6-approx-sideband-significance-quicklook">6. Approx Sideband Significance Quicklook</a></li><li><a href="#7-当前结论">7. 当前结论</a></li><li><a href="#8-下一步">8. 下一步</a></li><li><a href="#9-产物清单">9. 产物清单</a></li></ol>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <article>
+      <h1 id="crab-v1-cell-sky-maps--18-个-ml-能量--nhit-单元天图诊断">Crab v1 Cell Sky Maps — 18 个 ML 能量 × Nhit 单元天图诊断<a class="headerlink" href="#crab-v1-cell-sky-maps--18-个-ml-能量--nhit-单元天图诊断" title="Permanent link">&para;</a></h1>
+<p><strong>日期：</strong> 2026-05-23<br />
+<strong>目标：</strong> 对 <code>apply/config/cell_selection_v1.csv</code> 中的 18 个 v1 <code>(Nhit, log10 E_pred)</code> cell，分别绘制 Crab 附近观测事例的局部天图，检查方向坐标、cell 分箱、观测规约和后续背景估计前的输入质量。</p>
+<p>这是一组 Stage C/D/E 之间的诊断图。当前产物包括 counts map、smoothed counts map，以及一个用等赤纬 sideband 近似背景得到的 quicklook significance map。第三类图只用于快速看结构，不作为最终物理背景或 Li-Ma 显著性结果。</p>
+<hr />
+<h2 id="1-输入与选择">1. 输入与选择<a class="headerlink" href="#1-输入与选择" title="Permanent link">&para;</a></h2>
+<p>本次运行使用全量 observation eval ROOT 与 recovered-time friend tree：</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>数值 / 路径</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>观测 eval ROOT</td>
+<td><code>/mnt/mydisk/WCDA_observation_eval/&lt;MMDD&gt;/Esg*.root</code></td>
+</tr>
+<tr>
+<td>recovered time ROOT</td>
+<td><code>/mnt/mydisk/WCDA_observation_eval/recovered_time/&lt;MMDD&gt;/*.time.root</code></td>
+</tr>
+<tr>
+<td>cell selection</td>
+<td><code>apply/config/cell_selection_v1.csv</code></td>
+</tr>
+<tr>
+<td>画图脚本</td>
+<td><code>apply/plot_crab_cell_skymaps.py</code></td>
+</tr>
+<tr>
+<td>输出目录</td>
+<td><code>apply/plot/crab_cell_skymaps/</code></td>
+</tr>
+<tr>
+<td>输入文件对</td>
+<td>1258</td>
+</tr>
+<tr>
+<td>entry 对齐方式</td>
+<td>同名 ROOT 与 <code>.time.root</code> 按 entry 顺序对齐</td>
+</tr>
+<tr>
+<td>missing time files</td>
+<td>0</td>
+</tr>
+<tr>
+<td>entry mismatch files</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p>事件选择：</p>
+<div class="codehilite"><pre><span></span><code>match_status == 0
+pincness &lt; 1.1
+fitstat == 0
+theta &lt; 50 deg
+</code></pre></div>
+
+<p>用于分 cell 的观测量：</p>
+<div class="codehilite"><pre><span></span><code>nv
+ml_logE_pred
+ra_mean_deg
+dec_mean_deg
+</code></pre></div>
+
+<p>Crab 坐标固定为：</p>
+<div class="codehilite"><pre><span></span><code>RA  = 83.63 deg
+Dec = 22.01 deg
+</code></pre></div>
+
+<hr />
+<h2 id="2-投影与图像参数">2. 投影与图像参数<a class="headerlink" href="#2-投影与图像参数" title="Permanent link">&para;</a></h2>
+<p>局部天图使用 Crab 中心附近的近似 tangent-plane offset：</p>
+<div class="codehilite"><pre><span></span><code>x = wrap(ra_mean_deg - RA_Crab) * cos(Dec_Crab)
+y = dec_mean_deg - Dec_Crab
+</code></pre></div>
+
+<p>其中 <code>x</code> 和 <code>y</code> 单位都是 degree。虽然 Crab 不靠近 RA 0/360，脚本仍然对 RA offset 做了 wrap。</p>
+<p>默认图像参数：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th style="text-align: right;">数值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ROI half-width</td>
+<td style="text-align: right;">10 deg</td>
+</tr>
+<tr>
+<td>pixel size</td>
+<td style="text-align: right;">0.1 deg</td>
+</tr>
+<tr>
+<td>每个 cell map shape</td>
+<td style="text-align: right;">200 × 200</td>
+</tr>
+<tr>
+<td>smoothing sigma</td>
+<td style="text-align: right;">0.3 deg</td>
+</tr>
+<tr>
+<td>source exclusion radius for sideband quicklook</td>
+<td style="text-align: right;">2.0 deg</td>
+</tr>
+<tr>
+<td>sideband statistic</td>
+<td style="text-align: right;">mean per Dec strip</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-全量运行统计">3. 全量运行统计<a class="headerlink" href="#3-全量运行统计" title="Permanent link">&para;</a></h2>
+<p>全量命令：</p>
+<div class="codehilite"><pre><span></span><code>/home/server/anaconda3/envs/py310/bin/python<span class="w"> </span>apply/plot_crab_cell_skymaps.py<span class="w"> </span>--print-every<span class="w"> </span><span class="m">100</span>
+</code></pre></div>
+
+<p>总体统计：</p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th style="text-align: right;">数值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>processed files</td>
+<td style="text-align: right;">1258 / 1258</td>
+</tr>
+<tr>
+<td>total entries seen</td>
+<td style="text-align: right;">127,692,389</td>
+</tr>
+<tr>
+<td>cut + match events</td>
+<td style="text-align: right;">127,691,852</td>
+</tr>
+<tr>
+<td>Crab 10 deg ROI events, all cells</td>
+<td style="text-align: right;">45,502,526</td>
+</tr>
+<tr>
+<td>Crab 10 deg ROI events, selected v1 cells</td>
+<td style="text-align: right;">38,019,877</td>
+</tr>
+<tr>
+<td>selected v1 cells / all ROI</td>
+<td style="text-align: right;">83.56%</td>
+</tr>
+<tr>
+<td>output map tensor shape</td>
+<td style="text-align: right;">18 × 200 × 200</td>
+</tr>
+</tbody>
+</table>
+<p>每个 v1 cell 的事例数：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">cell</th>
+<th>Nhit bin</th>
+<th>log10 E_pred bin</th>
+<th style="text-align: right;">cut + match events</th>
+<th style="text-align: right;">Crab ROI events</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">1</td>
+<td><code>[30,60)</code></td>
+<td><code>[2,3)</code></td>
+<td style="text-align: right;">24,516,301</td>
+<td style="text-align: right;">8,406,205</td>
+</tr>
+<tr>
+<td style="text-align: right;">2</td>
+<td><code>[60,100)</code></td>
+<td><code>[2,3)</code></td>
+<td style="text-align: right;">30,974,777</td>
+<td style="text-align: right;">11,288,076</td>
+</tr>
+<tr>
+<td style="text-align: right;">3</td>
+<td><code>[60,100)</code></td>
+<td><code>[3,3.25)</code></td>
+<td style="text-align: right;">2,297,063</td>
+<td style="text-align: right;">715,711</td>
+</tr>
+<tr>
+<td style="text-align: right;">4</td>
+<td><code>[100,200)</code></td>
+<td><code>[2,3)</code></td>
+<td style="text-align: right;">30,297,474</td>
+<td style="text-align: right;">11,603,736</td>
+</tr>
+<tr>
+<td style="text-align: right;">5</td>
+<td><code>[100,200)</code></td>
+<td><code>[3,3.25)</code></td>
+<td style="text-align: right;">5,575,540</td>
+<td style="text-align: right;">1,928,877</td>
+</tr>
+<tr>
+<td style="text-align: right;">6</td>
+<td><code>[200,300)</code></td>
+<td><code>[2,3)</code></td>
+<td style="text-align: right;">4,025,524</td>
+<td style="text-align: right;">1,607,188</td>
+</tr>
+<tr>
+<td style="text-align: right;">7</td>
+<td><code>[200,300)</code></td>
+<td><code>[3,3.25)</code></td>
+<td style="text-align: right;">2,376,396</td>
+<td style="text-align: right;">877,841</td>
+</tr>
+<tr>
+<td style="text-align: right;">8</td>
+<td><code>[300,500)</code></td>
+<td><code>[3,3.25)</code></td>
+<td style="text-align: right;">1,400,831</td>
+<td style="text-align: right;">551,891</td>
+</tr>
+<tr>
+<td style="text-align: right;">9</td>
+<td><code>[300,500)</code></td>
+<td><code>[3.25,3.5)</code></td>
+<td style="text-align: right;">1,230,287</td>
+<td style="text-align: right;">450,530</td>
+</tr>
+<tr>
+<td style="text-align: right;">10</td>
+<td><code>[500,800)</code></td>
+<td><code>[3.25,3.5)</code></td>
+<td style="text-align: right;">532,506</td>
+<td style="text-align: right;">211,419</td>
+</tr>
+<tr>
+<td style="text-align: right;">11</td>
+<td><code>[500,800)</code></td>
+<td><code>[3.5,3.75)</code></td>
+<td style="text-align: right;">424,891</td>
+<td style="text-align: right;">154,719</td>
+</tr>
+<tr>
+<td style="text-align: right;">12</td>
+<td><code>[500,800)</code></td>
+<td><code>[3.75,4.0)</code></td>
+<td style="text-align: right;">200,583</td>
+<td style="text-align: right;">66,419</td>
+</tr>
+<tr>
+<td style="text-align: right;">13</td>
+<td><code>[800,1100)</code></td>
+<td><code>[3.5,3.75)</code></td>
+<td style="text-align: right;">139,393</td>
+<td style="text-align: right;">55,142</td>
+</tr>
+<tr>
+<td style="text-align: right;">14</td>
+<td><code>[800,1100)</code></td>
+<td><code>[3.75,4.0)</code></td>
+<td style="text-align: right;">102,608</td>
+<td style="text-align: right;">37,724</td>
+</tr>
+<tr>
+<td style="text-align: right;">15</td>
+<td><code>[800,1100)</code></td>
+<td><code>[4.0,4.25)</code></td>
+<td style="text-align: right;">38,081</td>
+<td style="text-align: right;">12,463</td>
+</tr>
+<tr>
+<td style="text-align: right;">16</td>
+<td><code>[1100,2000)</code></td>
+<td><code>[3.75,4.0)</code></td>
+<td style="text-align: right;">55,576</td>
+<td style="text-align: right;">22,040</td>
+</tr>
+<tr>
+<td style="text-align: right;">17</td>
+<td><code>[1100,2000)</code></td>
+<td><code>[4.0,4.25)</code></td>
+<td style="text-align: right;">52,471</td>
+<td style="text-align: right;">19,684</td>
+</tr>
+<tr>
+<td style="text-align: right;">18</td>
+<td><code>[1100,2000)</code></td>
+<td><code>[4.25,4.5)</code></td>
+<td style="text-align: right;">28,669</td>
+<td style="text-align: right;">10,212</td>
+</tr>
+</tbody>
+</table>
+<p>最低统计 cell 仍有 <code>10,212</code> 个 Crab ROI 事例，因此 counts map 作为首版 sanity check 是可用的。</p>
+<hr />
+<h2 id="4-counts-map">4. Counts Map<a class="headerlink" href="#4-counts-map" title="Permanent link">&para;</a></h2>
+<p>Counts map 只显示观测事例数：</p>
+<div class="codehilite"><pre><span></span><code>N_data(x, y | cell b)
+</code></pre></div>
+
+<p>它的价值是检查：</p>
+<ol>
+<li>cell 分箱是否能稳定覆盖 Crab 附近观测数据；</li>
+<li>RA/Dec 与 recovered-time friend tree 的 entry 对齐是否正常；</li>
+<li>局部天空是否有明显空洞、条纹或坐标错位；</li>
+<li>高 Nhit / 高预测能量 cell 是否仍有足够统计。</li>
+</ol>
+<p><img alt="Crab v1 cell counts map" src="assets/crab-v1-cell-skymaps/crab_v1_counts_grid.png" /></p>
+<hr />
+<h2 id="5-smoothed-counts-map">5. Smoothed Counts Map<a class="headerlink" href="#5-smoothed-counts-map" title="Permanent link">&para;</a></h2>
+<p>Smoothed counts map 对每个 cell 的 counts map 做 <code>sigma = 0.3 deg</code> 的 Gaussian smoothing。这个版本主要用于肉眼检查局部结构和潜在源点，不改变原始 counts map 的定义。</p>
+<p><img alt="Crab v1 cell smoothed counts map" src="assets/crab-v1-cell-skymaps/crab_v1_smoothed_counts_grid.png" /></p>
+<hr />
+<h2 id="6-approx-sideband-significance-quicklook">6. Approx Sideband Significance Quicklook<a class="headerlink" href="#6-approx-sideband-significance-quicklook" title="Permanent link">&para;</a></h2>
+<p>第三张图使用一个非常简单的等赤纬 sideband 近似背景：</p>
+<ol>
+<li>对每个 cell 和每个 Dec strip，排除 Crab 中心 <code>2 deg</code> 内区域；</li>
+<li>用同一 strip 剩余 RA-offset bins 的 mean 作为局部背景水平；</li>
+<li>对 counts 和 background 都做 <code>0.3 deg</code> smoothing；</li>
+<li>计算：</li>
+</ol>
+<div class="codehilite"><pre><span></span><code>approx_sigma = (smoothed_counts - smoothed_background) / sqrt(smoothed_background)
+</code></pre></div>
+
+<p>这不是直接积分法背景，也不是 Li-Ma significance。它只用于快速诊断源区是否在高贡献 cell 中冒出来，以及是否存在大尺度结构或明显 acceptance 问题。</p>
+<p><img alt="Crab v1 cell approx significance quicklook" src="assets/crab-v1-cell-skymaps/crab_v1_approx_significance_grid.png" /></p>
+<hr />
+<h2 id="7-当前结论">7. 当前结论<a class="headerlink" href="#7-当前结论" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>数据连接是干净的。</strong> 1258 对 eval ROOT 与 recovered-time ROOT 全部找到，<code>t_eventout</code> 与 <code>t_recovered_time</code> 没有 entry mismatch。</li>
+<li><strong>18 个 v1 cell 都有足够统计。</strong> 全量 Crab ROI 中，v1 selected cells 合计 <code>38,019,877</code> 个事例；最低统计 cell 仍有 <code>10,212</code> 个 ROI 事例。</li>
+<li><strong>counts map 可以作为 Stage C 输出质量检查。</strong> 这组图能直接检查坐标、cell 分箱、friend tree 对齐和局部天空覆盖。</li>
+<li><strong>quicklook significance 只能作诊断。</strong> 它没有替代 Stage D 的直接积分法背景，不能用于最终 SED 或物理显著性声明。</li>
+</ol>
+<hr />
+<h2 id="8-下一步">8. 下一步<a class="headerlink" href="#8-下一步" title="Permanent link">&para;</a></h2>
+<ol>
+<li>实现 Stage D 的正式背景估计：直接积分法或严格等赤纬背景。</li>
+<li>输出每个 cell 的 <code>background map</code>、<code>excess map</code> 和 Li-Ma <code>significance map</code>。</li>
+<li>将 smoothing 半径从统一 <code>0.3 deg</code> 改为按 cell 的 PSF <code>sigma_b</code> 设置。</li>
+<li>对高贡献 cell 检查 Crab spot 的 centroid 与宽度，确认坐标和 PSF 没有系统偏移。</li>
+<li>将正式 <code>N_on / N_off / alpha / excess / significance</code> 接入后续 forward-folding SED 拟合。</li>
+</ol>
+<hr />
+<h2 id="9-产物清单">9. 产物清单<a class="headerlink" href="#9-产物清单" title="Permanent link">&para;</a></h2>
+<p>本次诊断生成的本地文件：</p>
+<div class="codehilite"><pre><span></span><code>apply/plot_crab_cell_skymaps.py
+apply/plot/crab_cell_skymaps/crab_v1_counts_grid.png
+apply/plot/crab_cell_skymaps/crab_v1_smoothed_counts_grid.png
+apply/plot/crab_cell_skymaps/crab_v1_approx_significance_grid.png
+apply/plot/crab_cell_skymaps/crab_v1_maps.npz
+apply/plot/crab_cell_skymaps/crab_v1_maps_meta.json
+</code></pre></div>
+
+<p>报告源文件：</p>
+<div class="codehilite"><pre><span></span><code>apply/report/crab_v1_cell_skymaps.md
+</code></pre></div>
+    </article>
+    <footer class="page-footer">
+      <span>更新于 2026-05-23</span>
+      <a href="https://github.com/Pluto235/any-reports" target="_blank" rel="noopener">View on GitHub →</a>
+    </footer>
+  </main>
+
+  <aside class="anchors" id="anchors">
+    <p class="anchors-title">本页章节</p>
+    <ul>
+      <li><a href="#1-输入与选择">1. 输入与选择</a></li><li><a href="#2-投影与图像参数">2. 投影与图像参数</a></li><li><a href="#3-全量运行统计">3. 全量运行统计</a></li><li><a href="#4-counts-map">4. Counts Map</a></li><li><a href="#5-smoothed-counts-map">5. Smoothed Counts Map</a></li><li><a href="#6-approx-sideband-significance-quicklook">6. Approx Sideband Significance Quicklook</a></li><li><a href="#7-当前结论">7. 当前结论</a></li><li><a href="#8-下一步">8. 下一步</a></li><li><a href="#9-产物清单">9. 产物清单</a></li>
+    </ul>
+  </aside>
+
+</div>
+
+<script>
+// Scroll-spy：高亮当前可视区的章节
+(function () {
+  const navLinks = document.querySelectorAll('.sidebar-nav a, .anchors a');
+  if (!navLinks.length) return;
+
+  const idToLinks = new Map();
+  navLinks.forEach(a => {
+    const id = decodeURIComponent((a.getAttribute('href') || '').replace(/^#/, ''));
+    if (!id) return;
+    if (!idToLinks.has(id)) idToLinks.set(id, []);
+    idToLinks.get(id).push(a);
+  });
+
+  const headings = Array.from(document.querySelectorAll('.content h1, .content h2, .content h3, .content h4'))
+    .filter(h => h.id && idToLinks.has(h.id));
+  if (!headings.length) return;
+
+  let current = null;
+  function setActive(id) {
+    if (current === id) return;
+    if (current && idToLinks.has(current)) {
+      idToLinks.get(current).forEach(a => a.classList.remove('active'));
+    }
+    current = id;
+    if (id && idToLinks.has(id)) {
+      idToLinks.get(id).forEach(a => {
+        a.classList.add('active');
+        // 滚动到 nav 中可视区
+        const sb = a.closest('.sidebar, .anchors');
+        if (sb) {
+          const ar = a.getBoundingClientRect();
+          const sr = sb.getBoundingClientRect();
+          if (ar.top < sr.top || ar.bottom > sr.bottom) {
+            a.scrollIntoView({ block: 'nearest' });
+          }
+        }
+      });
+    }
+  }
+
+  function update() {
+    const offset = 80;
+    let active = headings[0].id;
+    for (const h of headings) {
+      if (h.getBoundingClientRect().top - offset <= 0) {
+        active = h.id;
+      } else {
+        break;
+      }
+    }
+    setActive(active);
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('hashchange', update);
+  update();
+
+  // 移动端：点 nav 后关掉抽屉
+  document.querySelectorAll('.sidebar-nav a').forEach(a => {
+    a.addEventListener('click', () => {
+      document.querySelector('.sidebar')?.classList.remove('open');
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
