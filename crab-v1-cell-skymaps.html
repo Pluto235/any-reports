@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Crab v1 Cell Sky Maps — 18 个 ML 能量 × Nhit 单元天图诊断 · any-reports</title>
-<meta name="description" content="LHAASO-WCDA Crab 观测数据中 18 个 v1 (Nhit, log10 E_pred) cell 的 counts、smoothed counts 和 quicklook significance 天图诊断。">
+<meta name="description" content="LHAASO-WCDA Crab 观测数据中 18 个 v1 (Nhit, log10 E_pred) cell 的 counts、RA/Dec counts、smoothed counts 和 quicklook significance 天图诊断。">
 <link rel="stylesheet" href="assets/style.css">
 <link rel="stylesheet" href="assets/highlight.css">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='14' font-size='14'%3E%F0%9F%93%A6%3C/text%3E%3C/svg%3E">
@@ -25,7 +25,7 @@
   <aside class="sidebar" id="sidebar">
     <p class="sidebar-title">📑 目录</p>
     <nav class="sidebar-nav">
-      <ol><li><a href="#1-输入与选择">1. 输入与选择</a></li><li><a href="#2-投影与图像参数">2. 投影与图像参数</a></li><li><a href="#3-全量运行统计">3. 全量运行统计</a></li><li><a href="#4-counts-map">4. Counts Map</a></li><li><a href="#5-smoothed-counts-map">5. Smoothed Counts Map</a></li><li><a href="#6-approx-sideband-significance-quicklook">6. Approx Sideband Significance Quicklook</a></li><li><a href="#7-当前结论">7. 当前结论</a></li><li><a href="#8-下一步">8. 下一步</a></li><li><a href="#9-产物清单">9. 产物清单</a></li></ol>
+      <ol><li><a href="#1-输入与选择">1. 输入与选择</a></li><li><a href="#2-投影与图像参数">2. 投影与图像参数</a></li><li><a href="#3-全量运行统计">3. 全量运行统计</a></li><li><a href="#4-counts-map">4. Counts Map</a></li><li><a href="#5-radec-counts-map">5. RA/Dec Counts Map</a></li><li><a href="#6-smoothed-counts-map">6. Smoothed Counts Map</a></li><li><a href="#7-approx-sideband-significance-quicklook">7. Approx Sideband Significance Quicklook</a></li><li><a href="#8-当前结论">8. 当前结论</a></li><li><a href="#9-下一步">9. 下一步</a></li><li><a href="#10-产物清单">10. 产物清单</a></li></ol>
     </nav>
   </aside>
 
@@ -110,7 +110,12 @@ Dec = 22.01 deg
 y = dec_mean_deg - Dec_Crab
 </code></pre></div>
 
-<p>其中 <code>x</code> 和 <code>y</code> 单位都是 degree。虽然 Crab 不靠近 RA 0/360，脚本仍然对 RA offset 做了 wrap。</p>
+<p>其中 <code>(0,0)</code> 是 Crab 位置，<code>x/y</code> 近似表示相对 Crab 的东西 / 南北方向角距离，单位都是 degree。<code>wrap</code> 用来处理 RA 的 0/360 deg 回绕；虽然 Crab 位于 RA ≈ 83.63 deg，不靠近回绕点，脚本仍然做了这个保护。</p>
+<p>这里乘 <code>cos(Dec_Crab)</code> 是因为 RA 是沿赤纬圈量到的角度：同样的 RA 差，在实际天空上的横向角距离要乘以该赤纬圈半径相对赤道的比例 <code>cos(dec)</code>。Crab 的 Dec ≈ 22.01 deg，因此：</p>
+<div class="codehilite"><pre><span></span><code>1 deg RA at Crab Dec ≈ cos(22.01 deg) = 0.927 deg
+</code></pre></div>
+
+<p>所以 offset 图里的 <code>x</code> 更接近真实局部平面上的东西向角距离，而不是原始 RA 坐标差。这个近似在当前 10 deg half-width 的局部视场内足够作为诊断图使用。</p>
 <p>默认图像参数：</p>
 <table>
 <thead>
@@ -143,6 +148,18 @@ y = dec_mean_deg - Dec_Crab
 <tr>
 <td>sideband statistic</td>
 <td style="text-align: right;">mean per Dec strip</td>
+</tr>
+<tr>
+<td>RA/Dec counts RA range</td>
+<td style="text-align: right;">72.8439 deg 到 94.4161 deg</td>
+</tr>
+<tr>
+<td>RA/Dec counts Dec range</td>
+<td style="text-align: right;">12.0100 deg 到 32.0100 deg</td>
+</tr>
+<tr>
+<td>RA/Dec RA axis direction</td>
+<td style="text-align: right;">RA 递增向右</td>
 </tr>
 </tbody>
 </table>
@@ -347,11 +364,31 @@ y = dec_mean_deg - Dec_Crab
 </ol>
 <p><img alt="Crab v1 cell counts map" src="assets/crab-v1-cell-skymaps/crab_v1_counts_grid.png" /></p>
 <hr />
-<h2 id="5-smoothed-counts-map">5. Smoothed Counts Map<a class="headerlink" href="#5-smoothed-counts-map" title="Permanent link">&para;</a></h2>
+<h2 id="5-radec-counts-map">5. RA/Dec Counts Map<a class="headerlink" href="#5-radec-counts-map" title="Permanent link">&para;</a></h2>
+<p>为了直接检查绝对天球坐标，本次新增了一张 RA/Dec counts grid。它和上面的 offset counts map 使用完全相同的事件选择、ROI mask 和 18 个 v1 cell 分箱，只是填图时直接使用：</p>
+<div class="codehilite"><pre><span></span><code>x-axis = ra_mean_deg
+y-axis = dec_mean_deg
+</code></pre></div>
+
+<p>图像范围对应当前 Crab ROI：</p>
+<div class="codehilite"><pre><span></span><code>RA  = RA_Crab ± half_width_deg / cos(Dec_Crab)
+Dec = Dec_Crab ± half_width_deg
+</code></pre></div>
+
+<p>即 RA ≈ <code>[72.8439, 94.4161] deg</code>，Dec ≈ <code>[12.0100, 32.0100] deg</code>。每个 panel 中黑色 <code>+</code> 标记 Crab 位置 <code>(83.63, 22.01)</code>。</p>
+<p>这张图采用普通数学坐标方向：<strong>RA 递增向右</strong>。这和 offset counts map 的 <code>x</code> 轴方向保持一致，便于逐 panel 对照；它没有采用部分天文图常见的 RA 递减向右画法。</p>
+<p>两类图的用途不同：</p>
+<ul>
+<li>offset 图适合看源区、PSF、centroid 偏移，以及按角距离定义源区 / 背景区半径。</li>
+<li>RA/Dec 图适合直观看绝对天球坐标，确认事件是否落在预期 RA/Dec 范围，并检查坐标恢复是否有明显错位。</li>
+</ul>
+<p><img alt="Crab v1 cell RA/Dec counts map" src="assets/crab-v1-cell-skymaps/crab_v1_counts_radec_grid.png" /></p>
+<hr />
+<h2 id="6-smoothed-counts-map">6. Smoothed Counts Map<a class="headerlink" href="#6-smoothed-counts-map" title="Permanent link">&para;</a></h2>
 <p>Smoothed counts map 对每个 cell 的 counts map 做 <code>sigma = 0.3 deg</code> 的 Gaussian smoothing。这个版本主要用于肉眼检查局部结构和潜在源点，不改变原始 counts map 的定义。</p>
 <p><img alt="Crab v1 cell smoothed counts map" src="assets/crab-v1-cell-skymaps/crab_v1_smoothed_counts_grid.png" /></p>
 <hr />
-<h2 id="6-approx-sideband-significance-quicklook">6. Approx Sideband Significance Quicklook<a class="headerlink" href="#6-approx-sideband-significance-quicklook" title="Permanent link">&para;</a></h2>
+<h2 id="7-approx-sideband-significance-quicklook">7. Approx Sideband Significance Quicklook<a class="headerlink" href="#7-approx-sideband-significance-quicklook" title="Permanent link">&para;</a></h2>
 <p>第三张图使用一个非常简单的等赤纬 sideband 近似背景：</p>
 <ol>
 <li>对每个 cell 和每个 Dec strip，排除 Crab 中心 <code>2 deg</code> 内区域；</li>
@@ -365,15 +402,15 @@ y = dec_mean_deg - Dec_Crab
 <p>这不是直接积分法背景，也不是 Li-Ma significance。它只用于快速诊断源区是否在高贡献 cell 中冒出来，以及是否存在大尺度结构或明显 acceptance 问题。</p>
 <p><img alt="Crab v1 cell approx significance quicklook" src="assets/crab-v1-cell-skymaps/crab_v1_approx_significance_grid.png" /></p>
 <hr />
-<h2 id="7-当前结论">7. 当前结论<a class="headerlink" href="#7-当前结论" title="Permanent link">&para;</a></h2>
+<h2 id="8-当前结论">8. 当前结论<a class="headerlink" href="#8-当前结论" title="Permanent link">&para;</a></h2>
 <ol>
 <li><strong>数据连接是干净的。</strong> 1258 对 eval ROOT 与 recovered-time ROOT 全部找到，<code>t_eventout</code> 与 <code>t_recovered_time</code> 没有 entry mismatch。</li>
 <li><strong>18 个 v1 cell 都有足够统计。</strong> 全量 Crab ROI 中，v1 selected cells 合计 <code>38,019,877</code> 个事例；最低统计 cell 仍有 <code>10,212</code> 个 ROI 事例。</li>
-<li><strong>counts map 可以作为 Stage C 输出质量检查。</strong> 这组图能直接检查坐标、cell 分箱、friend tree 对齐和局部天空覆盖。</li>
+<li><strong>counts map 可以作为 Stage C 输出质量检查。</strong> Offset counts 图和 RA/Dec counts 图能从局部角距离与绝对天球坐标两种视角检查坐标、cell 分箱、friend tree 对齐和局部天空覆盖。</li>
 <li><strong>quicklook significance 只能作诊断。</strong> 它没有替代 Stage D 的直接积分法背景，不能用于最终 SED 或物理显著性声明。</li>
 </ol>
 <hr />
-<h2 id="8-下一步">8. 下一步<a class="headerlink" href="#8-下一步" title="Permanent link">&para;</a></h2>
+<h2 id="9-下一步">9. 下一步<a class="headerlink" href="#9-下一步" title="Permanent link">&para;</a></h2>
 <ol>
 <li>实现 Stage D 的正式背景估计：直接积分法或严格等赤纬背景。</li>
 <li>输出每个 cell 的 <code>background map</code>、<code>excess map</code> 和 Li-Ma <code>significance map</code>。</li>
@@ -382,10 +419,11 @@ y = dec_mean_deg - Dec_Crab
 <li>将正式 <code>N_on / N_off / alpha / excess / significance</code> 接入后续 forward-folding SED 拟合。</li>
 </ol>
 <hr />
-<h2 id="9-产物清单">9. 产物清单<a class="headerlink" href="#9-产物清单" title="Permanent link">&para;</a></h2>
+<h2 id="10-产物清单">10. 产物清单<a class="headerlink" href="#10-产物清单" title="Permanent link">&para;</a></h2>
 <p>本次诊断生成的本地文件：</p>
 <div class="codehilite"><pre><span></span><code>apply/plot_crab_cell_skymaps.py
 apply/plot/crab_cell_skymaps/crab_v1_counts_grid.png
+apply/plot/crab_cell_skymaps/crab_v1_counts_radec_grid.png
 apply/plot/crab_cell_skymaps/crab_v1_smoothed_counts_grid.png
 apply/plot/crab_cell_skymaps/crab_v1_approx_significance_grid.png
 apply/plot/crab_cell_skymaps/crab_v1_maps.npz
@@ -397,7 +435,7 @@ apply/plot/crab_cell_skymaps/crab_v1_maps_meta.json
 </code></pre></div>
     </article>
     <footer class="page-footer">
-      <span>更新于 2026-05-23</span>
+      <span>更新于 2026-05-24</span>
       <a href="https://github.com/Pluto235/any-reports" target="_blank" rel="noopener">View on GitHub →</a>
     </footer>
   </main>
@@ -405,7 +443,7 @@ apply/plot/crab_cell_skymaps/crab_v1_maps_meta.json
   <aside class="anchors" id="anchors">
     <p class="anchors-title">本页章节</p>
     <ul>
-      <li><a href="#1-输入与选择">1. 输入与选择</a></li><li><a href="#2-投影与图像参数">2. 投影与图像参数</a></li><li><a href="#3-全量运行统计">3. 全量运行统计</a></li><li><a href="#4-counts-map">4. Counts Map</a></li><li><a href="#5-smoothed-counts-map">5. Smoothed Counts Map</a></li><li><a href="#6-approx-sideband-significance-quicklook">6. Approx Sideband Significance Quicklook</a></li><li><a href="#7-当前结论">7. 当前结论</a></li><li><a href="#8-下一步">8. 下一步</a></li><li><a href="#9-产物清单">9. 产物清单</a></li>
+      <li><a href="#1-输入与选择">1. 输入与选择</a></li><li><a href="#2-投影与图像参数">2. 投影与图像参数</a></li><li><a href="#3-全量运行统计">3. 全量运行统计</a></li><li><a href="#4-counts-map">4. Counts Map</a></li><li><a href="#5-radec-counts-map">5. RA/Dec Counts Map</a></li><li><a href="#6-smoothed-counts-map">6. Smoothed Counts Map</a></li><li><a href="#7-approx-sideband-significance-quicklook">7. Approx Sideband Significance Quicklook</a></li><li><a href="#8-当前结论">8. 当前结论</a></li><li><a href="#9-下一步">9. 下一步</a></li><li><a href="#10-产物清单">10. 产物清单</a></li>
     </ul>
   </aside>
 

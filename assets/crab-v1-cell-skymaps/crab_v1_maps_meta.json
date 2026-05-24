@@ -10,6 +10,22 @@
     "dec_deg": 22.01
   },
   "projection": "x=(ra-source_ra wrapped)*cos(source_dec), y=dec-source_dec",
+  "radec_projection": {
+    "ra_axis": "increasing_right",
+    "ra_range_deg": [
+      72.84389181704613,
+      94.41610818295386
+    ],
+    "dec_range_deg": [
+      12.010000000000002,
+      32.010000000000005
+    ],
+    "source_marker": [
+      83.63,
+      22.01
+    ],
+    "range_definition": "RA: source_ra +/- half_width_deg / cos(source_dec); Dec: source_dec +/- half_width_deg"
+  },
   "roi": {
     "half_width_deg": 10.0,
     "pixel_size_deg": 0.1
@@ -198,6 +214,7 @@
   },
   "outputs": {
     "counts_png": "/mnt/mydisk/server/projects/energy_reconstruction/apply/plot/crab_cell_skymaps/crab_v1_counts_grid.png",
+    "counts_radec_png": "/mnt/mydisk/server/projects/energy_reconstruction/apply/plot/crab_cell_skymaps/crab_v1_counts_radec_grid.png",
     "smoothed_counts_png": "/mnt/mydisk/server/projects/energy_reconstruction/apply/plot/crab_cell_skymaps/crab_v1_smoothed_counts_grid.png",
     "approx_significance_png": "/mnt/mydisk/server/projects/energy_reconstruction/apply/plot/crab_cell_skymaps/crab_v1_approx_significance_grid.png",
     "maps_npz": "/mnt/mydisk/server/projects/energy_reconstruction/apply/plot/crab_cell_skymaps/crab_v1_maps.npz",
