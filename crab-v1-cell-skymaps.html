@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Crab v1 Cell Sky Maps — 18 个 ML 能量 × Nhit 单元天图诊断 · any-reports</title>
-<meta name="description" content="LHAASO-WCDA Crab 观测数据中 18 个 v1 (Nhit, log10 E_pred) cell 的 counts、RA/Dec counts、smoothed counts 和 quicklook significance 天图诊断。">
+<meta name="description" content="LHAASO-WCDA Crab 观测数据中 18 个 v1 cell 的 counts、RA/Dec counts、profile 和 quicklook significance 天图诊断。">
 <link rel="stylesheet" href="assets/style.css">
 <link rel="stylesheet" href="assets/highlight.css">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='14' font-size='14'%3E%F0%9F%93%A6%3C/text%3E%3C/svg%3E">
@@ -25,7 +25,7 @@
   <aside class="sidebar" id="sidebar">
     <p class="sidebar-title">📑 目录</p>
     <nav class="sidebar-nav">
-      <ol><li><a href="#1-输入与选择">1. 输入与选择</a></li><li><a href="#2-投影与图像参数">2. 投影与图像参数</a></li><li><a href="#3-全量运行统计">3. 全量运行统计</a></li><li><a href="#4-counts-map">4. Counts Map</a></li><li><a href="#5-radec-counts-map">5. RA/Dec Counts Map</a></li><li><a href="#6-smoothed-counts-map">6. Smoothed Counts Map</a></li><li><a href="#7-approx-sideband-significance-quicklook">7. Approx Sideband Significance Quicklook</a></li><li><a href="#8-当前结论">8. 当前结论</a></li><li><a href="#9-下一步">9. 下一步</a></li><li><a href="#10-产物清单">10. 产物清单</a></li></ol>
+      <ol><li><a href="#1-输入与选择">1. 输入与选择</a></li><li><a href="#2-投影与图像参数">2. 投影与图像参数</a></li><li><a href="#3-全量运行统计">3. 全量运行统计</a></li><li><a href="#4-counts-map">4. Counts Map</a></li><li><a href="#5-radec-counts-map">5. RA/Dec Counts Map</a></li><li><a href="#6-smoothed-counts-map">6. Smoothed Counts Map</a></li><li><a href="#7-approx-sideband-significance-quicklook">7. Approx Sideband Significance Quicklook</a></li><li><a href="#8-profile-diagnostics">8. Profile Diagnostics</a><ol><li><a href="#raw-profiles">Raw Profiles</a></li><li><a href="#normalized-excess-like-profiles">Normalized Excess-like Profiles</a></li></ol></li><li><a href="#9-当前结论">9. 当前结论</a></li><li><a href="#10-下一步">10. 下一步</a></li><li><a href="#11-产物清单">11. 产物清单</a></li></ol>
     </nav>
   </aside>
 
@@ -402,15 +402,49 @@ Dec = Dec_Crab ± half_width_deg
 <p>这不是直接积分法背景，也不是 Li-Ma significance。它只用于快速诊断源区是否在高贡献 cell 中冒出来，以及是否存在大尺度结构或明显 acceptance 问题。</p>
 <p><img alt="Crab v1 cell approx significance quicklook" src="assets/crab-v1-cell-skymaps/crab_v1_approx_significance_grid.png" /></p>
 <hr />
-<h2 id="8-当前结论">8. 当前结论<a class="headerlink" href="#8-当前结论" title="Permanent link">&para;</a></h2>
+<h2 id="8-profile-diagnostics">8. Profile Diagnostics<a class="headerlink" href="#8-profile-diagnostics" title="Permanent link">&para;</a></h2>
+<p>为了更直接地检查中心亮斑在东西 / 南北两个方向上的宽度，本次从 raw counts map 额外投影出一组一维 profile。它们仍然是 <strong>raw counts 诊断图</strong>，没有做正式背景模型或 acceptance 校正，因此不能解释为 Crab 的真实角直径。</p>
+<p>定义如下：</p>
+<div class="codehilite"><pre><span></span><code>RA-offset profile:
+  select |Dec offset| &lt; 1 deg
+  sum counts along y
+  plot counts vs x = RA offset * cos(Crab Dec)
+
+Dec-offset profile:
+  select |RA offset * cos(Crab Dec)| &lt; 1 deg
+  sum counts along x
+  plot counts vs y = Dec offset
+</code></pre></div>
+
+<p>每个 profile 还用远离中心的 sideband 估计一个简单基线：</p>
+<div class="codehilite"><pre><span></span><code>baseline = median(profile bins with |offset| &gt; 5 deg)
+normalized profile = (profile - baseline) / max(profile - baseline)
+</code></pre></div>
+
+<p>Raw profile 用来看统计量、背景水平和 acceptance 梯度；normalized profile 用来把不同 cell 的峰值拉到同一尺度，方便比较中心 excess 的宽度。由于这些曲线仍然包含 cosmic-ray 背景和 acceptance 结构，它们只能回答诊断问题：</p>
+<ol>
+<li>中心 excess 是否在 <code>(0,0)</code> 附近；</li>
+<li>RA-offset 和 Dec-offset 两个方向是否大致对称；</li>
+<li>高 Nhit / 高预测能量 cell 的中心结构是否有变窄趋势；</li>
+<li>某些 cell 是否出现异常偏心、宽尾或大尺度背景结构。</li>
+</ol>
+<h3 id="raw-profiles">Raw Profiles<a class="headerlink" href="#raw-profiles" title="Permanent link">&para;</a></h3>
+<p><img alt="Crab v1 RA-offset raw profiles" src="assets/crab-v1-cell-skymaps/crab_v1_ra_offset_profiles_grid.png" /></p>
+<p><img alt="Crab v1 Dec-offset raw profiles" src="assets/crab-v1-cell-skymaps/crab_v1_dec_offset_profiles_grid.png" /></p>
+<h3 id="normalized-excess-like-profiles">Normalized Excess-like Profiles<a class="headerlink" href="#normalized-excess-like-profiles" title="Permanent link">&para;</a></h3>
+<p><img alt="Crab v1 RA-offset normalized profiles" src="assets/crab-v1-cell-skymaps/crab_v1_ra_offset_profiles_normalized_grid.png" /></p>
+<p><img alt="Crab v1 Dec-offset normalized profiles" src="assets/crab-v1-cell-skymaps/crab_v1_dec_offset_profiles_normalized_grid.png" /></p>
+<hr />
+<h2 id="9-当前结论">9. 当前结论<a class="headerlink" href="#9-当前结论" title="Permanent link">&para;</a></h2>
 <ol>
 <li><strong>数据连接是干净的。</strong> 1258 对 eval ROOT 与 recovered-time ROOT 全部找到，<code>t_eventout</code> 与 <code>t_recovered_time</code> 没有 entry mismatch。</li>
 <li><strong>18 个 v1 cell 都有足够统计。</strong> 全量 Crab ROI 中，v1 selected cells 合计 <code>38,019,877</code> 个事例；最低统计 cell 仍有 <code>10,212</code> 个 ROI 事例。</li>
 <li><strong>counts map 可以作为 Stage C 输出质量检查。</strong> Offset counts 图和 RA/Dec counts 图能从局部角距离与绝对天球坐标两种视角检查坐标、cell 分箱、friend tree 对齐和局部天空覆盖。</li>
+<li><strong>profile 图显示中心结构是否稳定，但不能给出源尺寸。</strong> 它们是 raw counts map 的一维投影，仍包含背景和 acceptance，只能用于检查中心位置、RA/Dec 方向对称性和不同 cell 的相对宽窄。</li>
 <li><strong>quicklook significance 只能作诊断。</strong> 它没有替代 Stage D 的直接积分法背景，不能用于最终 SED 或物理显著性声明。</li>
 </ol>
 <hr />
-<h2 id="9-下一步">9. 下一步<a class="headerlink" href="#9-下一步" title="Permanent link">&para;</a></h2>
+<h2 id="10-下一步">10. 下一步<a class="headerlink" href="#10-下一步" title="Permanent link">&para;</a></h2>
 <ol>
 <li>实现 Stage D 的正式背景估计：直接积分法或严格等赤纬背景。</li>
 <li>输出每个 cell 的 <code>background map</code>、<code>excess map</code> 和 Li-Ma <code>significance map</code>。</li>
@@ -419,13 +453,17 @@ Dec = Dec_Crab ± half_width_deg
 <li>将正式 <code>N_on / N_off / alpha / excess / significance</code> 接入后续 forward-folding SED 拟合。</li>
 </ol>
 <hr />
-<h2 id="10-产物清单">10. 产物清单<a class="headerlink" href="#10-产物清单" title="Permanent link">&para;</a></h2>
+<h2 id="11-产物清单">11. 产物清单<a class="headerlink" href="#11-产物清单" title="Permanent link">&para;</a></h2>
 <p>本次诊断生成的本地文件：</p>
 <div class="codehilite"><pre><span></span><code>apply/plot_crab_cell_skymaps.py
 apply/plot/crab_cell_skymaps/crab_v1_counts_grid.png
 apply/plot/crab_cell_skymaps/crab_v1_counts_radec_grid.png
 apply/plot/crab_cell_skymaps/crab_v1_smoothed_counts_grid.png
 apply/plot/crab_cell_skymaps/crab_v1_approx_significance_grid.png
+apply/plot/crab_cell_skymaps/crab_v1_ra_offset_profiles_grid.png
+apply/plot/crab_cell_skymaps/crab_v1_dec_offset_profiles_grid.png
+apply/plot/crab_cell_skymaps/crab_v1_ra_offset_profiles_normalized_grid.png
+apply/plot/crab_cell_skymaps/crab_v1_dec_offset_profiles_normalized_grid.png
 apply/plot/crab_cell_skymaps/crab_v1_maps.npz
 apply/plot/crab_cell_skymaps/crab_v1_maps_meta.json
 </code></pre></div>
@@ -443,7 +481,7 @@ apply/plot/crab_cell_skymaps/crab_v1_maps_meta.json
   <aside class="anchors" id="anchors">
     <p class="anchors-title">本页章节</p>
     <ul>
-      <li><a href="#1-输入与选择">1. 输入与选择</a></li><li><a href="#2-投影与图像参数">2. 投影与图像参数</a></li><li><a href="#3-全量运行统计">3. 全量运行统计</a></li><li><a href="#4-counts-map">4. Counts Map</a></li><li><a href="#5-radec-counts-map">5. RA/Dec Counts Map</a></li><li><a href="#6-smoothed-counts-map">6. Smoothed Counts Map</a></li><li><a href="#7-approx-sideband-significance-quicklook">7. Approx Sideband Significance Quicklook</a></li><li><a href="#8-当前结论">8. 当前结论</a></li><li><a href="#9-下一步">9. 下一步</a></li><li><a href="#10-产物清单">10. 产物清单</a></li>
+      <li><a href="#1-输入与选择">1. 输入与选择</a></li><li><a href="#2-投影与图像参数">2. 投影与图像参数</a></li><li><a href="#3-全量运行统计">3. 全量运行统计</a></li><li><a href="#4-counts-map">4. Counts Map</a></li><li><a href="#5-radec-counts-map">5. RA/Dec Counts Map</a></li><li><a href="#6-smoothed-counts-map">6. Smoothed Counts Map</a></li><li><a href="#7-approx-sideband-significance-quicklook">7. Approx Sideband Significance Quicklook</a></li><li><a href="#8-profile-diagnostics">8. Profile Diagnostics</a></li><li><a href="#9-当前结论">9. 当前结论</a></li><li><a href="#10-下一步">10. 下一步</a></li><li><a href="#11-产物清单">11. 产物清单</a></li>
     </ul>
   </aside>
 

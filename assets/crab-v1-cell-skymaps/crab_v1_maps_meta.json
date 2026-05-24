@@ -218,6 +218,21 @@
     "smoothed_counts_png": "/mnt/mydisk/server/projects/energy_reconstruction/apply/plot/crab_cell_skymaps/crab_v1_smoothed_counts_grid.png",
     "approx_significance_png": "/mnt/mydisk/server/projects/energy_reconstruction/apply/plot/crab_cell_skymaps/crab_v1_approx_significance_grid.png",
     "maps_npz": "/mnt/mydisk/server/projects/energy_reconstruction/apply/plot/crab_cell_skymaps/crab_v1_maps.npz",
-    "metadata_json": "/mnt/mydisk/server/projects/energy_reconstruction/apply/plot/crab_cell_skymaps/crab_v1_maps_meta.json"
+    "metadata_json": "/mnt/mydisk/server/projects/energy_reconstruction/apply/plot/crab_cell_skymaps/crab_v1_maps_meta.json",
+    "ra_offset_profiles_png": "/mnt/mydisk/server/projects/energy_reconstruction/apply/plot/crab_cell_skymaps/crab_v1_ra_offset_profiles_grid.png",
+    "dec_offset_profiles_png": "/mnt/mydisk/server/projects/energy_reconstruction/apply/plot/crab_cell_skymaps/crab_v1_dec_offset_profiles_grid.png",
+    "ra_offset_profiles_normalized_png": "/mnt/mydisk/server/projects/energy_reconstruction/apply/plot/crab_cell_skymaps/crab_v1_ra_offset_profiles_normalized_grid.png",
+    "dec_offset_profiles_normalized_png": "/mnt/mydisk/server/projects/energy_reconstruction/apply/plot/crab_cell_skymaps/crab_v1_dec_offset_profiles_normalized_grid.png"
+  },
+  "profiles": {
+    "profile_half_width_deg": 1.0,
+    "sideband_min_abs_offset_deg": 5.0,
+    "baseline_stat": "median",
+    "ra_offset_profile": "counts[:, abs(y_center)<profile_half_width, :].sum(axis=1)",
+    "dec_offset_profile": "counts[:, :, abs(x_center)<profile_half_width].sum(axis=2)",
+    "ra_profile_center_band_y_bins": 20,
+    "dec_profile_center_band_x_bins": 20,
+    "normalization": "(profile - baseline) / max(profile - baseline) per cell",
+    "not_for_physics": true
   }
 }
