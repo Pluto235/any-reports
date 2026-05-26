@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Crab SED Stage A — 二维响应矩阵构建结果 · any-reports</title>
+<meta name="description" content="Crab SED Stage A 二维响应矩阵的计算过程、输入选择和全量 MC 结果摘要。">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="../assets/highlight.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='14' font-size='14'%3E%F0%9F%93%A6%3C/text%3E%3C/svg%3E">
+<style>
+  .metric-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 18px 0 26px; }
+  .metric { border: 1px solid var(--c-border); border-radius: 8px; padding: 14px 16px; background: var(--c-bg-soft); }
+  .metric .label { color: var(--c-text-mute); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+  .metric .value { font-size: 22px; font-weight: 700; line-height: 1.2; margin-top: 6px; }
+  .metric .note { color: var(--c-text-soft); font-size: 13px; margin-top: 4px; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .callout { border-left: 4px solid var(--c-accent); background: var(--c-callout-bg); border-radius: 8px; padding: 14px 16px; margin: 18px 0; }
+  @media (max-width: 760px) { .metric-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <button class="topbar-toggle" aria-label="目录" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ 目录</button>
+  <a class="topbar-brand" href="../index.html">any-reports</a>
+  <nav class="topbar-nav">
+    <a href="../index.html">Home</a>
+    <a href="https://github.com/Pluto235/any-reports" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <p class="sidebar-title">目录</p>
+    <nav class="sidebar-nav">
+      <ol>
+        <li><a href="#summary">1. 摘要</a></li>
+        <li><a href="#definition">2. 计算定义</a></li>
+        <li><a href="#inputs">3. 输入与 cuts</a></li>
+        <li><a href="#results">4. 全量结果</a></li>
+        <li><a href="#cells">5. 18 个 v1 cell</a></li>
+        <li><a href="#artifacts">6. 产物与限制</a></li>
+      </ol>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <article>
+      <h1 id="summary">Crab SED Stage A — 二维响应矩阵构建结果</h1>
+      <p><strong>日期：</strong>2026-05-26<br>
+      <strong>目标：</strong>在全量 WCDA gamma MC 上，用最终能量回归模型构建 v1 的二维响应矩阵，供后续 Crab SED forward folding 使用。</p>
+
+      <div class="metric-grid">
+        <div class="metric"><div class="label">Response shape</div><div class="value">18 x 40 x 50</div><div class="note">cell x true-E x true-theta</div></div>
+        <div class="metric"><div class="label">MC files</div><div class="value">10,000</div><div class="note">raw eventout ROOT</div></div>
+        <div class="metric"><div class="label">Cut-pass events</div><div class="value">3,525,301</div><div class="note">official Stage A cuts</div></div>
+      </div>
+
+      <p>本次 Stage A 输出的是 <strong>conditional eventout response</strong>，即在已进入 MC eventout 且通过分析 cuts 的条件下，事件落入某个观测 cell 的概率矩阵。绝对有效面积 <code>A_eff</code> 需要真实 thrown normalization 与投掷面积 <code>S0</code>，当前尚未写死，因此本报告不把 conditional response 解释为绝对有效面积。</p>
+
+      <h2 id="definition">1. 计算定义</h2>
+      <p>观测 cell 定义为 <code>b = (Nhit bin, log10 E_pred bin)</code>。v1 baseline 只使用 <code>apply/config/cell_selection_v1.csv</code> 中的 18 个 physical-band cells。</p>
+      <pre><code>eta_conditional[b, E_j, theta_k]
+  = sum(mc_weight for events in cell b, true bin E_j, theta_k)
+    / sum(mc_weight for all cut-passed eventout events in true bin E_j, theta_k)</code></pre>
+      <p>同时保存了裸计数版本 <code>eta_conditional_count</code>，用于审计和 sanity check；baseline 拟合使用 <code>mc_weight</code> 加权版本。</p>
+
+      <h2 id="inputs">2. 输入与 cuts</h2>
+      <table>
+        <tbody>
+          <tr><th>训练 / inference 模型</th><td><code>runs/theta_recoxy_position_embed_midenergy_8666</code></td></tr>
+          <tr><th>MC cache</th><td><code>/mnt/mydisk/WCDA_simulation_binned_response_v1</code></td></tr>
+          <tr><th>Stage A artifact</th><td><code>apply/output/stage_a/response_2d.npz</code></td></tr>
+          <tr><th>response type</th><td><code>conditional_eventout_response</code></td></tr>
+          <tr><th>weighting</th><td><code>mc_weight_baseline</code></td></tr>
+        </tbody>
+      </table>
+      <p>正式 cuts：</p>
+      <pre><code>pincness &lt; 1.1
+fitstat == 0
+theta_reco &lt; 50.0 deg
+dcedge &gt; 20.0
+mc_dangle cut: None</code></pre>
+      <p>真值网格：</p>
+      <ul>
+        <li><code>log10(E_true / GeV)</code>: 2.0 到 6.0，步长 0.1，共 40 bins。</li>
+        <li><code>theta_true</code>: 0 到 50 deg，步长 1 deg，共 50 bins。</li>
+      </ul>
+
+      <h2 id="results">3. 全量结果</h2>
+      <table>
+        <thead><tr><th>指标</th><th class="num">数值</th></tr></thead>
+        <tbody>
+          <tr><td>raw MC total events</td><td class="num">38,521,725</td></tr>
+          <tr><td>cut-passed eventout events</td><td class="num">3,525,301</td></tr>
+          <tr><td>denominator events inside truth grid</td><td class="num">3,203,068</td></tr>
+          <tr><td>v1 numerator events inside truth grid</td><td class="num">2,442,072</td></tr>
+          <tr><td>denominator sum(mc_weight)</td><td class="num">1.1592e+09</td></tr>
+          <tr><td>v1 numerator sum(mc_weight)</td><td class="num">9.6401e+08</td></tr>
+          <tr><td>empty denominator bins</td><td class="num">0</td></tr>
+          <tr><td>denominator bins with count &lt; 10</td><td class="num">16</td></tr>
+          <tr><td>max sum over 18 v1 cells</td><td class="num">0.9849</td></tr>
+          <tr><td>response builder elapsed</td><td class="num">100.2 min</td></tr>
+        </tbody>
+      </table>
+      <div class="callout">检查结果：<code>eta_conditional</code> 的 shape 是 <code>(18, 40, 50)</code>；denominator 没有空 bin；18 个 v1 cell 的响应和最大值为 0.9849，小于 1，符合“只选择主物理带 cell”的预期。</div>
+
+      <h2 id="cells">4. 18 个 v1 cell 的 numerator 汇总</h2>
+      <table>
+        <thead>
+          <tr><th class="num">cell</th><th>Nhit bin</th><th>log10 E_pred bin</th><th class="num">events</th><th class="num">truth-grid events</th><th class="num">sum(mc_weight)</th></tr>
+        </thead>
+        <tbody>
+<tr><td class="num">1</td><td><code>[30,60)</code></td><td><code>[2,3)</code></td><td class="num">184,894</td><td class="num">117,240</td><td class="num">7.4605e+07</td></tr>
+<tr><td class="num">2</td><td><code>[60,100)</code></td><td><code>[2,3)</code></td><td class="num">490,043</td><td class="num">388,899</td><td class="num">1.9998e+08</td></tr>
+<tr><td class="num">3</td><td><code>[60,100)</code></td><td><code>[3,3.25)</code></td><td class="num">26,973</td><td class="num">21,608</td><td class="num">1.0707e+07</td></tr>
+<tr><td class="num">4</td><td><code>[100,200)</code></td><td><code>[2,3)</code></td><td class="num">931,828</td><td class="num">859,976</td><td class="num">3.8862e+08</td></tr>
+<tr><td class="num">5</td><td><code>[100,200)</code></td><td><code>[3,3.25)</code></td><td class="num">110,139</td><td class="num">101,032</td><td class="num">4.3331e+07</td></tr>
+<tr><td class="num">6</td><td><code>[200,300)</code></td><td><code>[2,3)</code></td><td class="num">273,691</td><td class="num">268,692</td><td class="num">1.1596e+08</td></tr>
+<tr><td class="num">7</td><td><code>[200,300)</code></td><td><code>[3,3.25)</code></td><td class="num">122,642</td><td class="num">118,044</td><td class="num">4.8013e+07</td></tr>
+<tr><td class="num">8</td><td><code>[300,500)</code></td><td><code>[3,3.25)</code></td><td class="num">151,506</td><td class="num">149,370</td><td class="num">5.8533e+07</td></tr>
+<tr><td class="num">9</td><td><code>[300,500)</code></td><td><code>[3.25,3.5)</code></td><td class="num">112,141</td><td class="num">109,489</td><td class="num">4.1178e+07</td></tr>
+<tr><td class="num">10</td><td><code>[500,800)</code></td><td><code>[3.25,3.5)</code></td><td class="num">89,513</td><td class="num">88,998</td><td class="num">3.2135e+07</td></tr>
+<tr><td class="num">11</td><td><code>[500,800)</code></td><td><code>[3.5,3.75)</code></td><td class="num">68,604</td><td class="num">67,855</td><td class="num">2.3091e+07</td></tr>
+<tr><td class="num">12</td><td><code>[500,800)</code></td><td><code>[3.75,4.0)</code></td><td class="num">26,703</td><td class="num">25,987</td><td class="num">8.2898e+06</td></tr>
+<tr><td class="num">13</td><td><code>[800,1100)</code></td><td><code>[3.5,3.75)</code></td><td class="num">32,787</td><td class="num">32,730</td><td class="num">1.0623e+07</td></tr>
+<tr><td class="num">14</td><td><code>[800,1100)</code></td><td><code>[3.75,4.0)</code></td><td class="num">22,615</td><td class="num">22,350</td><td class="num">6.6738e+06</td></tr>
+<tr><td class="num">15</td><td><code>[800,1100)</code></td><td><code>[4.0,4.25)</code></td><td class="num">9,020</td><td class="num">8,901</td><td class="num">2.0682e+06</td></tr>
+<tr><td class="num">16</td><td><code>[1100,2000)</code></td><td><code>[3.75,4.0)</code></td><td class="num">23,726</td><td class="num">23,680</td><td class="num">6.0092e+06</td></tr>
+<tr><td class="num">17</td><td><code>[1100,2000)</code></td><td><code>[4.0,4.25)</code></td><td class="num">23,998</td><td class="num">23,910</td><td class="num">4.8127e+06</td></tr>
+<tr><td class="num">18</td><td><code>[1100,2000)</code></td><td><code>[4.25,4.5)</code></td><td class="num">13,380</td><td class="num">13,311</td><td class="num">2.2756e+06</td></tr>
+        </tbody>
+      </table>
+
+      <h2 id="artifacts">5. 产物与限制</h2>
+      <p>生成的 Stage A 文件：</p>
+      <ul>
+        <li><code>response_2d.npz</code>: 响应矩阵、分子/分母计数、truth-grid edges 和 cell labels。</li>
+        <li><code>response_2d_metadata.json</code>: cuts、模型、输入路径、运行统计和响应类型。</li>
+        <li><code>cell_response_summary.csv</code>: 18 个 v1 cell 的 numerator 汇总。</li>
+        <li><code>denominator_occupancy.csv</code>: 每个 truth bin 的 denominator occupancy。</li>
+        <li><code>response_2d_summary.md</code>: 简要文字摘要。</li>
+      </ul>
+      <p><strong>当前限制：</strong><code>A_eff</code> 数组目前全部为 <code>NaN</code>（验证结果：True）。这是有意保留的状态，避免在 thrown normalization 与 <code>S0</code> 未确认前，把 conditional response 误当作绝对有效面积。Stage F 若要做绝对通量拟合，需要先补齐这部分归一化。</p>
+
+      <footer class="page-footer">
+        <span>Generated from Stage A artifacts in <code>energy_reconstruction/apply/output/stage_a</code>.</span>
+      </footer>
+    </article>
+  </main>
+
+  <aside class="anchors">
+    <p class="anchors-title">本页</p>
+    <ul>
+      <li><a href="#summary">摘要</a></li>
+      <li><a href="#definition">计算定义</a></li>
+      <li><a href="#inputs">输入与 cuts</a></li>
+      <li><a href="#results">全量结果</a></li>
+      <li><a href="#cells">v1 cells</a></li>
+      <li><a href="#artifacts">产物与限制</a></li>
+    </ul>
+  </aside>
+</div>
+</body>
+</html>
