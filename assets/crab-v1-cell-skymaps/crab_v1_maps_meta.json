@@ -40,6 +40,9 @@
     "smooth_sigma_deg": 0.3,
     "source_exclusion_radius_deg": 2.0,
     "sideband_stat": "mean",
+    "bg_max_abs_x_deg": 5.0,
+    "sideband_region": "same Dec strip, r >= source_exclusion_radius_deg, abs(RA offset * cos(source Dec)) < bg_max_abs_x_deg",
+    "excluded_region_note": "The quicklook background does not use ROI edge bins with abs(x) >= bg_max_abs_x_deg.",
     "approx_sigma_formula": "(smoothed_counts - smoothed_sideband_background) / sqrt(smoothed_sideband_background)",
     "not_for_physics": true
   },

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Crab v1 Cell Sky Maps — 18 个 ML 能量 × Nhit 单元天图诊断 · any-reports</title>
-<meta name="description" content="LHAASO-WCDA Crab 观测数据中 18 个 v1 cell 的 counts、RA/Dec counts、profile 和 quicklook significance 天图诊断。">
+<meta name="description" content="Crab v1 cell counts, RA/Dec, profile, and tightened sideband significance quicklook diagnostics.">
 <link rel="stylesheet" href="assets/style.css">
 <link rel="stylesheet" href="assets/highlight.css">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='14' font-size='14'%3E%F0%9F%93%A6%3C/text%3E%3C/svg%3E">
@@ -148,6 +148,10 @@ y = dec_mean_deg - Dec_Crab
 <tr>
 <td>sideband statistic</td>
 <td style="text-align: right;">mean per Dec strip</td>
+</tr>
+<tr>
+<td>quicklook sideband x range</td>
+<td style="text-align: right;"><code>|RA offset * cos(Crab Dec)| &lt; 5 deg</code></td>
 </tr>
 <tr>
 <td>RA/Dec counts RA range</td>
@@ -392,7 +396,9 @@ Dec = Dec_Crab ± half_width_deg
 <p>第三张图使用一个非常简单的等赤纬 sideband 近似背景：</p>
 <ol>
 <li>对每个 cell 和每个 Dec strip，排除 Crab 中心 <code>2 deg</code> 内区域；</li>
-<li>用同一 strip 剩余 RA-offset bins 的 mean 作为局部背景水平；</li>
+<li>只使用同一 strip 中 <code>r &gt;= 2 deg</code> 且 <code>|RA offset * cos(Crab Dec)| &lt; 5 deg</code> 的 RA-offset bins；</li>
+<li>对这些 bins 取 mean 作为该 Dec strip 的局部背景水平；</li>
+<li>不使用 <code>|RA offset * cos(Crab Dec)| &gt;= 5 deg</code> 的 ROI 边缘区域，因为 raw RA-offset profile 显示这些区域更容易受边缘覆盖和 acceptance 结构影响；</li>
 <li>对 counts 和 background 都做 <code>0.3 deg</code> smoothing；</li>
 <li>计算：</li>
 </ol>
@@ -473,7 +479,7 @@ apply/plot/crab_cell_skymaps/crab_v1_maps_meta.json
 </code></pre></div>
     </article>
     <footer class="page-footer">
-      <span>更新于 2026-05-24</span>
+      <span>更新于 2026-05-26</span>
       <a href="https://github.com/Pluto235/any-reports" target="_blank" rel="noopener">View on GitHub →</a>
     </footer>
   </main>
