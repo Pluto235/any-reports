@@ -1,8 +1,8 @@
 # Mrk 421 / Mrk 501 WCDA Periodicity Analysis v1
 
-Generated from local pipeline outputs in `data/processed/periodicity/{mkn421,mkn501}/`. Current report date: 2026-05-21.
+Generated from local pipeline outputs in `data/processed/periodicity/{mkn421,mkn501}/`. Current report date: 2026-05-30.
 
-This version keeps the existing Mrk 421 WCDA/Fermi quick-look analysis and the Mrk 501 LHAASO-WCDA weekly light curve. It runs CWT and WWZ checks, then adds a first local-significance assessment for the current Mrk 421 and Mrk 501 WCDA weekly candidate peaks.
+This version keeps the existing Mrk 421 WCDA/Fermi quick-look analysis and the Mrk 501 LHAASO-WCDA weekly light curve. It runs CWT and WWZ checks, then adds a first local-significance assessment for the current Mrk 421 and Mrk 501 WCDA weekly candidate peaks. It also adds a short 2022 Mrk 421 radio-LHAASO alignment supplement.
 
 The updated figures use a clearer layout: the light curve is shown across the first row, while CWT and WWZ maps are separated on the second row. In the regular periodicity section after the xgm poster comparison, WWZ main displays now use linear heatmap color normalization; previous log-color versions are retained as visual references. The period axis remains log-scaled.
 
@@ -27,6 +27,16 @@ The updated figures use a clearer layout: the light curve is shown across the fi
 - Mrk 501 WCDA weekly: CWT peak 389.17 d (GWS 4.407); WWZ peak 402.98 d (power 6.385).
 
 The quick-look CWT/WWZ maps are not post-trial significance products. The local-significance section below gives a first local-only assessment of the current weekly candidate peaks; no look-elsewhere, source-level, or method-level trial correction is applied.
+
+## 2022 Radio-LHAASO Short-Window Alignment Supplement
+
+This supplement aligns public 2022 radio flux-density points with the local Mrk 421 LHAASO/WCDA weekly excess-rate proxy. The radio data come from CDS/VizieR `J/A+A/684/A127`, table [`fig1.dat`](https://cdsarc.cds.unistra.fr/ftp/J/A+A/684/A127/fig1.dat). Only flux-density rows are used: Metsahovi 37 GHz, IRAM 86/230 GHz, and SMA 225 GHz. The parsed subset has 15 points: 37 GHz = 6, 86 GHz = 4, 225 GHz = 3, and 230 GHz = 2.
+
+The radio points span MJD 59698.7206-59753.7418, and the plot window is padded to MJD 59684.7206-59767.7418. The local WCDA weekly file contributes 12 finite points in this window. The top panel is explicitly labelled `WCDA excess-rate proxy`, computed as `sum(n_on - n_bkg) / tobs`; it is not a calibrated physical flux.
+
+![Mrk 421 2022 radio-LHAASO weekly alignment](../data/processed/multiwavelength/mkn421/radio_lhaaso_2022/mkn421_radio_lhaaso_2022_weekly.png)
+
+The matching 2022 WCDA daily product, `data/processed/wcda_day/LHAASO-WCDA_Mkn421_2022-04-15_2022-07-07_day.csv`, is still pending, so this report includes the weekly alignment only. This figure is exploratory only and reports no DCF, FAP, correlation coefficient, lag, or QPO significance.
 
 ## Local-significance assessment of current candidate peaks
 
@@ -89,28 +99,30 @@ Log-color reference kept for comparison:
 
 Input file: `data/processed/wcda_day/LHAASO-WCDA_Mkn421_2023-06-25_2026-03-29_day.csv`.
 
-This comparison uses `excess_counts = sum(n_on - n_bkg)` as a photon-count flux proxy. It is not a calibrated physical flux, and it is not guaranteed to be the exact same flux definition used in the xgm poster. The xgm poster periods are reference labels from the poster. The local FAP values below are my own AR(1) surrogate WWZ checks, not a reproduction of the poster author's significance calculation. They are local-window FAPs only, with no global look-elsewhere correction.
+This comparison uses `excess_counts = sum(n_on - n_bkg)` as a photon-count flux proxy. It is not a calibrated physical flux, and it is not guaranteed to be the exact same flux definition used in the xgm poster. The xgm poster periods are reference labels from the poster.
+
+Important difference from the xgm poster: the significance curves in this report are my AR(1) Gaussian surrogate WWZ references, computed with `N=1000` surrogates on the same daily sampling and the same saved WWZ period grid. They are not a reproduction of the poster author's significance calculation. Under this null model, the MJD 60200-60700 feature near 51 d is above the pointwise 95% reference but below the pointwise 99% reference, and its ±10% local-window FAP is 0.0619. This explains why it can look stronger in the xgm poster while not passing 99% here. No global look-elsewhere correction is applied.
 
 | Window | xgm poster reported | My reproduction | Reading |
 | --- | --- | --- | --- |
 | 60200-60700 | 51.05 d | Global WWZ peak 111.01 d; nearest 51.05 d grid point is 49.93 d, power 12.330, rank 3 | 50 d is a strong local feature, but not the dominant peak in this run |
 | 61020-61098 | 2.54, 5.2, 16.6 d | Global peak at 50.00 d upper boundary; 16.96 d ranks 3, 5.12 d ranks 10, 2.52 d is not prominent | 16.6 d has a visible counterpart; the shorter candidates are weaker here |
 
-| Window | Target source | Target [d] | Nearest grid [d] | Local-window peak [d] | WWZ power | Rank | Cycles | My local FAP | Reading |
-| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
-| 60200-60700 | xgm poster reference | 51.05 | 49.92 | 49.92 | 12.330 | 3 | 9.77 | 0.0619 | Near local 95%, but does not pass the 5% threshold in my AR(1) surrogate test. |
-| 60200-60700 | my reproduction peak | 111.01 | 111.01 | 111.01 | 13.612 | 1 | 4.49 | 0.0779 | My global peak is stronger than the xgm 51.05 d grid point, but is not locally significant at 5% here. |
-| 61020-61098 | xgm poster reference | 2.54 | 2.52 | 2.30 | 0.671 | 24 | 30.31 | 0.0340 | Passes my local 95% surrogate check, but the absolute WWZ power is low and this is not trial corrected. |
-| 61020-61098 | xgm poster reference | 5.20 | 5.12 | 5.12 | 0.909 | 10 | 14.81 | 0.5095 | Not locally unusual in my AR(1) surrogate test. |
-| 61020-61098 | xgm poster reference | 16.60 | 16.96 | 15.28 | 2.767 | 2 | 4.64 | 0.6024 | Visible in my reproduction but not locally significant in this surrogate test. |
-| 61020-61098 | my reproduction boundary peak | 50.00 | 50.00 | 50.00 | 18.573 | 1 | 1.54 | 0.0360 | At the search upper boundary with only 1.54 cycles; do not treat as a robust QPO. |
+| Window | Target source | Target [d] | Nearest grid [d] | Local-window peak [d] | WWZ power | 95% ref. | 99% ref. | Rank | Cycles | My local FAP | Reading |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| 60200-60700 | xgm poster reference | 51.05 | 49.92 | 49.92 | 12.330 | 11.017 | 14.897 | 3 | 9.77 | 0.0619 | Above pointwise 95% but below 99% in my AR(1) surrogate reference; does not pass the ±10% local-window 5% FAP threshold. |
+| 60200-60700 | my reproduction peak | 111.01 | 111.01 | 111.01 | 13.612 | 15.895 | 21.717 | 1 | 4.49 | 0.0779 | My global peak is stronger than the xgm 51.05 d grid point, but remains below the local AR(1) references. |
+| 61020-61098 | xgm poster reference | 2.54 | 2.52 | 2.30 | 0.671 | 0.550 | 0.650 | 24 | 30.31 | 0.0340 | Passes my local 95% and pointwise 99% surrogate check, but the absolute WWZ power is low and this is not trial corrected. |
+| 61020-61098 | xgm poster reference | 5.20 | 5.12 | 5.12 | 0.909 | 1.452 | 1.899 | 10 | 14.81 | 0.5095 | Not locally unusual in my AR(1) surrogate test. |
+| 61020-61098 | xgm poster reference | 16.60 | 16.96 | 15.28 | 2.767 | 8.582 | 11.784 | 2 | 4.64 | 0.6024 | Visible in my reproduction but not locally significant in this surrogate test. |
+| 61020-61098 | my reproduction boundary peak | 50.00 | 50.00 | 50.00 | 18.573 | 15.768 | 29.757 | 1 | 1.54 | 0.0360 | Above pointwise 95% but below 99%; at the search upper boundary with only 1.54 cycles, so do not treat as a robust QPO. |
 
-![xgm poster comparison, MJD 60200-60700](../data/processed/periodicity/xgm_poster_repro/mkn421/mkn421_daily_60200_60700_wwz_poster_style.png)
+![xgm poster comparison, MJD 60200-60700](../data/processed/periodicity/xgm_poster_repro/mkn421/mkn421_daily_60200_60700_wwz_poster_style.png?v=wwz-ar1-n1000-20260528)
 
-![My WWZ local significance check, MJD 60200-60700](../data/processed/periodicity/xgm_poster_repro/mkn421/mkn421_daily_60200_60700_wwz_local_significance.png)
+![My WWZ local significance check, MJD 60200-60700](../data/processed/periodicity/xgm_poster_repro/mkn421/mkn421_daily_60200_60700_wwz_local_significance.png?v=wwz-ar1-n1000-20260528)
 
-![xgm poster comparison, MJD 61020-61098](../data/processed/periodicity/xgm_poster_repro/mkn421/mkn421_daily_61020_61098_wwz_poster_style.png)
+![xgm poster comparison, MJD 61020-61098](../data/processed/periodicity/xgm_poster_repro/mkn421/mkn421_daily_61020_61098_wwz_poster_style.png?v=wwz-ar1-n1000-20260528)
 
-![My WWZ local significance check, MJD 61020-61098](../data/processed/periodicity/xgm_poster_repro/mkn421/mkn421_daily_61020_61098_wwz_local_significance.png)
+![My WWZ local significance check, MJD 61020-61098](../data/processed/periodicity/xgm_poster_repro/mkn421/mkn421_daily_61020_61098_wwz_local_significance.png?v=wwz-ar1-n1000-20260528)
 
-Interpretation: this is a comparison between the xgm poster labels and my current reproduction using the available daily `excess_counts` series. The 50 d feature appears locally in the 60200-60700 window, but my global WWZ peak is at longer periods. The short-window page shows the clearest counterpart near 16.6 d, while 2.54 d and 5.2 d are weaker in this run.
+Interpretation: this is a comparison between the xgm poster labels and my current reproduction using the available daily `excess_counts` series. The 50 d feature appears locally in the 60200-60700 window, but my global WWZ peak is at longer periods, and the 51 d feature is not above my `N=1000` AR(1) 99% reference. The short-window page shows the clearest counterpart near 16.6 d visually, while only the very-short 2.54 d local-window check crosses the current pointwise 99% reference.

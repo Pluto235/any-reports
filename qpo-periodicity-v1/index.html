@@ -130,7 +130,7 @@
   <div class="topline">
     <div>
       <h1>Mrk 421 / Mrk 501 WCDA Periodicity Analysis v1</h1>
-      <p class="meta">Published on GitHub Pages. Report date: 2026-05-21.</p>
+      <p class="meta">Published on GitHub Pages. Report date: 2026-05-30.</p>
     </div>
     <div class="language-toggle" aria-label="Language switch">
       <button type="button" data-lang-button="zh" class="active">中文</button>
@@ -140,7 +140,7 @@
 
   <section data-lang-panel="zh" class="active">
     <section class="panel">
-      <strong>范围。</strong>本页保留 Mrk 421 的 WCDA/Fermi quick-look 周期性分析和 Mrk 501 LHAASO-WCDA 周光变结果；本版还加入 xgm poster 的 Mrk 421 daily WWZ 复现检查，并对当前 Mrk 421 / Mrk 501 WCDA weekly 候选峰做第一版 local-significance assessment。
+      <strong>范围。</strong>本页保留 Mrk 421 的 WCDA/Fermi quick-look 周期性分析和 Mrk 501 LHAASO-WCDA 周光变结果；本版还加入 xgm poster 的 Mrk 421 daily WWZ 复现检查、当前 Mrk 421 / Mrk 501 WCDA weekly 候选峰的第一版 local-significance assessment，以及一个 2022 Mrk 421 射电-LHAASO 小窗口对齐补充。
     </section>
 
     <h2>数据与对齐</h2>
@@ -151,6 +151,11 @@
       <li><code>data/processed/wcda_week/LHAASO-WCDA_Mkn501_2021-03-08_2026-03-29_week.csv</code></li>
     </ul>
     <p>本地中间结果按源分离保存到 <code>data/processed/aligned/mkn421/</code>、<code>data/processed/aligned/mkn501/</code>、<code>data/processed/periodicity/mkn421/</code> 与 <code>data/processed/periodicity/mkn501/</code>。Mrk 421 保留 Fermi weekly 对齐到 WCDA weekly MJD 轴的对照；Mrk 501 当前只使用 WCDA weekly，因为本工作区尚未提供 Mrk 501 的 WCDA daily 或 Fermi weekly 产品。</p>
+
+    <h2>2022 射电-LHAASO 小窗口对齐补充</h2>
+    <p>这个补充把公开 2022 射电 flux-density 点和本地 Mrk 421 LHAASO/WCDA weekly excess-rate proxy 放在同一 MJD 小窗口中。射电数据来自 CDS/VizieR <code>J/A+A/684/A127</code> 的 <a href="https://cdsarc.cds.unistra.fr/ftp/J/A+A/684/A127/fig1.dat">fig1.dat</a>；这里只使用 flux-density 行，包括 Metsahovi 37 GHz、IRAM 86/230 GHz 与 SMA 225 GHz。解析后的射电子集共有 15 点：37 GHz 为 6 点，86 GHz 为 4 点，225 GHz 为 3 点，230 GHz 为 2 点。</p>
+    <p>射电点覆盖 MJD 59698.7206-59753.7418，图窗外扩到 MJD 59684.7206-59767.7418；本地 WCDA weekly 在该窗口内有 12 个 finite 点。顶部面板明确标为 <code>WCDA excess-rate proxy</code>，计算为 <code>sum(n_on - n_bkg) / tobs</code>，不是标定后的物理 flux。</p>
+    <figure><img src="assets/mkn421/radio_lhaaso_2022_weekly.png?v=radio-20260530" alt="Mrk 421 2022 radio-LHAASO weekly alignment"><figcaption>Mrk 421 2022 射电-LHAASO weekly 小窗口对齐图。2022 WCDA daily 文件仍待从 IHEP 生成，因此这里只展示 weekly 对齐；这张图只作探索性同步查看，不给出 DCF、FAP、相关系数、时延或 QPO 显著性结论。</figcaption></figure>
 
     <h2>方法</h2>
     <p>WCDA flux 使用 excess rate 表示：<code>sum(n_on - n_bkg) / tobs</code>，误差使用逐 hit bin 传播的 Poisson-style on/off 近似。CWT 使用 <code>pycwt</code> 的 Morlet wavelet，WWZ 使用 <code>libwwz</code>，入口脚本为 <code>src/pipeline/periodicity_v1.py</code>。</p>
@@ -267,7 +272,7 @@
 
   <section data-lang-panel="en">
     <section class="panel">
-      <strong>Scope.</strong> This page keeps the existing Mrk 421 WCDA/Fermi quick-look periodicity analysis and the Mrk 501 LHAASO-WCDA weekly light curve. It also includes the xgm-poster-style Mrk 421 daily WWZ reproduction check and a first local-significance assessment of the current Mrk 421 / Mrk 501 WCDA weekly candidate peaks.
+      <strong>Scope.</strong> This page keeps the existing Mrk 421 WCDA/Fermi quick-look periodicity analysis and the Mrk 501 LHAASO-WCDA weekly light curve. It also includes the xgm-poster-style Mrk 421 daily WWZ reproduction check, a first local-significance assessment of the current Mrk 421 / Mrk 501 WCDA weekly candidate peaks, and a short 2022 Mrk 421 radio-LHAASO alignment supplement.
     </section>
 
     <h2>Data and Alignment</h2>
@@ -278,6 +283,11 @@
       <li><code>data/processed/wcda_week/LHAASO-WCDA_Mkn501_2021-03-08_2026-03-29_week.csv</code></li>
     </ul>
     <p>Local intermediate outputs are separated by source under <code>data/processed/aligned/mkn421/</code>, <code>data/processed/aligned/mkn501/</code>, <code>data/processed/periodicity/mkn421/</code>, and <code>data/processed/periodicity/mkn501/</code>. Mrk 421 retains its Fermi weekly comparison aligned to the WCDA weekly MJD axis; Mrk 501 currently uses only the WCDA weekly product because no Mrk 501 WCDA daily or Fermi weekly product is available in this workspace.</p>
+
+    <h2>2022 Radio-LHAASO Short-Window Alignment</h2>
+    <p>This supplement aligns public 2022 radio flux-density points with the local Mrk 421 LHAASO/WCDA weekly excess-rate proxy. The radio data come from CDS/VizieR <code>J/A+A/684/A127</code>, table <a href="https://cdsarc.cds.unistra.fr/ftp/J/A+A/684/A127/fig1.dat">fig1.dat</a>. Only flux-density rows are used: Metsahovi 37 GHz, IRAM 86/230 GHz, and SMA 225 GHz. The parsed radio subset has 15 points: 37 GHz = 6, 86 GHz = 4, 225 GHz = 3, and 230 GHz = 2.</p>
+    <p>The radio points span MJD 59698.7206-59753.7418, and the plot window is padded to MJD 59684.7206-59767.7418. The local WCDA weekly file contributes 12 finite points in this window. The top panel is explicitly labelled <code>WCDA excess-rate proxy</code>, computed as <code>sum(n_on - n_bkg) / tobs</code>; it is not a calibrated physical flux.</p>
+    <figure><img src="assets/mkn421/radio_lhaaso_2022_weekly.png?v=radio-20260530" alt="Mrk 421 2022 radio-LHAASO weekly alignment"><figcaption>Mrk 421 2022 radio-LHAASO weekly short-window alignment. The matching 2022 WCDA daily file is still pending from IHEP, so only the weekly alignment is shown here. This figure is exploratory only and reports no DCF, FAP, correlation coefficient, lag, or QPO significance.</figcaption></figure>
 
     <h2>Methods</h2>
     <p>WCDA flux is represented as an excess rate, <code>sum(n_on - n_bkg) / tobs</code>, with a Poisson-style on/off error approximation propagated per hit bin. CWT uses a Morlet wavelet through <code>pycwt</code>. WWZ uses <code>libwwz</code>, with the v1 quick-look grid saved by <code>src/pipeline/periodicity_v1.py</code>.</p>
