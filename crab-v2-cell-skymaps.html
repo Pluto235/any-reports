@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Crab v2 Cell Sky Maps — ML 能量 × Nhit 单元天图诊断 · any-reports</title>
-<meta name="description" content="Crab v2 cell counts, RA/Dec, profile, and sideband significance quicklook diagnostics.">
+<meta name="description" content="Crab v2/v2p1 cell counts, RA/Dec, profile, and sideband significance quicklook diagnostics.">
 <link rel="stylesheet" href="assets/style.css">
 <link rel="stylesheet" href="assets/highlight.css">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='14' font-size='14'%3E%F0%9F%93%A6%3C/text%3E%3C/svg%3E">
@@ -25,7 +25,7 @@
   <aside class="sidebar" id="sidebar">
     <p class="sidebar-title">📑 目录</p>
     <nav class="sidebar-nav">
-      <ol><li><a href="#1-输入与选择">1. 输入与选择</a></li><li><a href="#2-v2-cell-设计">2. v2 Cell 设计</a></li><li><a href="#3-投影与图像参数">3. 投影与图像参数</a></li><li><a href="#4-全量运行统计">4. 全量运行统计</a></li><li><a href="#5-counts-map">5. Counts Map</a></li><li><a href="#6-radec-counts-map">6. RA/Dec Counts Map</a></li><li><a href="#7-smoothed-counts-map">7. Smoothed Counts Map</a></li><li><a href="#8-approx-sideband-significance-quicklook">8. Approx Sideband Significance Quicklook</a></li><li><a href="#9-profile-diagnostics">9. Profile Diagnostics</a><ol><li><a href="#raw-profiles">Raw Profiles</a></li><li><a href="#normalized-excess-like-profiles">Normalized Excess-like Profiles</a></li></ol></li><li><a href="#10-当前结论">10. 当前结论</a></li><li><a href="#11-下一步">11. 下一步</a></li><li><a href="#12-产物清单">12. 产物清单</a></li></ol>
+      <ol><li><a href="#1-输入与选择">1. 输入与选择</a></li><li><a href="#2-v2-cell-设计">2. v2 Cell 设计</a><ol><li><a href="#v21-roi-统计门槛">v2.1 ROI 统计门槛</a></li></ol></li><li><a href="#3-投影与图像参数">3. 投影与图像参数</a></li><li><a href="#4-全量运行统计">4. 全量运行统计</a></li><li><a href="#5-counts-map">5. Counts Map</a></li><li><a href="#6-radec-counts-map">6. RA/Dec Counts Map</a></li><li><a href="#7-smoothed-counts-map">7. Smoothed Counts Map</a></li><li><a href="#8-approx-sideband-significance-quicklook">8. Approx Sideband Significance Quicklook</a></li><li><a href="#9-profile-diagnostics">9. Profile Diagnostics</a><ol><li><a href="#raw-profiles">Raw Profiles</a></li><li><a href="#normalized-excess-like-profiles">Normalized Excess-like Profiles</a></li></ol></li><li><a href="#10-当前结论">10. 当前结论</a></li><li><a href="#11-下一步">11. 下一步</a></li><li><a href="#12-产物清单">12. 产物清单</a></li></ol>
     </nav>
   </aside>
 
@@ -114,6 +114,100 @@ Dec = 22.01 deg
 </code></pre></div>
 
 <p><code>ml_logE_pred</code> 仍按 physical ridge 收束，而不是把所有 acceptable 高能长尾都纳入。低 Nhit 行只保留到较低预测能量，高 Nhit 行逐步拓展到 <code>&gt;=5</code>。<code>[2000,3000)</code> 的 <code>mc_count</code> 当前使用旧 <code>&gt;=2000</code> summary 作为参考，正式 MC 分箱后需要再确认。</p>
+<h3 id="v21-roi-统计门槛">v2.1 ROI 统计门槛<a class="headerlink" href="#v21-roi-统计门槛" title="Permanent link">&para;</a></h3>
+<p>根据本次 v2 skymap 的 Crab ROI 统计，新增一个更适合后续 baseline 的选择文件：</p>
+<div class="codehilite"><pre><span></span><code>apply/config/cell_selection_v2p1.csv
+</code></pre></div>
+
+<p>v2p1 使用硬门槛：</p>
+<div class="codehilite"><pre><span></span><code>Crab 10 deg ROI events &gt;= 5,000
+</code></pre></div>
+
+<p>因此从 31 个 v2 cell 中保留 23 个，剔除 8 个低统计 cell。v2p1 文件保留原 v2 <code>cell_id</code>，方便和本报告的 31-panel skymap 直接对照。</p>
+<p>剔除 cell 如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">cell</th>
+<th>Nhit bin</th>
+<th>log10 E_pred bin</th>
+<th style="text-align: right;">cut + match events</th>
+<th style="text-align: right;">Crab ROI events</th>
+<th>处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">19</td>
+<td><code>[800,1100)</code></td>
+<td><code>[4.25,4.5)</code></td>
+<td style="text-align: right;">10,264</td>
+<td style="text-align: right;">3,006</td>
+<td>drop</td>
+</tr>
+<tr>
+<td style="text-align: right;">20</td>
+<td><code>[800,1100)</code></td>
+<td><code>[4.5,4.75)</code></td>
+<td style="text-align: right;">2,001</td>
+<td style="text-align: right;">545</td>
+<td>drop</td>
+</tr>
+<tr>
+<td style="text-align: right;">24</td>
+<td><code>[1100,2000)</code></td>
+<td><code>[4.5,4.75)</code></td>
+<td style="text-align: right;">11,716</td>
+<td style="text-align: right;">3,904</td>
+<td>drop</td>
+</tr>
+<tr>
+<td style="text-align: right;">25</td>
+<td><code>[1100,2000)</code></td>
+<td><code>[4.75,5.0)</code></td>
+<td style="text-align: right;">4,580</td>
+<td style="text-align: right;">1,510</td>
+<td>drop</td>
+</tr>
+<tr>
+<td style="text-align: right;">26</td>
+<td><code>[1100,2000)</code></td>
+<td><code>&gt;=5</code></td>
+<td style="text-align: right;">1,934</td>
+<td style="text-align: right;">546</td>
+<td>drop</td>
+</tr>
+<tr>
+<td style="text-align: right;">27</td>
+<td><code>[2000,3000)</code></td>
+<td><code>[4.0,4.25)</code></td>
+<td style="text-align: right;">391</td>
+<td style="text-align: right;">167</td>
+<td>drop</td>
+</tr>
+<tr>
+<td style="text-align: right;">28</td>
+<td><code>[2000,3000)</code></td>
+<td><code>[4.25,4.5)</code></td>
+<td style="text-align: right;">2,201</td>
+<td style="text-align: right;">799</td>
+<td>drop</td>
+</tr>
+<tr>
+<td style="text-align: right;">29</td>
+<td><code>[2000,3000)</code></td>
+<td><code>[4.5,4.75)</code></td>
+<td style="text-align: right;">7,251</td>
+<td style="text-align: right;">2,945</td>
+<td>drop</td>
+</tr>
+</tbody>
+</table>
+<p>保留 cell 为：</p>
+<div class="codehilite"><pre><span></span><code>1-18, 21-23, 30-31
+</code></pre></div>
+
+<p>这个规则的物理含义是：v2 skymap 仍展示完整 31-cell 设计，用于诊断高能端和边界 cell；v2p1 则作为后续响应、PSF、背景和拟合的更稳 baseline，避免把 Crab ROI 统计不足的 panel 带入正式链路。</p>
 <hr />
 <h2 id="3-投影与图像参数">3. 投影与图像参数<a class="headerlink" href="#3-投影与图像参数" title="Permanent link">&para;</a></h2>
 <p>局部天图使用 Crab 中心附近的近似 tangent-plane offset：</p>
@@ -536,22 +630,22 @@ Dec-offset profile:
 <ol>
 <li><strong>数据连接仍然干净。</strong> 1258 对 eval ROOT 与 recovered-time ROOT 全部找到，<code>t_eventout</code> 与 <code>t_recovered_time</code> 没有 entry mismatch。</li>
 <li><strong>v2 显著压缩了低 Nhit 背景。</strong> v1 selected cells 覆盖 Crab ROI 的 <code>83.56%</code>，v2 selected cells 覆盖 <code>12.31%</code>，因为 v2 删除了 <code>[30,200)</code> 的大背景行。</li>
-<li><strong>高能端统计差异很大。</strong> v2 最高统计 cell 有 <code>1,607,188</code> 个 Crab ROI 事件，但最低 cell 只有 <code>167</code> 个；高 Nhit / 高预测能量 cell 可以用于诊断 Crab spot，但低统计边界 cell 需要谨慎。</li>
+<li><strong>高能端统计差异很大。</strong> v2 最高统计 cell 有 <code>1,607,188</code> 个 Crab ROI 事件，但最低 cell 只有 <code>167</code> 个；因此已新增 <code>cell_selection_v2p1.csv</code>，用 <code>Crab ROI &gt;= 5,000</code> 剔除 8 个低统计 cell。</li>
 <li><strong>offset 和 RA/Dec 图提供互补检查。</strong> offset 图适合看源区、PSF 和 centroid；RA/Dec 图适合确认绝对天球坐标范围。</li>
 <li><strong>quicklook significance 和 profiles 仍只是诊断。</strong> 这些图没有替代 Stage D 直接积分法背景，不能用于最终 SED 或物理显著性声明。</li>
 </ol>
 <hr />
 <h2 id="11-下一步">11. 下一步<a class="headerlink" href="#11-下一步" title="Permanent link">&para;</a></h2>
 <ol>
-<li>用 v2 Nhit 分箱重新跑 MC binned cache，正式拆出 <code>[2000,3000)</code>，确认 v2 cell 的 MC count 和响应稳定性。</li>
-<li>基于 <code>cell_selection_v2.csv</code> 重跑 Stage A response、Stage B PSF、Stage C observation reduction 和 Stage D background。</li>
-<li>对低统计 cell 做保留 / 合并 / 剔除的 v2.1 评审，尤其是 <code>[2000,3000) x [4.0,4.25)</code> 和高能开放 bin。</li>
+<li>用 v2 Nhit 分箱重新跑 MC binned cache，正式拆出 <code>[2000,3000)</code>，确认 v2p1 cell 的 MC count 和响应稳定性。</li>
+<li>基于 <code>cell_selection_v2p1.csv</code> 重跑 Stage A response、Stage B PSF、Stage C observation reduction 和 Stage D background。</li>
 <li>用 Stage D 背景输出正式 excess map 和 Li-Ma significance map。</li>
 </ol>
 <hr />
 <h2 id="12-产物清单">12. 产物清单<a class="headerlink" href="#12-产物清单" title="Permanent link">&para;</a></h2>
 <p>本次诊断生成的本地文件：</p>
 <div class="codehilite"><pre><span></span><code>apply/config/cell_selection_v2.csv
+apply/config/cell_selection_v2p1.csv
 apply/plot_crab_cell_skymaps.py
 apply/plot/crab_cell_skymaps_v2/crab_v2_counts_grid.png
 apply/plot/crab_cell_skymaps_v2/crab_v2_counts_radec_grid.png
@@ -570,7 +664,7 @@ apply/plot/crab_cell_skymaps_v2/crab_v2_maps_meta.json
 </code></pre></div>
     </article>
     <footer class="page-footer">
-      <span>更新于 2026-06-08</span>
+      <span>更新于 2026-06-09</span>
       <a href="https://github.com/Pluto235/any-reports" target="_blank" rel="noopener">View on GitHub →</a>
     </footer>
   </main>
