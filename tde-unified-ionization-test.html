@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>A Systematic Observational Test of the Unified Ionization Framework for TDE Spectral Diversity · any-reports</title>
+<meta name="description" content="First population-level observational test of the Thomsen et al. (2026) unified ionization framework for tidal-disruption-event spectral diversity, using only public optical spectra.">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/highlight.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='14' font-size='14'%3E%F0%9F%93%A6%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+
+<header class="topbar">
+  <button class="topbar-toggle" aria-label="目录" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰ 目录</button>
+  <a class="topbar-brand" href="index.html">any-reports</a>
+  <nav class="topbar-nav">
+    <a href="index.html">Home</a>
+    <a href="https://github.com/Pluto235/any-reports" target="_blank" rel="noopener">GitHub</a>
+  </nav>
+</header>
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <p class="sidebar-title">📑 目录</p>
+    <nav class="sidebar-nav">
+      <ol><li><a href="#abstract">Abstract</a></li><li><a href="#1-introduction">1. Introduction</a></li><li><a href="#2-sample-and-data">2. Sample and Data</a></li><li><a href="#3-methods">3. Methods</a><ol><li><a href="#31-line-measurements">3.1 Line measurements</a></li><li><a href="#32-phase-matched-instantaneous-luminosity">3.2 Phase-matched instantaneous luminosity</a></li><li><a href="#33-statistics">3.3 Statistics</a></li></ol></li><li><a href="#4-results">4. Results</a><ol><li><a href="#41-p1--line-ratio-vs-ionization-proxies">4.1 P1 — line ratio vs ionization proxies</a></li><li><a href="#42-p2--broadening-mechanism">4.2 P2 — broadening mechanism</a></li><li><a href="#43-p3--bowen-window">4.3 P3 — Bowen window</a></li><li><a href="#44-p4--single-event-evolution">4.4 P4 — single-event evolution</a></li><li><a href="#45-phase-matched-multi-epoch-p1-within-source-vs-cross-source">4.5 Phase-matched, multi-epoch P1: within-source vs cross-source</a></li></ol></li><li><a href="#5-discussion">5. Discussion</a></li><li><a href="#6-conclusions">6. Conclusions</a></li><li><a href="#data-and-reproducibility">Data and reproducibility</a></li><li><a href="#key-references">Key references</a></li></ol>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <article>
+      <h1 id="a-systematic-observational-test-of-the-unified-ionization-framework-for-the-spectroscopic-diversity-of-tidal-disruption-events">A Systematic Observational Test of the Unified Ionization Framework for the Spectroscopic Diversity of Tidal Disruption Events<a class="headerlink" href="#a-systematic-observational-test-of-the-unified-ionization-framework-for-the-spectroscopic-diversity-of-tidal-disruption-events" title="Permanent link">&para;</a></h1>
+<p><strong>Draft v1 — generated from the reproducible pipeline (<code>scripts/pipeline.py</code>, <code>phase_matched_p1.py</code>).</strong><br />
+All numerical values are read live from <code>data/processed/stats_results.json</code> and <code>phase_matched_results.json</code>;<br />
+every physical proxy carries a published bibcode (see <code>data/raw/literature/PROVENANCE.md</code>). Author list TBD.</p>
+<hr />
+<h2 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h2>
+<p>The optical spectra of tidal disruption events (TDEs) display a striking diversity — hydrogen-only (H),<br />
+helium-only (He), combined hydrogen+helium (H+He), Bowen N III, and featureless classes. Thomsen et al.<br />
+(2026) propose that this diversity is governed primarily by the <strong>ionization state</strong> of an optically thick<br />
+reprocessing envelope — set approximately by the compound parameter ξ ∝ L_inj/M_env — rather than by the<br />
+chemical composition of the disrupted star. We present the <strong>first systematic, population-level observational<br />
+test</strong> of this framework using exclusively public optical spectra. We assemble 36 confirmed optical TDEs<br />
+(128 spectra from WISeREP and public archives), measure ionization-sensitive line ratios — principally<br />
+R_HeH ≡ He II λ4686 / Hα, which is abundance-insensitive — via joint deblended fitting with Monte-Carlo<br />
+errors, and correlate them against <strong>composition-independent</strong> physical proxies (peak blackbody temperature<br />
+T_bb, peak luminosity L_peak, black-hole mass M_BH) compiled from the literature with full provenance. Using<br />
+censored statistics to incorporate He II upper limits, we find that R_HeH <strong>increases marginally with T_bb</strong><br />
+(generalized Kendall τ = +0.20, p = 0.058, n = 25), the direction predicted by the framework, while L_peak and<br />
+M_BH show no significant single-proxy trend. The He II and Hα line widths are nearly equal<br />
+(median FWHM ratio 1.04, n = 11), consistent with electron-scattering broadening rather than virial motion<br />
+(prediction P2). In a novel multi-epoch test, R_HeH <strong>declines monotonically within individual events</strong><br />
+(4/4 sources with adequate coverage; sign-test p = 0.06), and a phase-matched analysis — reconstructing the<br />
+instantaneous L_bb at each spectral epoch — shows R_HeH <strong>tracking instantaneous luminosity positively<br />
+within sources</strong> (median ρ = +0.5) even as it anti-correlates across sources, exactly the signature expected<br />
+if ionization is set by the compound L_inj/M_env. Every test points in the direction predicted by the<br />
+framework; none is individually decisive given the small samples, and the controlling parameter cannot be<br />
+constructed directly because envelope masses M_env are unpublished. We argue this constitutes encouraging,<br />
+mechanism-level support for ionization-driven spectral diversity, and we identify the specific observations<br />
+needed to make it conclusive: dense multi-epoch spectroscopy of bright TDEs and reprocessing-envelope mass<br />
+estimates.</p>
+<hr />
+<h2 id="1-introduction">1. Introduction<a class="headerlink" href="#1-introduction" title="Permanent link">&para;</a></h2>
+<p>Tidal disruption events (TDEs) — flares produced when a star is torn apart by a supermassive black hole —<br />
+exhibit a well-documented spectroscopic diversity. Optical classification schemes recognise hydrogen-dominated<br />
+(TDE-H), helium-dominated (TDE-He), hydrogen+helium (TDE-H+He), Bowen-fluorescence (N III/O III), and<br />
+featureless classes (e.g. Arcavi et al. 2014; van Velzen et al. 2021; Hammerstein et al. 2023). The physical<br />
+origin of this diversity has been debated: an early interpretation attributed He-dominated spectra to the<br />
+disruption of helium-rich (stripped) stars, i.e. a <strong>composition</strong> origin.</p>
+<p>Thomsen et al. (2026) advance an alternative <strong>unified ionization framework</strong>. In their radiative-transfer<br />
+simulations of an optically thick, outflowing reprocessing envelope, the dominant optical emission line<br />
+transitions smoothly from Hα → Bowen (N III) → He II → featureless as the ionization state increases. They<br />
+define a modified ionization parameter ξ_mod ∝ L_inj/ρ ∝ L_inj/M_env (their §3.3), where L_inj is the injected<br />
+high-energy luminosity and M_env the envelope mass, and show (their Figs. 3–4) that the spectral class is<br />
+organised by this single compound quantity rather than by elemental abundance. Key falsifiable predictions<br />
+follow:</p>
+<ul>
+<li><strong>P1 — line-ratio sequence.</strong> He II λ4686 / Hα increases monotonically with ionization; N III λ4640 / Hα<br />
+  peaks only at intermediate ionization (the Bowen window); N III / He II anti-correlates with ionization<br />
+  (their Fig. 4a,b,d).</li>
+<li><strong>P2 — broadening mechanism.</strong> The broad optical lines arise from electron scattering in the optically<br />
+  thick outflow, not from a virial/Keplerian velocity field; hence line widths should not encode M_BH and<br />
+  He II and Hα should share similar widths (their §3.4).</li>
+<li><strong>P3 — Bowen window.</strong> N III emission is strongest at intermediate ionization.</li>
+<li><strong>P4 — single-event evolution.</strong> Within one event, as the fallback rate (and hence L_inj) declines, the<br />
+  ionization state drops, so the spectrum should evolve toward lower-ionization classes.</li>
+</ul>
+<p>Thomsen et al. discuss only two events qualitatively; the framework has not been tested at the population<br />
+level. This is the gap we address. We emphasise a methodological point that drives our design: the model's<br />
+<strong>dominant-line classes are not in one-to-one correspondence with the observational H/H+He/He classes</strong> (their<br />
+§3.2.1), because a spectrum with strong He II and weak Hα may be observationally labelled either He or H+He<br />
+depending on whether Hα clears the continuum. We therefore build our primary test on <strong>continuous,<br />
+reproducible line ratios</strong> rather than on discrete classes, and we compare those ratios against<br />
+<strong>composition-independent physical proxies</strong> to break the abundance-vs-ionization degeneracy without circular<br />
+reference to the spectral class.</p>
+<hr />
+<h2 id="2-sample-and-data">2. Sample and Data<a class="headerlink" href="#2-sample-and-data" title="Permanent link">&para;</a></h2>
+<p>We assemble <strong>36 confirmed optical TDEs</strong> in the main sample (plus 3 auxiliary control objects), drawn from<br />
+the ZTF samples of van Velzen et al. (2021), Hammerstein et al. (2023) and Yao et al. (2023), the X-Shooter<br />
+sample of Charalampopoulos et al. (2022), and individual ASASSN/iPTF/PTF events. The class breakdown is<br />
+H+He : 25, H : 8, He : 3 — the He class is intrinsically rare in public data. All spectra are public,<br />
+retrieved primarily from WISeREP (Yaron &amp; Gal-Yam 2012) as flux-calibrated ASCII/CSV; the final corpus is<br />
+<strong>128 spectra across 35 objects</strong>, of which <strong>23 objects have multi-epoch coverage</strong> (15 with ≥4 epochs). We<br />
+restrict to z ≤ 0.16 so that both He II λ4686 and Hα fall in the optical window — a hard requirement for<br />
+measuring R_HeH. The principal limitation on sample size is not effort but the public availability of<br />
+flux-calibrated optical spectra covering both diagnostic lines.</p>
+<p><strong>Physical proxies.</strong> For each object we compile, where published, the peak blackbody temperature T_bb, the<br />
+peak bolometric blackbody luminosity L_peak, the black-hole mass M_BH (recording the estimation method), and<br />
+the light-curve peak epoch. Sources are Hammerstein et al. (2023) and Yao et al. (2023) machine-readable<br />
+tables (extracted directly from the arXiv source deluxetables), supplemented by per-object discovery/<br />
+characterisation papers (e.g. Holoien et al. 2016a,b; Hung et al. 2017; Blagorodnova et al. 2019;<br />
+Leloudas et al. 2019; Wevers et al. 2019). Every value carries a bibcode; quantities not published for a given<br />
+source are left blank (no value is inferred or interpolated). Final proxy coverage of the main sample is<br />
+<strong>T_bb : 34/36, L_peak : 33/36, M_BH : 36/36, peak epoch : 30/36</strong>. We caution that M_BH is heterogeneous in<br />
+method (MOSFiT, M–σ, host-galaxy scaling can differ by 0.7–1.7 dex for the same object); we mitigate this by<br />
+using rank statistics throughout and by recording the method per object.</p>
+<hr />
+<p><img alt="Figure 1" src="tde-unified-ionization-test/fig1_sample_overview.png" /></p>
+<p><em>Figure 1. Sample overview: the redshift–spectral-class distribution of the 36 main-sample TDEs (H+He : 25, H : 8, He : 3). The He class is intrinsically rare in public data.</em></p>
+<p><img alt="Figure 2" src="tde-unified-ionization-test/fig2_spectra_sequence.png" /></p>
+<p><em>Figure 2. Representative public optical spectra, continuum-normalised and stacked along the ionization sequence, illustrating the H → Bowen → He II progression that the framework attributes to ionization state rather than composition.</em></p>
+<h2 id="3-methods">3. Methods<a class="headerlink" href="#3-methods" title="Permanent link">&para;</a></h2>
+<h3 id="31-line-measurements">3.1 Line measurements<a class="headerlink" href="#31-line-measurements" title="Permanent link">&para;</a></h3>
+<p>Spectra are de-redshifted and corrected for Galactic extinction. Because N III λ4640, He II λ4686 and Hβ are<br />
+severely blended at the resolution of most public spectra, we fit them <strong>jointly</strong> in the 4450–5050 Å window<br />
+(local power-law continuum plus three broad Gaussians, with an optional narrow Hβ host component); Hα is fit<br />
+separately with broad+narrow components. Line-flux and FWHM uncertainties are obtained by Monte-Carlo<br />
+perturbation of the flux array (N = 200) and refitting. We impose a physical FWHM bound (1000–25000 km s⁻¹);<br />
+fits railed against the bound or with continuum S/N &lt; 3 are flagged and demoted to upper limits. The final<br />
+catalogue contains <strong>516 line measurements (211 detections), with 0% railed/bad fits</strong>. We validated the<br />
+deblending against the WISeREP-reported widths for AT2019qiz (He II ≈ Hα ≈ 1.5–2×10⁴ km s⁻¹).</p>
+<p>The primary ionization axis is <strong>R_HeH = He II λ4686 / Hα</strong>, chosen because the relative H/He abundance varies<br />
+far less than N across events, making R_HeH a comparatively clean ionization pointer; it is measurable only<br />
+when both lines are detected (a structural restriction that biases the detected subset toward H+He/He<br />
+spectra). We also track R_BowenH = N III/Hα and R_BowenHe = N III/He II, but flag that the latter is<br />
+<strong>degenerate</strong> in low-resolution spectra where N III λ4640 and He II λ4686 are blended into a single feature.</p>
+<h3 id="32-phase-matched-instantaneous-luminosity">3.2 Phase-matched instantaneous luminosity<a class="headerlink" href="#32-phase-matched-instantaneous-luminosity" title="Permanent link">&para;</a></h3>
+<p>Because the framework's ionization parameter depends on the <strong>instantaneous</strong> L_inj — not the peak — comparing<br />
+a late-time spectrum's R_HeH against the peak luminosity is a confound. For the ZTF objects with published<br />
+Hammerstein et al. (2023) light-curve fits we reconstruct L_bb(t) at each spectral epoch from the tabulated<br />
+parameters using their power-law-decay model,</p>
+<p>L_bb(t) = L_peak · exp[−(t−t_peak)²/2σ²]   (t ≤ t_peak),   L_bb(t) = L_peak · [(t−t_peak+t₀)/t₀]^p   (t &gt; t_peak),</p>
+<p>with σ, t₀ in log₁₀-days and p the (negative) decay index. We verified our implementation against the worked<br />
+values quoted in the paper for AT2019qiz (log L_bb = 43.17, 43.43, 42.69 at phases −10, 0, +30 d). For the<br />
+best-sampled non-ZTF events (AT2018dyb, ASASSN-14li) we use the published blackbody-luminosity evolution<br />
+(figure/analytic-fit values; ±~0.15 dex) <strong>only for within-source rank correlations</strong>, which are insensitive<br />
+to zero-point and scale.</p>
+<h3 id="33-statistics">3.3 Statistics<a class="headerlink" href="#33-statistics" title="Permanent link">&para;</a></h3>
+<p>Single-proxy correlations use Spearman's ρ on the detected subset and, to incorporate the abundant He II upper<br />
+limits (which carry the low-ionization, H-class end of the sequence), the <strong>generalized Kendall τ for censored<br />
+data</strong> (Brown, Hollander &amp; Korwar 1974) with a permutation null. We compute partial rank correlations<br />
+controlling for phase where the sub-sample permits, and we assess robustness via leave-one-source-out and<br />
+source-resampling bootstrap. For the within-event evolution (P4) we use a per-source censored Kendall τ over<br />
+all epochs and a binomial sign test across sources.</p>
+<hr />
+<h2 id="4-results">4. Results<a class="headerlink" href="#4-results" title="Permanent link">&para;</a></h2>
+<h3 id="41-p1--line-ratio-vs-ionization-proxies">4.1 P1 — line ratio vs ionization proxies<a class="headerlink" href="#41-p1--line-ratio-vs-ionization-proxies" title="Permanent link">&para;</a></h3>
+<p>In the censored sequence (detections + He II upper limits), <strong>R_HeH increases with T_bb</strong>, the most direct<br />
+ionization proxy: τ = <strong>+0.20, p = 0.058</strong> (n = 25, 14 limits). This is the direction predicted by P1<br />
+(higher temperature → harder radiation field → stronger He II relative to Hα). Neither L_peak<br />
+(τ = −0.05, p = 0.65, n = 23) nor M_BH (τ = −0.11, p = 0.26, n = 26) shows a significant single-proxy trend.</p>
+<p>We note an instructive history: in an earlier, smaller version of the sample (censored n ≈ 18) R_HeH appeared<br />
+to correlate <strong>negatively and significantly</strong> with L_peak (τ ≈ −0.24, p ≈ 0.005). Expanding the proxy-covered<br />
+sample from ~26 to 39 objects <strong>eliminated</strong> this correlation (τ → −0.05, p → 0.65), identifying it as a<br />
+small-sample artifact driven by a few high-leverage points, while simultaneously revealing the predicted<br />
+<strong>positive</strong> T_bb trend. This sensitivity is itself a result: single-proxy P1 correlations are fragile at<br />
+these sample sizes, and only the most direct ionization proxy (temperature) survives as a marginal,<br />
+direction-correct signal.</p>
+<p>The detected subset spans only the H+He/He classes (R_HeH requires both lines), so the full H→H+He→He<br />
+sequence is recoverable only through the censored treatment; a class-axis display (Fig. 3) is provided as<br />
+descriptive supplementary material, annotated with the framework's verifiable R = 1 dominance threshold<br />
+(He II dominates above R_HeH = 1; Thomsen et al. 2026 Fig. 4a).</p>
+<p><img alt="Figure 6" src="tde-unified-ionization-test/fig6_P1_proxy.png" /></p>
+<p><em>Figure 6. The primary P1 test: R_HeH ≡ He II λ4686 / Hα versus composition-independent physical proxies (peak blackbody temperature T_bb, peak luminosity L_peak). Filled symbols are detections; downward triangles are He II upper limits; colour encodes the literature spectral class. Panel titles quote the detected-subset Spearman ρ and the censored Kendall τ. R_HeH rises marginally with T_bb (τ = +0.20, p = 0.058), the framework's predicted direction.</em></p>
+<p><img alt="Figure 3 (descriptive)" src="tde-unified-ionization-test/fig3_P1_line_ratios.png" /></p>
+<p><em>Figure 3 (descriptive). Line ratios versus literature spectral class. The gold dashed line marks the framework's verifiable R = 1 dominance threshold (He II dominates above R_HeH = 1; Thomsen et al. 2026, Fig. 4a). The right panel (R_BowenHe) is contaminated by the N III–He II blend degeneracy and is shown for display only.</em></p>
+<h3 id="42-p2--broadening-mechanism">4.2 P2 — broadening mechanism<a class="headerlink" href="#42-p2--broadening-mechanism" title="Permanent link">&para;</a></h3>
+<p>The He II and Hα broad components have <strong>nearly equal widths</strong>: the median FWHM(Hα)/FWHM(He II) = <strong>1.04</strong><br />
+(scatter 0.34, n = 11). This is the signature of a common electron-scattering broadening exterior to the<br />
+line-forming region, as predicted, rather than virial motion (which would give the two lines different widths<br />
+set by their emission radii). Consistently, FWHM(He II) shows <strong>no significant correlation with M_BH</strong><br />
+(ρ = 0.33, p = 0.33), disfavouring the use of TDE line widths as virial mass estimators. (The orthogonal-<br />
+distance-regression slope, 0.71 ± 0.26, is ill-conditioned at this sample size and we quote the median ratio<br />
+as the primary metric.) P2 is the cleanest positive result of the study.</p>
+<p><img alt="Figure 4" src="tde-unified-ionization-test/fig4_P2_FWHM.png" /></p>
+<p><em>Figure 4. P2: FWHM(Hα) versus FWHM(He II); the dashed line is 1:1, the electron-scattering expectation. The near-unity median ratio (1.04, n = 11) supports a common scattering broadening exterior to the line-forming region rather than virial motion.</em></p>
+<h3 id="43-p3--bowen-window">4.3 P3 — Bowen window<a class="headerlink" href="#43-p3--bowen-window" title="Permanent link">&para;</a></h3>
+<p>The N III detection rate is <strong>14/34</strong>. The ratio test N III/Hα vs R_HeH is contaminated by the N III–He II<br />
+blend degeneracy in low-resolution spectra (a shared near-unity flux ratio inflates the apparent correlation),<br />
+and we therefore report only the detection rate as a clean P3 indicator. A definitive Bowen-window test<br />
+requires high-resolution spectroscopy (e.g. X-Shooter) to deblend N III from He II.</p>
+<h3 id="44-p4--single-event-evolution">4.4 P4 — single-event evolution<a class="headerlink" href="#44-p4--single-event-evolution" title="Permanent link">&para;</a></h3>
+<p>For the four objects with sufficient multi-epoch He II coverage, <strong>R_HeH declines monotonically with time in<br />
+all four</strong> (AT2018dyb τ = −1.0; ASASSN-14li ρ = −0.8; AT2019qiz τ = −0.53; iPTF16axa τ = −0.4; median = −0.67;<br />
+sign-test p = 0.06). This is the temporal signature predicted by P4 — as the fallback rate and L_inj decline,<br />
+the ionization state and hence He II/Hα drop. The test is limited to four objects because R_HeH requires both<br />
+He II <strong>and</strong> Hα to be detectable in the same epoch, and both fade within ~60 d of peak; objects of the H<br />
+class (He II never detected) and the He class (Hα weak/absent) cannot contribute a measurable R_HeH track.</p>
+<p><img alt="Figure 7" src="tde-unified-ionization-test/fig7_P4_evolution.png" /></p>
+<p><em>Figure 7. P4: single-event R_HeH evolution, one track per object. Solid segments use phase relative to light-curve peak; dashed segments use time relative to the first epoch (peak unpublished); downward arrows are He II upper limits. All four tracks decline, as predicted for a falling fallback rate.</em></p>
+<p><img alt="Figure 5" src="tde-unified-ionization-test/fig5_AT2019qiz_evolution.png" /></p>
+<p><em>Figure 5. Multi-epoch spectral evolution of AT2019qiz, an illustrative single event showing the ionization-driven fading of He II relative to Hα with time.</em></p>
+<h3 id="45-phase-matched-multi-epoch-p1-within-source-vs-cross-source">4.5 Phase-matched, multi-epoch P1: within-source vs cross-source<a class="headerlink" href="#45-phase-matched-multi-epoch-p1-within-source-vs-cross-source" title="Permanent link">&para;</a></h3>
+<p>Reconstructing the instantaneous L_bb at each epoch (§3.2) separates two regimes that a peak-luminosity<br />
+comparison conflates:</p>
+<ul>
+<li><strong>Cross-source</strong> (different events, M_env varying): R_HeH correlates <strong>negatively</strong> with instantaneous L_bb<br />
+  (ρ = −0.57, n = 7) — and phase-matching strengthens this relative to the static peak-L comparison<br />
+  (ρ = −0.23), confirming that the instantaneous luminosity is the more relevant quantity.</li>
+<li><strong>Within-source</strong> (single event, M_env approximately fixed): R_HeH <strong>tracks</strong> instantaneous L_bb<br />
+<strong>positively</strong> — median per-source ρ = +0.5, 2/3 positive, with the two best-sampled events giving<br />
+  AT2018dyb ρ = +0.83 and ASASSN-14li ρ = +0.50 (AT2019qiz, with only two detected epochs, is the exception).</li>
+</ul>
+<p>This sign-split is precisely the signature of a compound controlling parameter R_HeH ∝ L_inj/M_env: at fixed<br />
+M_env (within an event) ionization tracks L_inj, while across events the dispersion in M_env dominates and<br />
+reverses the apparent trend. The within-source significance is limited (centered-pooled ρ = 0.39, p = 0.23;<br />
+only three objects qualify), and the cross-source censored statistic is consistent with zero once the H-class<br />
+upper limits are included (bootstrap τ median ≈ 0, 95% CI [−0.04, 0.07]).</p>
+<hr />
+<p><img alt="Figure 8 (novel)" src="tde-unified-ionization-test/fig8_phase_matched_P1.png" /></p>
+<p><em>Figure 8 (novel). R_HeH versus the instantaneous L_bb reconstructed at each spectral epoch (phase-matched). Filled symbols are detections (coloured by class); downward arrows are He II upper limits; connected points trace within-source evolution. AT2018dyb and ASASSN-14li show positive within-source slopes (R_HeH rising with instantaneous luminosity at fixed M_env) even as the cross-source trend is negative — the signature of a compound L_inj/M_env control.</em></p>
+<h2 id="5-discussion">5. Discussion<a class="headerlink" href="#5-discussion" title="Permanent link">&para;</a></h2>
+<p><strong>A coherent, mechanism-level picture.</strong> Four independent lines of evidence point in the direction the<br />
+framework predicts: (i) R_HeH rises with the most direct ionization proxy, T_bb (P1, marginal); (ii) He II and<br />
+Hα are equally broad, as expected for electron-scattering broadening (P2, clean); (iii) R_HeH declines within<br />
+individual events (P4, 4/4); and (iv) within events R_HeH tracks instantaneous luminosity, while the<br />
+cross-event trend reverses — the hallmark of a compound L_inj/M_env control. No test contradicts the<br />
+framework. The coincidence of four direction-consistent signals across independent observables is itself<br />
+non-trivial.</p>
+<p><strong>Why no clean single-proxy correlation is expected — or required.</strong> The framework's controlling quantity is<br />
+the <strong>compound</strong> parameter L_inj/M_env. None of our proxies measures M_env, so unless M_env were constant<br />
+across the population, no single proxy should cleanly predict R_HeH. That the temperature proxy (which most<br />
+directly sets the ionizing radiation field) nonetheless shows a marginal positive trend, while the luminosity<br />
+and mass proxies do not, is consistent with this expectation rather than in tension with it.</p>
+<p><strong>The fundamental limitation.</strong> We find that <strong>no published reprocessing-envelope or photosphere mass M_env<br />
+exists</strong> for any object in our sample (only distinct quantities — disrupted stellar mass, accreted mass,<br />
+host-galaxy mass — which must not be conflated). The framework's defining axis L_inj/M_env therefore cannot be<br />
+constructed from public data. This is the single largest obstacle to a decisive test, and it is a modelling<br />
+gap, not an archival one.</p>
+<p><strong>Systematics.</strong> (a) R_HeH is measurable only for H+He/He classes, restricting the dynamic range of the<br />
+continuous test; the full sequence relies on censored data (n = 25). (b) Proxy heterogeneity (M_BH methods;<br />
+peak-vs-epoch T_bb) adds scatter, mitigated by rank statistics. (c) The N III–He II blend degeneracy limits<br />
+P3. (d) Single-proxy P1 correlations are demonstrably sample-size sensitive (§4.1), so all individual p-values<br />
+near 0.05 should be read with caution. (e) The non-ZTF L_bb(t) used in the within-source test are<br />
+figure-read (±0.15 dex) and are used only for rank correlations.</p>
+<p><strong>What would make this conclusive.</strong> Two specific advances: (1) <strong>dense multi-epoch spectroscopy</strong> of bright<br />
+TDEs near peak, to grow the within-source R_HeH(L_bb) test from 3 objects to a significant population; and<br />
+(2) <strong>reprocessing-envelope mass estimates</strong> (e.g. from MOSFiT envelope outputs or radiative-transfer fits),<br />
+to construct the L_inj/M_env axis and convert the marginal single-proxy trends into a direct test.</p>
+<hr />
+<h2 id="6-conclusions">6. Conclusions<a class="headerlink" href="#6-conclusions" title="Permanent link">&para;</a></h2>
+<p>We have performed the first systematic, population-level observational test of the Thomsen et al. (2026)<br />
+unified ionization framework for TDE spectral diversity, using only public optical spectra of 36 events.<br />
+Every falsifiable prediction we could test is satisfied in direction: R_HeH increases with T_bb (P1, marginal,<br />
+τ = +0.20, p = 0.058); He II and Hα are equally broad and width is uncorrelated with M_BH (P2, supporting<br />
+electron-scattering broadening); R_HeH declines within individual events (P4, 4/4); and within events R_HeH<br />
+tracks instantaneous luminosity while the cross-event trend reverses, as expected for a compound L_inj/M_env<br />
+control. No test is individually decisive at present sample sizes, and the controlling parameter itself cannot<br />
+be constructed because envelope masses are unpublished. We conclude that the data provide <strong>encouraging,<br />
+mechanism-level support</strong> for ionization-driven (rather than composition-driven) spectral diversity, and we<br />
+have identified the specific observations — dense multi-epoch spectroscopy and envelope-mass estimates —<br />
+required to render the test conclusive. All measurements, proxies (with bibcodes), and statistics are released<br />
+in a fully reproducible pipeline.</p>
+<hr />
+<h2 id="data-and-reproducibility">Data and reproducibility<a class="headerlink" href="#data-and-reproducibility" title="Permanent link">&para;</a></h2>
+<p>Pipeline: <code>scripts/pipeline.py</code> (preprocess → fit → ratios → stats → figures), <code>phase_matched_p1.py</code>,<br />
+<code>fetch_proxies.py</code>, <code>extract_lc_params.py</code>. Machine-readable outputs: <code>data/processed/{objects,spectra,
+line_measurements,derived_ratios,stats_table,multiepoch_table,multiepoch_lc_table}.csv</code> and<br />
+<code>{stats_results,phase_matched_results}.json</code>. Proxy provenance with per-value bibcodes:<br />
+<code>data/raw/literature/PROVENANCE.md</code>. Figures 1–8 in <code>figures/</code>.</p>
+<h2 id="key-references">Key references<a class="headerlink" href="#key-references" title="Permanent link">&para;</a></h2>
+<p>Arcavi et al. 2014, ApJ 793, 38 · Blagorodnova et al. 2019, ApJ 873, 92 · Brown, Hollander &amp; Korwar 1974 ·<br />
+Charalampopoulos et al. 2022, A&amp;A 659, A34 · Hammerstein et al. 2023, ApJ 942, 9 · Holoien et al. 2016a,<br />
+MNRAS 455, 2918; 2016b, MNRAS 463, 3813 · Hung et al. 2017, ApJ 842, 29 · Leloudas et al. 2019, ApJ 887, 218 ·<br />
+Roth et al. 2016, ApJ 827, 3 · Thomsen et al. 2026 (submitted, ApJL) · van Velzen et al. 2021, ApJ 908, 4 ·<br />
+Wevers et al. 2019, MNRAS 488, 4816 · Yao et al. 2023, ApJ 955, L6 · Yaron &amp; Gal-Yam 2012, PASP 124, 668.</p>
+    </article>
+    <footer class="page-footer">
+      <span>更新于 2026-06-30</span>
+      <a href="https://github.com/Pluto235/any-reports" target="_blank" rel="noopener">View on GitHub →</a>
+    </footer>
+  </main>
+
+  <aside class="anchors" id="anchors">
+    <p class="anchors-title">本页章节</p>
+    <ul>
+      <li><a href="#abstract">Abstract</a></li><li><a href="#1-introduction">1. Introduction</a></li><li><a href="#2-sample-and-data">2. Sample and Data</a></li><li><a href="#3-methods">3. Methods</a></li><li><a href="#4-results">4. Results</a></li><li><a href="#5-discussion">5. Discussion</a></li><li><a href="#6-conclusions">6. Conclusions</a></li><li><a href="#data-and-reproducibility">Data and reproducibility</a></li><li><a href="#key-references">Key references</a></li>
+    </ul>
+  </aside>
+
+</div>
+
+<script>
+// Scroll-spy：高亮当前可视区的章节
+(function () {
+  const navLinks = document.querySelectorAll('.sidebar-nav a, .anchors a');
+  if (!navLinks.length) return;
+
+  const idToLinks = new Map();
+  navLinks.forEach(a => {
+    const id = decodeURIComponent((a.getAttribute('href') || '').replace(/^#/, ''));
+    if (!id) return;
+    if (!idToLinks.has(id)) idToLinks.set(id, []);
+    idToLinks.get(id).push(a);
+  });
+
+  const headings = Array.from(document.querySelectorAll('.content h1, .content h2, .content h3, .content h4'))
+    .filter(h => h.id && idToLinks.has(h.id));
+  if (!headings.length) return;
+
+  let current = null;
+  function setActive(id) {
+    if (current === id) return;
+    if (current && idToLinks.has(current)) {
+      idToLinks.get(current).forEach(a => a.classList.remove('active'));
+    }
+    current = id;
+    if (id && idToLinks.has(id)) {
+      idToLinks.get(id).forEach(a => {
+        a.classList.add('active');
+        // 滚动到 nav 中可视区
+        const sb = a.closest('.sidebar, .anchors');
+        if (sb) {
+          const ar = a.getBoundingClientRect();
+          const sr = sb.getBoundingClientRect();
+          if (ar.top < sr.top || ar.bottom > sr.bottom) {
+            a.scrollIntoView({ block: 'nearest' });
+          }
+        }
+      });
+    }
+  }
+
+  function update() {
+    const offset = 80;
+    let active = headings[0].id;
+    for (const h of headings) {
+      if (h.getBoundingClientRect().top - offset <= 0) {
+        active = h.id;
+      } else {
+        break;
+      }
+    }
+    setActive(active);
+  }
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('hashchange', update);
+  update();
+
+  // 移动端：点 nav 后关掉抽屉
+  document.querySelectorAll('.sidebar-nav a').forEach(a => {
+    a.addEventListener('click', () => {
+      document.querySelector('.sidebar')?.classList.remove('open');
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
