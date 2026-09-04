@@ -4,9 +4,10 @@
 > blazar / AGN 准周期振荡 (quasi-periodic oscillation, QPO) 的 **11 篇论文**
 > （其中 Peñil 系列 3 篇 2022/2024/2025）。不包含 TESS 光学和方法学性质论文。
 >
-> **数据生成日期**：2026-05-13；**最新修订 2026-05-14**（补 Ren+22 13 源 +
-> 全 catalog 位置交叉匹配复核）；**2026-05-14b** 集成 Peñil 系列三篇
-> （Peñil+22 / Rico+24 / Peñil+25），样本从 34 → 81 unique 源。
+> **数据生成日期**：2026-05-13；**最新修订 2026-09-04**（新增面向 kink
+> 模拟的 30–100 d、>4 cycles 选源及逐源论文复现关系）；**2026-05-14b**
+> 集成 Peñil 系列三篇（Peñil+22 / Rico+24 / Peñil+25），样本从 34 → 81
+> unique 源。
 
 ## TL;DR
 
@@ -92,6 +93,77 @@
 
 ★ = 该源在该周期/方法下的首次报告。
 注：Ren+ 2022 共给 24 源 36 候选；本表展开列入主要单候选（同源多周期保留首选/示例值），完整列表见原文 Table 2。
+
+## Kink 模拟短周期选源（30–100 d，>4 cycles）
+
+本节是为 **RMHD kink 模拟与射电交叉验证**增加的定向选源，不改变前文按
+2020–2025 年 11 篇核心论文统计的 81 个 unique AGN。筛选条件是：Fermi-LAT
+论文报告过约 30–100 d 的 transient QPO，且信号持续超过 4 圈（优先论文明确
+计数 ≥5 个完整 cycles）。约 100–300 d 的边界对象只放在对照组。
+
+> ⚠️ **显著性不能直接混排**：Ren+23 的数值是 CWT look-elsewhere
+> post-trial；Peñil+25 同时给 local/global；Chen+24 和多数单源论文给的是所选
+> 时间段内的 local Monte Carlo 显著性，没有完整修正“从多少源、多少时间窗中
+> 选出该段”的总 trial factor。下表保留原论文口径，不把 local σ 写成 confirmed
+> detection。所有对象仍称 **QPO candidate**。
+>
+> 文中 **Ren+23** 指 2022 年 arXiv、2023 年正式发表于 *A&A* 的 Ren et al.；
+> **Peñil-kink+25** 指 *ApJ* 985, 199，不是后文 1492 源 null-result 预印本。
+
+### 首选事件表
+
+| 优先级 | Source | 周期 (d) | QPO 时间窗 (MJD) | Cycles | 论文显著性口径 | 发现、复现与反例论文 | 对 kink 模拟的价值 |
+|---|---|---:|---:|---:|---|---|---|
+| **A1** | **PKS 1510−089** | 91.5±1.2；91.8±5.3 | 58200–58850；扩展为 58197–58955 | 7；8 | Roy+22：约 7.0σ local（仅 2000 条 MC，数值宜保守看待）；Chen+24：约 4.3σ local | **Roy+22 首报同一事件；Chen+24 独立复现并扩展一圈**；Ren+23 另见 120±36 d、仅 3 圈，不算对 92 d 的复现 | 同一事件跨两套分析复现，最适合先标定“模拟周期—观测周期”和有限寿命 |
+| **A2** | **PKS 2247−131** | 34.5±1.5；34±13 | 57693–57903；Ren+23 约 57600–57900，并在 58050–58170 再现 3 圈 | 6；首段至少 7，连同再现共约 10 | Zhou+18：5.2σ local，20 trials 后 4.6σ；Ren+23：>5σ post-trial | **Zhou+18 首报；Ren+23 用 CWT 复现同尺度信号** | 周期最短且 trial-corrected 强，适合高 cadence 模拟；间断后再现可检验 kink 重激发 |
+| **A3** | **B2 1520+31** | 71±15；39±11 | 55000–56000；55300–55970 | 14；17 | Gupta+19：71 d，WWZ >3σ；Ren+23：两者均 >5σ post-trial；Tarnopolski+20 的约 70 d 峰 <3σ | **Gupta+19 首报 71 d；Ren+23 复现并新增 39 d；Tarnopolski+20 未达 3σ** | 同时有周期漂移和近似谐波，适合检验 kink 节点数、传播速度或多发射区叠加 |
+| **A4** | **S4 0954+658** | 66±4.8 | 57145–57745 | 9 | Gong+23：>5σ local（LSP/WWZ + LC simulations） | **Gong+23 单篇单源报告**；尚无独立同周期复现 | 9 个连续 cycles、时间窗清楚，适合建立干净 synthetic light curve 基准 |
+| **A5** | **PKS 0537−441** | 55.0±3.3；54.7±3.3 | 56803–57183；57636–58036 | 7；7 | Chen+24：约 4.1σ、4.0σ local | **Chen+24 在同一源发现两次相隔约 450 d 的同尺度 transient**；Ren+23 复现的是约 285 d 长周期，不是 55 d | 同周期两次启动/停止，是检验 kink 生长、饱和、耗散和再次触发的最佳对象 |
+
+### 次选、机制判别与压力测试
+
+| 角色 | Source | 周期 (d) | QPO 时间窗 (MJD) | Cycles | 显著性与论文关系 | 建议 |
+|---|---|---:|---:|---:|---|---|
+| **直接 kink 判别** | **3C 279** | 63.8±3.6；54.2±5.3；86.7±11.8 | 57200–57650；57790–58050；58520–59060 | ≈7.1；≈4.8；≈6.2* | Peñil-kink+25：GLSP local 3.4/2.8/3.2σ，SSA local 3.6/4.1/4.0σ；对应 global 最高 2.3σ。首段 Stokes Q 正弦拟合 R²≈0.60–0.65，作者称仅为初步 kink 支持；Ren+23 的 40±8 d 只有 4 圈 | 统计不如 A 组，但它是目前把 γ-ray QPO 与偏振 kink 检验直接接上的标靶；适合做“模拟偏振 + γ-ray + radio”联合预测 |
+| **双时间尺度** | **PKS 1424−418** | 90±22；57.2±4.1 | 约 56100–56500；56998–57331 | 5；6 | Ren+23：90 d >5σ post-trial；Chen+24：57 d 约 3.2σ local。事件和周期不同，不能称独立复现 | 可检验同一 jet 在不同活动期改变 kink 波长/速度后能否产生不同短周期 |
+| **反例/压力测试** | **3C 454.3** | 47.4<sup>+0.97</sup><sub>−0.51</sub> | 56800–57250 | 9–10 | Sarkar+21：γ-ray >4σ local；同期 optical 约 47.3 d、2.4σ、约 5 圈；**Ren+23 明确未复现该 47 d QPO**。Peñil-kink+25 在另一时间段 58040–58220 得到 41.6 d，但 global ≤1.4σ | 很适合作为盲测：模型若只能拟合首报而无法解释后续 null result，约束不足 |
+| **反例/直接 kink 候选** | **4C +38.41** | 60±9；104±7 | 55552–55871；56685–57315 | 5；6 | Das+23：LSP/WWZ local CL 分别 99.90%/99.85%（60 d）和 99.96%/99.93%（104 d）；**Ren+23 全光变曲线 CWT 未检出 QPO** | 60 d 满足主筛选，104 d 略超边界；论文直接偏好 current-driven kink，可用于检验“分段有、全段无” |
+| **大样本选择惩罚** | **S5 0716+714** | 31.3±1.8 | 55918–56137 | 7 | Chen+22：约 4.1σ local；但从 1525 个源搜寻后，作者估计总体 false-alarm probability 约 10%；Ren+23 只复现约 324 d 长周期 | 极短周期有吸引力，但先验样本 trial 很大；适合第二批，不宜作为唯一主源 |
+| **高 cycles、单论文** | **1H 1013+498** | 52±15 | Ren+23 Table 2 未量化起止 MJD | 12 | Ren+23：>5σ post-trial；无独立同周期论文 | 可用于验证 52/100/264 d 近似谐波组，但需要先从 CWT 图或数据重新定义窗口 |
+| **高显著、单论文** | **4C +21.35** | 66±17 | 约 55070–55470 | 6 | Ren+23：>5σ post-trial；Peñil-kink+25 未发现显著 QPO | 候选强，但跨方法支持较弱，放第二批 |
+| **约 100 d 边界** | **PKS 2255−282** | 93±2.6 | 全数据 57783.5–59358.5；论文称调制持续 >2 yr | ≥8 | Sharma+24：LSP 4.06σ、WWZ 3.96σ local；无独立复现 | 时长和周期都适合模拟，但精确 transient 起止窗需按原文 WWZ 重新读取 |
+| **约 100 d 边界** | **PKS 0346−27** | ≈100 | 58480–59598 | ≈11* | Prince+23：3σ local，global confidence 96.96%；无独立复现 | cycles 多但 global 较弱，可作为低成本延伸案例 |
+| **单次候选** | **PKS 0336−01** | 94.6±6.8 | 57020–57600 | 6 | Chen+24：约 3.4σ local；首次报告、无独立复现 | 参数清楚，但证据链弱于 A 组 |
+
+\* 3C 279 和 PKS 0346−27 的 cycles 是本报告用 `时间窗/周期` 得到的**名义值**，
+不是论文逐峰计数；其余数字来自论文明确计数或文字下限。
+
+### 100–300 d 对照组
+
+- **PKS 0244−470**：225±24 d，MJD 54685–56475，8 圈；Das+23 报告约
+  4.1σ local；去掉已经变弱的第 8 圈后，MJD 54685–56305 的 7 圈子段经
+  trial 修正给出 ≥99.73% global confidence。周期超出首选范围，但论文明确把
+  current-driven kink 列为短周期解释，可作为“模拟尺度放大后是否仍成立”的对照。
+- **4C +38.41 的 104±7 d 事件**紧贴上限且有 6 圈，适合与同源 60 d 事件成对
+  建模；不应和 Ren+23 的全时段 null result 隔离讨论。
+
+### 实际开题组合
+
+1. **主线三源**：PKS 1510−089（同一事件独立复现）+ PKS 2247−131（最短且
+   trial-corrected）+ B2 1520+31（谐波/周期漂移）。这组优先保证观测证据强度。
+2. **kink 时间演化**：再加入 PKS 0537−441，要求模拟自然地产生“两次约 55 d、
+   每次约 7 圈后停止”，而不是只生成永续正弦。
+3. **多信使判别**：用 3C 279 输出同步 γ-ray、偏振 Stokes 参数和 radio total
+   intensity/polarization 的预测；它的 global significance 较低，因此作为机制验证
+   源，而不是统计锚点。
+4. **反例**：保留 3C 454.3 或 4C +38.41。模拟必须允许 QPO 在分段分析中出现、
+   在更长光变曲线或另一方法中消失，否则不能解释真实文献分歧。
+
+射电交叉验证应优先检验：同周期或有物理可解释时延的 flux/polarization 调制、
+VLBI 新结/ejection epoch、jet position-angle 摆动，以及 rotation measure/EVPA 的
+协同行为。最值得先查档案覆盖的是 **PKS 1510−089、3C 279、3C 454.3、
+S5 0716+714 和 4C +38.41**；时间窗直接使用上表 MJD，避免在整段十多年射电
+光变曲线中重新盲搜而引入额外 trials。
 
 ## Peñil 系列三篇大样本扩样（2026-05-14b 加入）
 
@@ -703,7 +775,7 @@ UNID（Crab、Cygnus 区、Galactic anticenter）—— 不是物理关联，只
 
 1. **Kushwaha P., Sarkar A., Gupta A. C., Tripathi A., Wiita P. J.**, 2020, *MNRAS*, 499, 653. *A Possible γ-ray Quasi-periodic Oscillation of ~314 days in the Blazar OJ 287.* [arXiv:2009.13754](https://arxiv.org/abs/2009.13754) · [DOI 10.1093/mnras/staa2899](https://doi.org/10.1093/mnras/staa2899)
 2. **Zhang H., Yan D., Zhang P., Yang S., Zhang L.**, 2021, *ApJ*, 919, 58. *A Quasi-periodic Oscillation in the γ-ray Emission from the Non-blazar Active Galactic Nucleus PKS 0521-36.* [arXiv:2106.10040](https://arxiv.org/abs/2106.10040) · [DOI 10.3847/1538-4357/ac0cf0](https://doi.org/10.3847/1538-4357/ac0cf0)
-3. **Ren H. X., Cerruti M., Sahakyan N.**, 2023, *A&A* (submitted Feb 2023). *Quasi-periodic oscillations in the γ-ray light curves of bright active galactic nuclei.* [arXiv:2204.13051](https://arxiv.org/abs/2204.13051)
+3. **Ren H. X., Cerruti M., Sahakyan N.**, 2023, *A&A*, 672, A86. *Quasi-periodic oscillations in the γ-ray light curves of bright active galactic nuclei.* [arXiv:2204.13051](https://arxiv.org/abs/2204.13051) · [DOI 10.1051/0004-6361/202244754](https://doi.org/10.1051/0004-6361/202244754)
 4. **Gong Y., Tian S., Zhou L., Yi T., Fang J.**, 2023, *ApJ*, 949, 39. *Two Transient Quasi-periodic Oscillations in γ-Ray Emission from the Blazar S4 0954+658.* [arXiv:2304.03085](https://arxiv.org/abs/2304.03085) · [DOI 10.3847/1538-4357/acca7b](https://doi.org/10.3847/1538-4357/acca7b)
 5. **Zhang H., Wu F., Dai B.**, 2023, *PASP*, 135, 074101. *The detection of possible γ-ray quasi-periodic modulation with ~600 days from the blazar S2 0109+22.* [arXiv:2306.11579](https://arxiv.org/abs/2306.11579) · [DOI 10.1088/1538-3873/acdf1f](https://doi.org/10.1088/1538-3873/acdf1f)
 6. **Sharma A., Prince R., Bose D.**, 2023, *MNRAS* (submitted). *Detection of gamma-ray quasi-periodic oscillations in non-blazar AGN PKS 0521-36.* [arXiv:2312.12623](https://arxiv.org/abs/2312.12623)
@@ -713,7 +785,17 @@ UNID（Crab、Cygnus 区、Galactic anticenter）—— 不是物理关联，只
 10. **Rico A., Domínguez A., Peñil P., Ajello M., Buson S., Adhikari S., Movahedifar M.**, 2024, *A&A* (in press). *Singular Spectrum Analysis of Fermi-LAT Blazar Light Curves: A Systematic Search for Periodicity and Trends in the Time Domain.* [arXiv:2412.05812](https://arxiv.org/abs/2412.05812) · [DOI 10.1051/0004-6361/202452495](https://doi.org/10.1051/0004-6361/202452495) — 494 源 SSA，46 candidates (25 new γ-ray)
 11. **Peñil P., Domínguez A., Buson S., Ajello M., Adhikari S., Rico A.**, 2025, preprint (v2). *Extensive Analysis of γ-Ray Periodicity in Jetted AGN from the 4FGL Catalog Using Fermi-LAT Observations.* [arXiv:2509.14013](https://arxiv.org/abs/2509.14013) — 1492 jetted AGN (排除 24 hint 源)，9-method ensemble，**0 global-significant QPO**
 12. **Cao Z. et al.** (LHAASO Collaboration), 2024, *ApJS*, 271, 25. *The First LHAASO Catalog of Gamma-Ray Sources.* [arXiv:2305.17030](https://arxiv.org/abs/2305.17030) · [DOI 10.3847/1538-4365/acfd29](https://doi.org/10.3847/1538-4365/acfd29) — LHAASO catalog 比对节的数据源
+13. **Zhou J., Wang Z., Chen L. et al.**, 2018, *Nature Communications*, 9, 4599. *A 34.5 day quasi-periodic oscillation in γ-ray emission from the blazar PKS 2247−131.* [DOI 10.1038/s41467-018-07103-2](https://doi.org/10.1038/s41467-018-07103-2) — 34.5 d 首报，20-trial 后 4.6σ
+14. **Gupta A. C., Tripathi A., Wiita P. J. et al.**, 2019, *MNRAS*, 484, 5785. *Detection of a quasi-periodic oscillation in γ-ray light curve of the high-redshift blazar B2 1520+31.* [DOI 10.1093/mnras/stz395](https://doi.org/10.1093/mnras/stz395) — 71 d 首报
+15. **Tarnopolski M., Żywucka N., Marchenko V., Pascual-Granado J.**, 2020, *ApJS*, 250, 1. *A Comprehensive Power Spectral Density Analysis of Astronomical Time Series. I. The Fermi-LAT Gamma-Ray Light Curves of Selected Blazars.* [DOI 10.3847/1538-4365/aba2c7](https://doi.org/10.3847/1538-4365/aba2c7) — B2 1520+31 的约 70 d 峰未达 3σ
+16. **Sarkar A., Gupta A. C., Chitnis V. R., Wiita P. J.**, 2021, *MNRAS*, 501, 50. *Multiwaveband quasi-periodic oscillation in the blazar 3C 454.3.* [DOI 10.1093/mnras/staa3211](https://doi.org/10.1093/mnras/staa3211) — γ-ray/optical 约 47 d
+17. **Roy A., Sarkar A., Chatterjee A. et al.**, 2022, *MNRAS*, 510, 3641. *Transient quasi-periodic oscillations at γ-rays in the TeV blazar PKS 1510−089.* [DOI 10.1093/mnras/stab3701](https://doi.org/10.1093/mnras/stab3701) — 92 d、7 圈首报
+18. **Chen J., Yi T., Gong Y. et al.**, 2022, *ApJ*, 938, 8. *A 31.3 day Transient Quasiperiodic Oscillation in Gamma-Ray Emission from Blazar S5 0716+714.* [DOI 10.3847/1538-4357/ac91c3](https://doi.org/10.3847/1538-4357/ac91c3) — 1525 源搜索中的 31.3 d 候选
+19. **Das A. K., Prince R., Gupta A. C., Kushwaha P.**, 2023, *ApJ*, 950, 173. *The Detection of Possible Transient Quasiperiodic Oscillations in the γ-Ray Light Curve of PKS 0244−470 and 4C +38.41.* [arXiv:2211.00588](https://arxiv.org/abs/2211.00588) · [DOI 10.3847/1538-4357/acd17f](https://doi.org/10.3847/1538-4357/acd17f) — 分段 QPO，短事件偏好 current-driven kink
+20. **Prince R., Banerjee A., Sharma A. et al.**, 2023, *A&A*, 678, A100. *Quasi-periodic oscillation detected in γ-rays in blazar PKS 0346−27.* [DOI 10.1051/0004-6361/202346400](https://doi.org/10.1051/0004-6361/202346400) — 约 100 d，global confidence 96.96%
+21. **Sharma A., Banerjee A., Das A. K. et al.**, 2024, *ApJ*, 975, 56. *Detection of a Transient Quasiperiodic Oscillation in γ-Rays from Blazar PKS 2255−282.* [DOI 10.3847/1538-4357/ad7391](https://doi.org/10.3847/1538-4357/ad7391) — 93 d，LSP/WWZ 约 4σ local
+22. **Peñil P., Zhang H., Otero-Santos J. et al.**, 2025, *ApJ*, 985, 199. *Search for Kink Events in Variable Fermi-LAT Blazars.* [arXiv:2504.10308](https://arxiv.org/abs/2504.10308) · [DOI 10.3847/1538-4357/adcbab](https://doi.org/10.3847/1538-4357/adcbab) — 3C 279 等 9 源的 γ-ray + optical polarization kink 检验
 
 ---
 
-*报告生成：2026-05-13 · 修订：2026-05-13 加入 LHAASO catalog 比对节 · 2026-05-14 补 Ren+22 13 源 + 全 catalog 位置交叉匹配复核 · **2026-05-14b 集成 Peñil 系列三篇（Peñil+22 + Rico+24 + Peñil+25），样本从 34 扩到 81 unique 源** · 数据来源：上述 11 篇 Fermi 论文 + 1LHAASO catalog（保存在 `/mnt/mydisk/server/projects/QPO/data/papers/`）· 数字与论文原表/正文对应；同一源在不同论文给出不一致周期时，原值保留 — 不在本报告中合并。*
+*报告生成：2026-05-13 · 修订：2026-05-13 加入 LHAASO catalog 比对节 · 2026-05-14 补 Ren+22 13 源 + 全 catalog 位置交叉匹配复核 · **2026-05-14b 集成 Peñil 系列三篇（Peñil+22 + Rico+24 + Peñil+25），样本从 34 扩到 81 unique 源** · **2026-09-04 新增 kink 模拟短周期选源、MJD/cycles/显著性口径及逐源发现—复现—反例论文链** · 数据来源：核心 11 篇 Fermi 论文、短周期专题论文及 1LHAASO catalog · 数字与论文原表/正文对应；同一源在不同论文给出不一致周期时，原值保留，不在本报告中合并。*
